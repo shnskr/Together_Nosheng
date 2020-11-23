@@ -1,13 +1,14 @@
-package com.together.nosheng;
+package com.together.nosheng.view;
 
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -15,45 +16,51 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.together.nosheng.MainActivity;
+import com.together.nosheng.PasswordResetActivity;
+import com.together.nosheng.RegisterActivity;
+import com.together.nosheng.databinding.ActivityLoginBinding;
+import com.together.nosheng.viewmodel.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
-    private Button join, login, reset;
-    private EditText email_login;
-    private EditText pwd_login;
     private FirebaseAuth firebaseAuth;
 
-    private SignInButton btn_google; // 구글 로그인 버튼
+    private ActivityLoginBinding binding;
+
+//    private UserViewModel userViewModel;
+
     private GoogleApiClient googleApiClient; // 구글 API 클라이언트 객체
     private static final int REQ_SIGN_GOOGLE = 100; // 구글 로그인 결과 코드
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        join = (Button) findViewById(R.id.join);
-        login = (Button) findViewById(R.id.login);
-        reset = (Button) findViewById(R.id.Info_Submit);
-        email_login = (EditText) findViewById(R.id.email);
-        pwd_login = (EditText) findViewById(R.id.log_password);
-
-        btn_google = findViewById(R.id.btn_google);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        login.setOnClickListener(new View.OnClickListener() {
+//        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+//
+//        if (userViewModel.firebaseUser != null) {
+//            Intent intent = new Intent (LoginActivity.this, MainActivity.class);
+//            startActivity(intent);
+//        }
+
+        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = email_login.getText().toString().trim();
-                String pwd = pwd_login.getText().toString().trim();
+                String email = binding.etEmail.getText().toString().trim();
+                String pwd = binding.etPassword.getText().toString().trim();
 
                 if(email.length()>0 && pwd.length()>0) {
 
@@ -61,20 +68,21 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        startToast("로그인 성공!");
-                                        startMyActivity(MainActivity.class);
+                                        if (task.isSuccessful()) {
+                                        Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent (LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
                                     } else {
-                                        startToast(task.getException().toString());
+                                        Toast.makeText(LoginActivity.this, "아이디 및 비밀번호를 다시 확인해 주세요", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
-                }else {
+                } else {
                     if(email.length()==0) {
-                        startToast("이메일을 입력해주세요");
+                        Toast.makeText(LoginActivity.this, "이메일을 입력해 주세요", Toast.LENGTH_SHORT).show();
                     }
                     if(pwd.length()==0){
-                        startToast("패스워드를 입력해주세요");
+                        Toast.makeText(LoginActivity.this, "패스워드를 입력해 주세요", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -82,17 +90,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
 
 
-        join.setOnClickListener(new View.OnClickListener() {
+        binding.btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startMyActivity(RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
-        reset.setOnClickListener(new View.OnClickListener() {
+        binding.btnPasswordReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startMyActivity(PasswordResetActivity.class);
+                Intent intent = new Intent(LoginActivity.this, PasswordResetActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -108,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
 
         // 구글 로그인 버튼 클릭 시
-        btn_google.setOnClickListener(new View.OnClickListener() {
+        binding.btnGoogleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
@@ -128,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 GoogleSignInAccount account = result.getSignInAccount(); // account 라는 데이터는 구글 로그인 정보를 담고 있다 (닉네임, 프로필사진url, 이메일주소 등등 ..)
                 resultLogin(account); // 로그인 결과 값 출력 수행하라는 메소드
             } else {
-                startToast("인증 실패");
+                Toast.makeText(LoginActivity.this, "인증 실패", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -141,31 +151,21 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) { // 로그인 성공 시
-                            startToast("로그인 성공");
+                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
 //                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
 //                            intent.putExtra("nickName", account.getDisplayName());
 //                            intent.putExtra("photoUrl", String.valueOf(account.getPhotoUrl())); // String.valueof : 특정 자료형을 String 형태로 반환
 
 //                            startActivity(intent);
-                            startMyActivity(MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
                         } else { // 로그인 실패 시
-                            startToast("로그인 실패");
+                            Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
-
-    //    private void signIn() {
-//        Intent signInIntent = mG
-//    }
-
-    private void startMyActivity(Class c){
-        Intent intent = new Intent (LoginActivity.this, c);
-        startActivity(intent);
-    }
-
-    private void startToast(String msg) { Toast.makeText(this, msg, Toast.LENGTH_LONG).show();}
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

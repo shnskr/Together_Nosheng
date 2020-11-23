@@ -9,7 +9,7 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="15dp"
-    tools:context=".LoginActivity">
+    tools:context=".view.LoginActivity">
 
     <!-- TextView for heading -->
     <TextView
@@ -19,14 +19,14 @@
 
     <!-- Edit text for email -->
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter your Email" />
 
     <!-- Edit text for password -->
     <EditText
-        android:id="@+id/log_password"
+        android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter your Password"
@@ -34,7 +34,7 @@
 
     <!-- Button for Login with text "Login" -->
     <Button
-        android:id="@+id/login"
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login" />
@@ -47,19 +47,19 @@
         android:visibility="gone" />
 
     <Button
-        android:id="@+id/join"
+        android:id="@+id/btn_join"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Join" />
 
     <Button
-        android:id="@+id/Info_Submit"
+        android:id="@+id/btn_password_reset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="비밀번호 재설정" />
 
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/btn_google"
+        android:id="@+id/btn_google_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

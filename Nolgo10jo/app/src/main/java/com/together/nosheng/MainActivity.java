@@ -1,52 +1,54 @@
 package com.together.nosheng;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.together.nosheng.databinding.ActivityMainBinding;
+import com.together.nosheng.view.LoginActivity;
+import com.together.nosheng.viewmodel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
-    private Button logout;
-    private FirebaseAuth mAuth;
+
+    private ActivityMainBinding binding;
+
+    private UserViewModel userViewModel;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mAuth = FirebaseAuth.getInstance();
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
 
-        logout = (Button)findViewById(R.id.Logout);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            // 로그인 되어있지 않은 유저가 로그인했을때
-            startMyActivity(LoginActivity.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+        if (userViewModel.firebaseUser.getValue() == null) {
+            Intent intetn = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intetn);
         } else {
-            // 로그인 되어있는 유저가 로그인 함
-            // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
+            binding.tvUid.setText(userViewModel.firebaseUser.getValue().getUid());
+            binding.tvEmail.setText(userViewModel.firebaseUser.getValue().getEmail());
         }
 
-        logout.setOnClickListener(new View.OnClickListener() {
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                startToast("Log out Successful");
-                startMyActivity(LoginActivity.class);
+                Toast.makeText(MainActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
+                Intent intetn = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intetn);
             }});
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -54,11 +56,4 @@ public class MainActivity extends AppCompatActivity {
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);
     }
-
-    private void startMyActivity(Class c){
-        Intent intent = new Intent (MainActivity.this, c);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-    private void startToast(String msg) { Toast.makeText(this, msg, Toast.LENGTH_LONG).show();}
 }
