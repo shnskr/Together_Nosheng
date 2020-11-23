@@ -1,17 +1,24 @@
 package com.together.nosheng;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import android.widget.Button;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.together.nosheng.databinding.ActivityMainBinding;
+import com.together.nosheng.view.HomeFragmentActivity;
 import com.together.nosheng.view.LoginActivity;
+import com.together.nosheng.view.SearchFragmentActivity;
+import com.together.nosheng.view.SettingFragmentActivity;
 import com.together.nosheng.viewmodel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,13 +33,13 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+//          setContentView(R.layout.activity_main);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         if (userViewModel.firebaseUser.getValue() == null) {
-            Intent intetn = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intetn);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
         } else {
             binding.tvUid.setText(userViewModel.firebaseUser.getValue().getUid());
             binding.tvEmail.setText(userViewModel.firebaseUser.getValue().getEmail());
@@ -43,10 +50,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(MainActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
-                Intent intetn = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intetn);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
             }});
 
+        //Navigation
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigationListener);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragmentActivity()).commit();
     }
 
     @Override
@@ -56,4 +68,27 @@ public class MainActivity extends AppCompatActivity {
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment selectedFragment = null;
+
+                    switch (item.getItemId()){
+                        case R.id.nav_home :
+                            selectedFragment = new HomeFragmentActivity();
+                            break;
+                        case R.id.nav_search :
+                            selectedFragment = new SearchFragmentActivity();
+                            break;
+                        case R.id.nav_setting :
+                            selectedFragment = new SettingFragmentActivity();
+                            break;
+                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
+
+                    return true;
+                }
+            };
 }
