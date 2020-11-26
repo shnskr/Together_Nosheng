@@ -10,10 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.together.nosheng.R;
 
-;
-
 public class SettingFragmentActivity extends Fragment {
-
 
     @Nullable
     @Override
