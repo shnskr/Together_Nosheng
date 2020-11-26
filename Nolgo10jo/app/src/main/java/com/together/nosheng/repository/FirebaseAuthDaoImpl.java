@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.jetbrains.annotations.NotNull;
-
 public class FirebaseAuthDaoImpl implements FirebaseAuthDao{
     private FirebaseAuth auth;
 

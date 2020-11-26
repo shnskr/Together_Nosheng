@@ -4,7 +4,6 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -22,20 +21,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.together.nosheng.MainActivity;
-import com.together.nosheng.PasswordResetActivity;
-import com.together.nosheng.RegisterActivity;
 import com.together.nosheng.databinding.ActivityLoginBinding;
 import com.together.nosheng.viewmodel.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
-    private FirebaseAuth firebaseAuth;
 
     private ActivityLoginBinding binding;
 
-//    private UserViewModel userViewModel;
+    private UserViewModel userViewModel;
 
     private GoogleApiClient googleApiClient; // 구글 API 클라이언트 객체
     private static final int REQ_SIGN_GOOGLE = 100; // 구글 로그인 결과 코드
@@ -47,14 +41,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-//        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-//
-//        if (userViewModel.firebaseUser != null) {
-//            Intent intent = new Intent (LoginActivity.this, MainActivity.class);
-//            startActivity(intent);
-//        }
+        if (userViewModel.firebaseUser.getValue() != null) {
+            Intent intent = new Intent (LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,20 +55,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 String pwd = binding.etPassword.getText().toString().trim();
 
                 if(email.length()>0 && pwd.length()>0) {
-
-                    firebaseAuth.signInWithEmailAndPassword(email, pwd)
-                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email, pwd)
+                                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-                                        Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent (LoginActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "아이디 및 비밀번호를 다시 확인해 주세요", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "아이디 및 비밀번호를 다시 확인해 주세요", Toast.LENGTH_LONG).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
                 } else {
                     if(email.length()==0) {
                         Toast.makeText(LoginActivity.this, "이메일을 입력해 주세요", Toast.LENGTH_SHORT).show();
@@ -146,7 +137,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void resultLogin(GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential)
+
+        FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

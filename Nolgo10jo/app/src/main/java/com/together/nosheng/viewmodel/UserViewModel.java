@@ -8,18 +8,17 @@ import com.together.nosheng.repository.FirebaseAuthDao;
 import com.together.nosheng.repository.FirebaseAuthDaoImpl;
 
 public class UserViewModel extends ViewModel {
-
     private FirebaseAuthDao dao;
 
-//    public LiveData<User> user;
     public LiveData<FirebaseUser> firebaseUser;
 
     public UserViewModel() {
         dao = new FirebaseAuthDaoImpl();
+        getFirebaseUser();
+    }
 
-        if (firebaseUser == null) {
-            firebaseUser =  dao.getFirebaseUser();
-        }
+    public void getFirebaseUser() {
+        firebaseUser = dao.getFirebaseUser();
     }
 
 }
