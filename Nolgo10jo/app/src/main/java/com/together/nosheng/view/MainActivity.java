@@ -34,19 +34,7 @@ public class MainActivity extends AppCompatActivity {
         if (userViewModel.firebaseUser.getValue() == null) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
-        } else {
-            binding.tvUid.setText(userViewModel.firebaseUser.getValue().getUid());
-            binding.tvEmail.setText(userViewModel.firebaseUser.getValue().getEmail());
         }
-
-        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(MainActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }});
 
         //Navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
