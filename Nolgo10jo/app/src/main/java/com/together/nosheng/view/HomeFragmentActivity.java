@@ -16,6 +16,7 @@ import com.together.nosheng.databinding.ActivityFragmentHomeBinding;
 public class HomeFragmentActivity extends Fragment {
 
     private ActivityFragmentHomeBinding homeBinding;
+    //private HomeAdapter homeAdapter;
 
     @Nullable
     @Override
