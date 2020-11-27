@@ -16,6 +16,8 @@ import com.google.firebase.firestore.SetOptions;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.viewmodel.UserViewModel;
 
+import java.util.ArrayList;
+
 public class UserRepository {
     private UserViewModel userViewModel;
     private FirebaseFirestore db;
@@ -65,11 +67,30 @@ public class UserRepository {
         });
     }
 
+    public ArrayList<String> searchFriend(ArrayList<String> friendId) {
+        ArrayList<String> friendList = new ArrayList<>();
+
+        final DocumentReference doRef = db.collection("User").document(userId);
+
+        for (int i=0; i<friendId.size();i++) {
+            DocumentReference doRef2 = db.collection("User").document(friendId.get(i));
+            doRef2.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    String nickName = value.getString("nickName");
+                    
+                }
+            });
+        }
+
+        return friendList;
+
+    }
 
 
 
     public void changeNickname(String nickname){
-        User user = new User(liveUser.getValue().geteMail(), nickname,liveUser.getValue().getRegDate(),liveUser.getValue().getThumbnail());
+        User user = new User(liveUser.getValue().geteMail(), nickname,liveUser.getValue().getRegDate(),liveUser.getValue().getThumbnail(),liveUser.getValue().getFriendList());
         db.collection("User").document("eSjNTPFLIKSbBeeYpco6xVCypDt1").set(user,SetOptions.merge());
     }
 }

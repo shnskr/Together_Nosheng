@@ -1,5 +1,6 @@
 package com.together.nosheng.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,23 +25,70 @@ public class SettingFragment extends Fragment {
 
     private ActivityFragmentSettingBinding binding;
     private View view;
+    private FragmentTransaction transaction ;
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //view = inflater.inflate(R.layout.activity_fragment_setting,container,false);
         binding = DataBindingUtil.inflate(inflater, R.layout.activity_fragment_setting,container,false);
         View root = binding.getRoot();
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+
+
+        transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.framelaout2,SettingFragmentPro.newInstance());
         transaction.commit();
+
+
+
         binding.btnPro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SettingFragmentPro pro = new SettingFragmentPro();
+
                 ((MainActivity)getActivity()).replaceFragment(SettingFragmentPro.newInstance());
+
             }
         });
 
+        binding.btnMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((MainActivity)getActivity()).replaceFragment(SettingFragmentBookmark.newInstance());
+
+            }
+        });
+
+        binding.btnFre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((MainActivity)getActivity()).replaceFragment(SettingFragmentFriend.newInstance());
+
+
+            }
+        });
+        binding.btnCommon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((MainActivity)getActivity()).replaceFragment(SettingFragmentCommon.newInstance());
+
+
+            }
+        });
+
+        binding.btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((MainActivity)getActivity()).replaceFragment(SettingFragmentInfo.newInstance());
+
+
+            }
+        });
         return root;
     }
 }
