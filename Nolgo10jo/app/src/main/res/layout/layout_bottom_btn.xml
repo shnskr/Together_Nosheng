@@ -6,64 +6,70 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+
     <FrameLayout
-        android:id="@+id/plan_fragment"
+        android:id="@+id/plan_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+        android:background="@color/design_default_color_secondary_variant">
     </FrameLayout>
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_btn_navi"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
 
-        <LinearLayout
-            android:id="@+id/layout_bottom_btn"
-            android:layout_width="wrap_content"
+        <HorizontalScrollView
+            android:id="@+id/trip_bottom_btn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+            android:layout_gravity="bottom">
 
-            <Button
-                android:id="@+id/btn_info"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/layout_bottom_btn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:text="여행 정보" />
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_member"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="인원" />
+                <Button
+                    android:id="@+id/btn_info"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:text="여행 정보" />
 
-            <Button
-                android:id="@+id/btn_budget"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="경비" />
+                <Button
+                    android:id="@+id/btn_member"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0.8
+"
+                    android:text="인원" />
 
-            <Button
-                android:id="@+id/btn_board"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="알림판" />
+                <Button
+                    android:id="@+id/btn_budget"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0.8
+"
+                    android:text="경비" />
 
-            <Button
-                android:id="@+id/btn_add_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="add(temp)" />
+                <Button
+                    android:id="@+id/btn_board"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:text="알림판" />
 
-        </LinearLayout>
-
-    </HorizontalScrollView>
-
-
+            </LinearLayout>
+        </HorizontalScrollView>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

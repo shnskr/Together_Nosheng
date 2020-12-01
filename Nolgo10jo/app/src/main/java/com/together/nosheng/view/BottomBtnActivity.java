@@ -1,18 +1,13 @@
 package com.together.nosheng.view;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -27,30 +22,31 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.together.nosheng.R;
-import com.together.nosheng.databinding.LayoutBottomBtnBinding;
 
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+public class BottomBtnActivity  extends AppCompatActivity  implements View.OnClickListener {
 
-public class BottomBtnActivity  extends AppCompatActivity {
+    private FragmentManager fm;
+    private FragmentTransaction ft;
 
-    private LayoutBottomBtnBinding binding;
+    private com.together.nosheng.databinding.LayoutBottomBtnBinding bottomBtnBinding;
+
+    private TripInfoFragmentActivity tripInfoFragmentActivity;
+    private MemeberFragmentActivity memeberFragmentActivity;
+    private BudgetFragmentActivity budgetFragmentActivity;
+    private BoardFragmentActivity boardFragmentActivity;
+
 
     private GoogleMap mMap;
 
-    final static String MY_FRAGMENT_TAG = "my_fragment";
-    private Button btn_add;
-    FragmentManager fm = getSupportFragmentManager();
-    Fragment fragment = (Fragment) fm.findFragmentById(R.id.plan_fragment);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = LayoutBottomBtnBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        bottomBtnBinding = com.together.nosheng.databinding.LayoutBottomBtnBinding.inflate(getLayoutInflater());
+        setContentView(bottomBtnBinding.getRoot());
 
-        getSupportFragmentManager().beginTransaction().add(R.id.plan_fragment, new GoogleActivity()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.plan_fragment_container, new GoogleActivity()).commit();
 
         // 구글 place
 //        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
@@ -72,38 +68,66 @@ public class BottomBtnActivity  extends AppCompatActivity {
 //            }
 //        });
 
-        btn_add = (Button) findViewById(R.id.btn_add_temp);
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addButton();
-            }
-        });
 
-        //받기
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
-            if(bundle.getString("some") != null){
-                Toast.makeText(getApplicationContext(), "data" + bundle.getString("some"), Toast.LENGTH_SHORT).show();
-            }
-        }
+        fm = getSupportFragmentManager();
+        ft = fm.beginTransaction();
+        ft.add(R.id.plan_fragment_container, new TripInfoFragmentActivity());
+        ft.addToBackStack(null);
+        ft.commit();
+
+        bottomBtnBinding.btnMember.setOnClickListener(this);
+        bottomBtnBinding.btnBudget.setOnClickListener(this);
+        bottomBtnBinding.btnInfo.setOnClickListener(this);
+        bottomBtnBinding.btnBoard.setOnClickListener(this);
+
+        addButton(99);
 
     }
 
-    private void addButton() {
+    @Override
+    public void onClick(View view) {
+        ft = fm.beginTransaction();
+
+        switch (view.getId()) {
+            case R.id.btn_info:
+                tripInfoFragmentActivity = new TripInfoFragmentActivity();
+                ft.replace(R.id.plan_fragment_container, tripInfoFragmentActivity);
+                ft.commit();
+                break;
+            case R.id.btn_member:
+                memeberFragmentActivity = new MemeberFragmentActivity();
+                ft.replace(R.id.plan_fragment_container, memeberFragmentActivity).commit();
+                break;
+            case R.id.btn_budget:
+                budgetFragmentActivity = new BudgetFragmentActivity();
+                ft.replace(R.id.plan_fragment_container, budgetFragmentActivity).commit();
+                break;
+            case R.id.btn_board:
+                boardFragmentActivity = new BoardFragmentActivity();
+                ft.replace(R.id.plan_fragment_container, boardFragmentActivity).commit();
+                break;
+        }
+    }
+
+    public void addButton(int count){
+
+        final String MY_FRAGMENT_TAG = "my_fragment";
+        Fragment fragment = (Fragment) fm.findFragmentById(R.id.plan_fragment_container);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_bottom_btn);
-        btn_add = new Button(this);
-        btn_add.setText("n일차");
-        layout.addView(btn_add);
-        Log.i("add button", "1");
+        Button btn = bottomBtnBinding.btnBoard;
 
-        FragmentTransaction ft = fm.beginTransaction();
-        if(fragment == null){
-            ft.add(R.id.plan_fragment, new Fragment(), MY_FRAGMENT_TAG);
-            ft.commitNow();
-            Log.i("add fragment", "2");
+        for (int i = 0; count >= i; i++){
+            btn = new Button(this);
+            btn.setText((i+1)+"일차");
+            layout.addView(btn);
+            Log.i("add Button", "0");
+
+            ft = fm.beginTransaction();
+            if(fragment == null){
+                ft.add(R.id.plan_fragment_container, new Fragment(), MY_FRAGMENT_TAG);
+                ft.commitNow();
+                Log.i("add Fragment", "2");
+            }
         }
-
     }
-
 }
