@@ -9,20 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.together.nosheng.R;
-import com.together.nosheng.databinding.ActivityFragmentBoardBinding;
+import com.together.nosheng.databinding.ActivityFragmentPlanBinding;
 
-public class BoardFragmentActivity extends Fragment {
 
-    private ActivityFragmentBoardBinding boardBinding;
+public class PlanFragmentActivity extends Fragment {
 
+    private ActivityFragmentPlanBinding planBinding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boardBinding = ActivityFragmentBoardBinding.inflate(inflater, container, false);
-        View view = boardBinding.getRoot();
+        planBinding = ActivityFragmentPlanBinding.inflate(inflater, container, false);
+        View view = planBinding.getRoot();
 
         return view;
     }
