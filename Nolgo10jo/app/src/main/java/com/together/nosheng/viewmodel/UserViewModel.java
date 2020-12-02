@@ -1,9 +1,5 @@
 package com.together.nosheng.viewmodel;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -13,66 +9,74 @@ import com.together.nosheng.repository.FirebaseAuthDao;
 import com.together.nosheng.repository.FirebaseAuthDaoImpl;
 import com.together.nosheng.repository.UserRepository;
 
+import java.util.ArrayList;
+
 public class UserViewModel extends ViewModel {
     private FirebaseAuthDao dao;
-    public LiveData<User> liveUser;
-    public LiveData<FirebaseUser> firebaseUser;
-<<<<<<< HEAD
-    private UserRepository userRepository = new UserRepository();
-=======
-    private UserRepository userRepository;
->>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
+    private  LiveData<User> liveUser;
+    public   LiveData<FirebaseUser> firebaseUser;
+    private  UserRepository userRepository = new UserRepository();
+    private  LiveData<ArrayList<String>> friendNickName;
+    private static String Userid;
 
+    String TAG = "User ViewModel : ";
     public UserViewModel() {
-        setUserId(firebaseUser.getValue().getUid());
         dao = new FirebaseAuthDaoImpl();
         getFirebaseUser();
-<<<<<<< HEAD
-        FindUserInfo();
-
-    }
-
-    public void setUserId(String userId) {
-        userRepository.setUserId(userId);
-    }
-
-    public void changeNickname(String value) {
-        userRepository.changeNickname(value);
-=======
-        userRepository = new UserRepository(firebaseUser.getValue().getUid());
+        Userid = firebaseUser.getValue().getUid();
+        userRepository = new UserRepository(Userid);
         this.liveUser = userRepository.findAll();
     }
 
     public UserViewModel(boolean firstLogin) {
+
+
         if (!firstLogin){
+            dao = new FirebaseAuthDaoImpl();
+            getFirebaseUser();
+            userRepository = new UserRepository(firebaseUser.getValue().getUid());
 
+//            Log.w(TAG , "값확인 !!!!!!!!!!!!!!!!!!!!"+ liveUser.getValue());
+//            Log.w(TAG , "값확인 !!!!!!!!!!!!!!!!!!!!"+ liveUser.getValue().getFriendList());
+//            this.friendNickName = userRepository.setFriend(liveUser.getValue().getFriendList());
         }
->>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
     }
 
 
-
-<<<<<<< HEAD
-    public void FindUserInfo () {
-
-        this.liveUser = userRepository.findAll();
+    public void settingFriend() {
+        this.friendNickName = userRepository.findFriend();
     }
 
-=======
+
 
     public void changeNickname(String value) {
-        userRepository.changeNickname(value);
+
+        userRepository.changeNickname(value, firebaseUser.getValue().getUid());
     }
 
 
 
->>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
     public LiveData<User> userModelLiveData() {
         return liveUser;
     }
 
+    public  LiveData<ArrayList<String>> friendLiveData() {
+        return friendNickName;
+    }
+
+
+
     public void getFirebaseUser() {
         firebaseUser = dao.getFirebaseUser();
+    }
+
+
+    public void setFriend (ArrayList<String> lists) {
+        userRepository.setFriend(lists);
+    }
+
+    public LiveData<ArrayList<String>> friendNameLiveData() {
+        return friendNickName;
     }
 
 }

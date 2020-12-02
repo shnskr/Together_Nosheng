@@ -24,11 +24,6 @@ import java.util.Map;
 public class HomeFragmentActivity extends Fragment {
 
     private ActivityFragmentHomeBinding homeBinding;
-<<<<<<< HEAD
-    //private HomeAdapter homeAdapter;
-    FloatingActionButton btn;
-=======
->>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
 
     @Nullable
     @Override

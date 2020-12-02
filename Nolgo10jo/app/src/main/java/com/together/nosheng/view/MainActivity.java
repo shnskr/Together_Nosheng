@@ -48,12 +48,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-
-<<<<<<< HEAD
-=======
-        userViewModel.firebaseUser.getValue().getUid();
->>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
-
         //Navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationListener);

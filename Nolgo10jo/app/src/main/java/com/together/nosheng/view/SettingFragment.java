@@ -1,9 +1,5 @@
 package com.together.nosheng.view;
 
-<<<<<<< HEAD
-=======
-import android.content.Context;
->>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,33 +24,14 @@ public class SettingFragment extends Fragment {
 
     private ActivityFragmentSettingBinding binding;
     private View view;
-<<<<<<< HEAD
-=======
     private FragmentTransaction transaction ;
 
-
-
->>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //view = inflater.inflate(R.layout.activity_fragment_setting,container,false);
         binding = DataBindingUtil.inflate(inflater, R.layout.activity_fragment_setting,container,false);
         View root = binding.getRoot();
-<<<<<<< HEAD
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        SettingFragmentPro pro = new SettingFragmentPro();
-        transaction.replace(R.id.framelaout2,pro);
-        transaction.commit();
-        binding.btnPro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SettingFragmentPro pro = new SettingFragmentPro();
-                ((MainActivity)getActivity()).replaceFragment(SettingFragmentPro.newInstance());
-            }
-        });
-
-=======
 
 
         transaction = getChildFragmentManager().beginTransaction();
@@ -109,7 +86,6 @@ public class SettingFragment extends Fragment {
 
             }
         });
->>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
         return root;
     }
 }
