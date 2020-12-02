@@ -10,6 +10,10 @@
     android:layout_width="305dp"
     android:layout_height="650dp"
     android:id="@+id/fragment_pro"
+<<<<<<< HEAD
+=======
+    android:background="@color/maincolor"
+>>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
     >
 
     <de.hdodenhof.circleimageview.CircleImageView

@@ -11,15 +11,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.together.nosheng.databinding.ActivityFragmentHomeBinding;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HomeFragmentActivity extends Fragment {
 
     private ActivityFragmentHomeBinding homeBinding;
+<<<<<<< HEAD
     //private HomeAdapter homeAdapter;
     FloatingActionButton btn;
+=======
+>>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
 
     @Nullable
     @Override
@@ -28,16 +37,38 @@ public class HomeFragmentActivity extends Fragment {
         homeBinding = ActivityFragmentHomeBinding.inflate(inflater, container, false);
         View view = homeBinding.getRoot();
 
-        Log.i("aptpsldkmfwlekf", "sdfsdfs");
+
+
         homeBinding.btnNewTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("ㅁㄴㅇㅁ", "ㅂㅂㅂ");
                 Intent intent = new Intent(getActivity(), BottomBtnActivity.class);
                 startActivity(intent);
+
+                // Access a Cloud Firestore instance from your Activity
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                String TAG = "DB 연동 가즈아~~~~~~~~~~~";
+
+                // Create a new user with a first and last name
+                Map<String, Object> project = new HashMap<>();
+
+                db.collection("Project")
+                        .add(project)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error adding document", e);
+                            }
+                        });
             }
         });
-        Log.i("aptpsldkmfwlekf", "sdfsd654132fs");
         return view;
     }
+
 }

@@ -37,6 +37,11 @@ dependencies {
 
     // 구글 로그인
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-firestore:22.0.0'
+
+    // 구글 place
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     // ACC
     def lifecycle_version = "2.2.0"
@@ -52,14 +57,21 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:20.0.1'
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+    // Import Calendar for calendarPicker
+    implementation 'com.squareup:android-times-square:1.6.5@aar'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+<<<<<<< HEAD
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-database:19.5.1'
     implementation 'com.google.firebase:firebase-auth:20.0.0'
+=======
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-database:19.5.1'
+>>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation 'com.google.firebase:firebase-firestore:22.0.0'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
@@ -74,9 +86,12 @@ dependencies {
 
     implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
 
+<<<<<<< HEAD
     def arch_version = "2.1.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+=======
+>>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'

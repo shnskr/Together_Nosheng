@@ -23,7 +23,11 @@ import com.together.nosheng.model.user.User;
 import com.together.nosheng.viewmodel.UserViewModel;
 
 public class SettingFragmentPro extends Fragment {
+<<<<<<< HEAD
     private UserViewModel userViewModel  = new UserViewModel();
+=======
+    private UserViewModel userViewModel  = new UserViewModel(false);
+>>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
 
     public static SettingFragmentPro newInstance() {
         return new SettingFragmentPro();
@@ -39,6 +43,10 @@ public class SettingFragmentPro extends Fragment {
         View root = binding.getRoot();
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+<<<<<<< HEAD
+=======
+
+>>>>>>> dce24541b8bbad489b733864cb33bcdbbaea8b5d
         userViewModel.userModelLiveData().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
