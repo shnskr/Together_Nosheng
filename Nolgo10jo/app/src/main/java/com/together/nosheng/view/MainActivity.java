@@ -52,18 +52,13 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragmentActivity()).commit();
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
 
-
-        //Navigation button
-//        Button btn_newTrip = findViewById(R.id.btn_newTrip);
         binding.bottomNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, BottomBtnActivity.class);
                 startActivity(intent);
-
-
 
                 // Access a Cloud Firestore instance from your Activity
                 FirebaseFirestore db = FirebaseFirestore.getInstance();

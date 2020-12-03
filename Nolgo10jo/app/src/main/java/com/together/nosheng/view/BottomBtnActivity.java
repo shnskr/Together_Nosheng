@@ -80,7 +80,7 @@ public class BottomBtnActivity  extends AppCompatActivity  implements View.OnCli
         bottomBtnBinding.btnInfo.setOnClickListener(this);
         bottomBtnBinding.btnBoard.setOnClickListener(this);
 
-        addButton(99);
+        addButton(5);
 
     }
 
@@ -114,7 +114,10 @@ public class BottomBtnActivity  extends AppCompatActivity  implements View.OnCli
         final String MY_FRAGMENT_TAG = "my_fragment";
         Fragment fragment = (Fragment) fm.findFragmentById(R.id.plan_fragment_container);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_bottom_btn);
-        Button btn = bottomBtnBinding.btnBoard;
+        GoogleActivity googleActivity = new GoogleActivity();
+        Button btn;
+
+        ft = fm.beginTransaction();
 
         for (int i = 0; count >= i; i++){
             btn = new Button(this);
@@ -122,12 +125,23 @@ public class BottomBtnActivity  extends AppCompatActivity  implements View.OnCli
             layout.addView(btn);
             Log.i("add Button", "0");
 
-            ft = fm.beginTransaction();
-            if(fragment == null){
-                ft.add(R.id.plan_fragment_container, new Fragment(), MY_FRAGMENT_TAG);
-                ft.commitNow();
-                Log.i("add Fragment", "2");
-            }
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (R.id.plan_fragment_container == R.layout.layout_google) {
+                        return;
+                    } else {
+                        ft.replace(R.id.plan_fragment_container, googleActivity).commit();
+                    }
+                }
+            });
+
+//            ft = fm.beginTransaction();
+//            if(fragment == null){
+//                ft.add(R.id.plan_fragment_container, new Fragment(), MY_FRAGMENT_TAG);
+//                ft.commitNow();
+//                Log.i("add Fragment", "2");
+//            }
         }
     }
 }
