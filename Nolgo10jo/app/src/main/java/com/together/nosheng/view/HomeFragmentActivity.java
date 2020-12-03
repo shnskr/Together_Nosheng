@@ -37,30 +37,9 @@ public class HomeFragmentActivity extends Fragment {
         homeBinding.btnNewTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), BottomBtnActivity.class);
+                Intent intent = new Intent(getActivity(), NewTripActivity.class);
                 startActivity(intent);
 
-                // Access a Cloud Firestore instance from your Activity
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                String TAG = "DB 연동 가즈아~~~~~~~~~~~";
-
-                // Create a new user with a first and last name
-                Map<String, Object> project = new HashMap<>();
-
-                db.collection("Project")
-                        .add(project)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
             }
         });
         return view;

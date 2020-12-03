@@ -1,9 +1,13 @@
 package com.together.nosheng.view;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.timessquare.CalendarPickerView;
+import com.together.nosheng.R;
 import com.together.nosheng.databinding.ActivityFragmentTripinfoBinding;
 
 import java.util.ArrayList;
@@ -33,8 +38,7 @@ public class TripInfoFragmentActivity extends Fragment {
 
     private Date today;
     private ActivityFragmentTripinfoBinding tripinfoBinding;
-    private BottomBtnActivity bottomBtnActivity;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     String TAG = "DB 연동 가즈아~~~~~~~~~~~";
 
     @Nullable
@@ -62,17 +66,31 @@ public class TripInfoFragmentActivity extends Fragment {
             }
         });
 
-        tripinfoBinding.etxtTitle.setOnKeyListener(new View.OnKeyListener() {
+        //EditText 리스너 (입력시 반응)
+        tripinfoBinding.etxtTitle.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(keyCode == event.KEYCODE_ENTER) {
-                    Log.i("엔터", "1");
-                    return false;
-                } else
-                    Log.i("엔터","2");
-                    return true;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                tripinfoBinding.txtCountLength.setText(s.length()+"글자");   //글자수 TextView에 보여주기.
             }
         });
+
+        //EditText Enter key 방지
+        tripinfoBinding.etxtTitle.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
+
 
         today = new Date();
         ArrayList<Integer> today_int = changeForm(today);
@@ -80,14 +98,14 @@ public class TripInfoFragmentActivity extends Fragment {
 
         tripinfoBinding.txtStartDate.setText(t_day);
 
-        tripinfoBinding.btnToday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tripinfoBinding.calendar.selectDate(today);
-                tripinfoBinding.txtStartDate.setText(t_day);
-                tripinfoBinding.txtEndDate.setText("endDate");
-            }
-        });
+//        tripinfoBinding.btnToday.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tripinfoBinding.calendar.selectDate(today);
+//                tripinfoBinding.txtStartDate.setText(t_day);
+//                tripinfoBinding.txtEndDate.setText("endDate");
+//            }
+//        });
 
 
         Calendar nextYear = Calendar.getInstance();
@@ -134,9 +152,16 @@ public class TripInfoFragmentActivity extends Fragment {
             }
         });
 
+        tripinfoBinding.btnCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAlertDialog();
+            }
+        });
         return view;
 
-    }   //onCreateView()
+    }   //end onCreateView()
+
 
     public ArrayList<Integer> changeForm(Date d){
 
@@ -155,15 +180,30 @@ public class TripInfoFragmentActivity extends Fragment {
         return dateList;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);//기존
-        bottomBtnActivity = (BottomBtnActivity) getActivity();//기존
+    public void createAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("일정 수정!")
+                .setMessage("기획하신 내용이 전부 삭제됩니다.\n수정하시겠습니까?")
+                .setIcon(R.drawable.ic_baseline_announcement_24);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getActivity(), "일정이 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                Log.i("일정이 수정되었습니다.", "0");
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("일정이 유지됩니다.", "0");
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 
 }
