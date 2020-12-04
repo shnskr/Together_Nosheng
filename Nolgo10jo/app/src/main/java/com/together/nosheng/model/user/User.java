@@ -10,6 +10,7 @@ public class User {
     private Date regDate;
     private String thumbnail;
     private ArrayList<String> friendList;
+    private ArrayList<String> projectList;
 
     public User(String eMail, String nickName, Date regDate, String thumbnail,ArrayList<String> friendList) {
         this.eMail = eMail;
@@ -34,6 +35,13 @@ public class User {
 
     }
 
+    public ArrayList<String> getProjectList() {
+        return projectList;
+    }
+
+    public void setProjectList(ArrayList<String> projectList) {
+        this.projectList = projectList;
+    }
 
     public String geteMail() {
         return eMail;

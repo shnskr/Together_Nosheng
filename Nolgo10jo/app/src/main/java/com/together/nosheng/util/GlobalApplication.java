@@ -11,6 +11,5 @@ public class GlobalApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Places.initialize(getApplicationContext(), "AIzaSyDTtW-jwQI9kLyu0kt6AXOJmLxPlHrBDPE");
-        PlacesClient placesClient = Places.createClient(this);
     }
 }
