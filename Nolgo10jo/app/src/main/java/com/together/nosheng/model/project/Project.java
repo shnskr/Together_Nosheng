@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Project {
+//    private String projectId;
     private String title;
     private Date regDate;
     private Date startDate;
@@ -90,4 +91,12 @@ public class Project {
     public void setMembers(List<User> members) {
         this.members = members;
     }
+
+//    public String getProjectId() {
+//        return projectId;
+//    }
+//
+//    public void setProjectId(String projectId) {
+//        this.projectId = projectId;
+//    }
 }

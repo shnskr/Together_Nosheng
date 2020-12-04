@@ -23,7 +23,9 @@ public class UserViewModel extends ViewModel {
     public UserViewModel() {
         dao = new FirebaseAuthDaoImpl();
         getFirebaseUser();
-        Userid = firebaseUser.getValue().getUid();
+        if (firebaseUser.getValue() != null) {
+            Userid = firebaseUser.getValue().getUid();
+        }
         userRepository = new UserRepository(Userid);
         this.liveUser = userRepository.findAll();
     }

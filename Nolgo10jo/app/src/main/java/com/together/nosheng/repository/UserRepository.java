@@ -28,18 +28,15 @@ public class UserRepository {
     private String TAG = "UserRepository";
     private static String userId;
 
-
-
-
     private ArrayList<String> userNickName = new ArrayList<>();
     private MutableLiveData<ArrayList<String>> liveUserNickName = new MutableLiveData<ArrayList<String>>();
 
 
-
-
     public UserRepository() {
         db = FirebaseFirestore.getInstance();
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
     }
 
     public UserRepository(String userId) {
@@ -63,26 +60,28 @@ public class UserRepository {
 
     public void initPush(String userId) {
 
+        if (userId != null) {
 
-        final DocumentReference doRef = db.collection("User").document(userId);
-        doRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            final DocumentReference doRef = db.collection("User").document(userId);
+            doRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
 
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null){
-                    Log.w(TAG, "Listen Failed",error);
-                    return;
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        Log.w(TAG, "Listen Failed", error);
+                        return;
+                    }
+                    if (value != null) {
+                        Log.w(TAG, "current Data" + value.getData());
+                        liveUser.setValue(value.toObject(User.class));
+
+                    } else {
+                        Log.d(TAG, "current Data : null");
+                    }
+
                 }
-                if (value != null) {
-                    Log.w(TAG,"current Data"+ value.getData());
-                    liveUser.setValue(value.toObject(User.class));
-
-                }else {
-                    Log.d(TAG,"current Data : null");
-                }
-
-            }
-        });
+            });
+        }
 
 
     }

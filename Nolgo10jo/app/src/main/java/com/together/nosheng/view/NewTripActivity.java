@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +26,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.timessquare.CalendarPickerView;
 import com.together.nosheng.databinding.ActivityNewTripBinding;
+import com.together.nosheng.model.project.Project;
+import com.together.nosheng.viewmodel.ProjectViewModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,18 +38,24 @@ import java.util.Map;
 
 public class NewTripActivity extends AppCompatActivity {
 
+    private Project project;
+    private ProjectViewModel projectViewModel;
+
     private ActivityNewTripBinding newTripBinding;
 
-    private Date today;
-    private Date startDate;
-    private Date endDate;
-    private String[] stringID;
+//    private Date today;
+//    private Date startDate;
+//    private Date endDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         newTripBinding = ActivityNewTripBinding.inflate(getLayoutInflater());
         setContentView(newTripBinding.getRoot());
+
+        project = new Project();
+        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+
 
         //trip project code duplicate
         String tripCode = newTripBinding.txtTripCode.getText().toString();
@@ -91,7 +100,7 @@ public class NewTripActivity extends AppCompatActivity {
         });
 
         //calendar function
-        today = new Date();
+        Date today = new Date();
         ArrayList<Integer> today_int = changeForm(today);
         String t_day = "" + today_int.get(0) + "." + today_int.get(1) + "." + today_int.get(2);
 
@@ -114,7 +123,6 @@ public class NewTripActivity extends AppCompatActivity {
                 .withSelectedDate(today);
 
 
-
         newTripBinding.calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(Date date) {
@@ -123,8 +131,10 @@ public class NewTripActivity extends AppCompatActivity {
 
                 List<Date> periodList = newTripBinding.calendar.getSelectedDates();
 
-                startDate = periodList.get(0);
-                endDate = periodList.get(periodList.size()-1);
+                Date startDate = periodList.get(0);
+                project.setStartDate(startDate);
+                Date endDate = periodList.get(periodList.size()-1);
+                project.setEndDate(endDate);
 
                 ArrayList<Integer> start = changeForm(startDate);
                 ArrayList<Integer> end = changeForm(endDate);
@@ -155,18 +165,19 @@ public class NewTripActivity extends AppCompatActivity {
         newTripBinding.btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(startDate != null){
-                    Intent intent = new Intent(NewTripActivity.this, TabActivity.class);
+                if(project.getStartDate() != null){
+
+                    projectViewModel.addUserProject(project);
+
+                    Intent intent = new Intent(NewTripActivity.this, MainActivity.class);
                     startActivity(intent);
 
-                    newTripProject();
                 }else {
                     Toast.makeText(getApplicationContext(),"날짜를 선택해주세요!", Toast.LENGTH_SHORT).show();
                     Log.i("날짜를 선택해주세요!!!!!!!", "3");
                 }
             }
         });
-
     }
 
     public ArrayList<Integer> changeForm(Date d){
@@ -199,42 +210,6 @@ public class NewTripActivity extends AppCompatActivity {
                 ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }
         return super.dispatchTouchEvent(ev);
-    }
-
-
-    //Create new trip project - db
-    private void newTripProject() {
-        String[] stringID = new String[1];
-
-        // Access a Cloud Firestore instance from your Activity
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String TAG = "DB 연동 가즈아~~~~~~~~~~~";
-
-        Map<String, Object> project = new HashMap<>();
-        project.put("startDate", new Timestamp(startDate));
-        project.put("endDate", new Timestamp(endDate));
-
-        Log.i("여기까지 오나?", "1");
-
-        db.collection("Project")
-                .add(project)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        stringID[0] = documentReference.getId();
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + stringID[0]);
-                        Log.i(stringID[0]+"있는거야 없는거야?!?!!?", "2");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                        Log.i(stringID[0]+"있는거야 없는거야?!?!!?", "3");
-                    }
-                });
-
-        Log.i("여기까지 오나?", "2");
     }
 
 }

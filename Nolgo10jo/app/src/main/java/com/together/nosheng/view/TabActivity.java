@@ -10,11 +10,15 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.together.nosheng.adapter.ViewPagerAdapter;
 import com.together.nosheng.databinding.LayoutTabBinding;
+import com.together.nosheng.viewmodel.ProjectViewModel;
 
 public class TabActivity extends AppCompatActivity {
+
+    private ProjectViewModel projectViewModel;
 
     private LayoutTabBinding tabBinding;
 
@@ -23,6 +27,8 @@ public class TabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         tabBinding = LayoutTabBinding.inflate(getLayoutInflater());
         setContentView(tabBinding.getRoot());
+
+        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         tabBinding.viewPager.setAdapter(viewPagerAdapter);

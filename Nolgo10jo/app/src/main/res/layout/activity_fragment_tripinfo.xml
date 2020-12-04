@@ -1,158 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="5dp"
-    android:gravity="center"
-    android:background="#52B2BF"
-    android:id="@+id/tripinfo_fragment"
-    android:isScrollContainer="true">
 
-    <LinearLayout
-        android:id="@+id/lay_newTrip_code"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+<layout>
 
-        <TextView
-            android:id="@+id/txt_trip_code"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:layout_gravity="center"
-            android:text="프로젝트 공유 코드"
-            android:textSize="20sp"/>
+    <data>
+        <variable
+            name="test"
+            type="com.together.nosheng.model.project.Project" />
 
-        <Button
-            android:id="@+id/btn_duplicate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_weight="1"
-            android:text="dup" />
+        <variable
+            name="projectId"
+            type="java.lang.String" />
+    </data>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lay_newTrip_project"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp">
-
-        <EditText
-            android:id="@+id/etxt_title"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:hint="여행 이름을 정해보세요!" />
-
-        <TextView
-            android:id="@+id/txt_countLength"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="0글자"
-            android:textAlignment="center"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lay_selectDate"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:id="@+id/txt_startDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Start"
-            android:textSize="20dp"
-            android:textAlignment="center"/>
-
-        <TextView
-            android:id="@+id/txt_periodMark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:text="~"
-            android:textSize="20dp"
-            android:textAlignment="center"/>
-
-        <TextView
-            android:id="@+id/txt_endDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="End"
-            android:textSize="20dp"
-            android:textAlignment="center"/>
-
-        <TextView
-            android:id="@+id/txt_countDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="19박 20일"
-            android:textAlignment="center"
-            android:textSize="20sp"/>
-
-    </LinearLayout>
-
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/lay_countDate"-->
-    <!--        android:layout_width="350dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        android:layout_marginTop="5dp">-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/txt_countDate"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="3"-->
-    <!--            android:text="19박 20일"-->
-    <!--            android:textAlignment="center"-->
-    <!--            android:textSize="20sp"/>-->
-
-    <!--        <Button-->
-    <!--            android:id="@+id/btn_today"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="1"-->
-    <!--            android:text="today" />-->
-
-    <!--    </LinearLayout>-->
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
-        android:layout_marginTop="10dp">
+        android:padding="5dp"
+        android:gravity="center"
+        android:background="#52B2BF"
+        android:id="@+id/tripinfo_fragment"
+        android:isScrollContainer="true">
 
-        <com.squareup.timessquare.CalendarPickerView
-            android:id="@+id/calendar"
+        <LinearLayout
+            android:id="@+id/lay_newTrip_code"
             android:layout_width="350dp"
-            android:layout_height="320dp"
-            android:background="@color/material_on_background_emphasis_medium"
-            app:tsquare_titleTextColor="#FFF"
-            app:tsquare_headerTextColor="#FFF" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_check"
+            <TextView
+                android:id="@+id/txt_trip_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:layout_gravity="center"
+                android:text="@{projectId}"
+                android:textSize="20sp"/>
+
+            <Button
+                android:id="@+id/btn_duplicate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:text="dup" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lay_newTrip_project"
             android:layout_width="350dp"
-            android:layout_height="60dp"
-            android:text="여행 일정 수정"
-            android:textSize="18sp"
-            android:layout_marginTop="5dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/etxt_title"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:hint="여행 이름을 정해보세요!"
+                android:text="@{test.title}"/>
+
+            <TextView
+                android:id="@+id/txt_countLength"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="0글자"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lay_selectDate"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/txt_startDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Start"
+                android:textSize="20dp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/txt_periodMark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="~"
+                android:textSize="20dp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/txt_endDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="End"
+                android:textSize="20dp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/txt_countDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="19박 20일"
+                android:textAlignment="center"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+        <!--    <LinearLayout-->
+        <!--        android:id="@+id/lay_countDate"-->
+        <!--        android:layout_width="350dp"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:orientation="horizontal"-->
+        <!--        android:layout_marginTop="5dp">-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/txt_countDate"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_weight="3"-->
+        <!--            android:text="19박 20일"-->
+        <!--            android:textAlignment="center"-->
+        <!--            android:textSize="20sp"/>-->
+
+        <!--        <Button-->
+        <!--            android:id="@+id/btn_today"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:text="today" />-->
+
+        <!--    </LinearLayout>-->
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <com.squareup.timessquare.CalendarPickerView
+                android:id="@+id/calendar"
+                android:layout_width="350dp"
+                android:layout_height="320dp"
+                android:background="@color/material_on_background_emphasis_medium"
+                app:tsquare_titleTextColor="#FFF"
+                app:tsquare_headerTextColor="#FFF" />
+
+            <Button
+                android:id="@+id/btn_check"
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:text="여행 일정 수정"
+                android:textSize="18sp"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
-
-
-
-</LinearLayout>
+</layout>

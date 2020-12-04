@@ -19,24 +19,34 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.timessquare.CalendarPickerView;
 import com.together.nosheng.R;
 import com.together.nosheng.databinding.ActivityFragmentTripinfoBinding;
+import com.together.nosheng.model.project.Project;
+import com.together.nosheng.viewmodel.ProjectViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class TripInfoFragmentActivity extends Fragment {
 
-    public int count;
+    private Project project;
+    private ProjectViewModel projectViewModel;
+    String projectId;
 
-    private Date today;
+    private ArrayList<Date> tripPeriod;
+
     private ActivityFragmentTripinfoBinding tripinfoBinding;
 
     String TAG = "DB 연동 가즈아~~~~~~~~~~~";
@@ -48,7 +58,13 @@ public class TripInfoFragmentActivity extends Fragment {
         tripinfoBinding = ActivityFragmentTripinfoBinding.inflate(inflater, container, false);
         View view = tripinfoBinding.getRoot();
 
+        project = new Project();
+        projectViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
+        projectId = getActivity().getIntent().getStringExtra("projectId");
 
+        tripinfoBinding.setProjectId(projectId);
+
+        //code duplicate
         String tripCode = tripinfoBinding.txtTripCode.getText().toString();
 
         tripinfoBinding.btnDuplicate.setOnTouchListener(new View.OnTouchListener() {
@@ -92,28 +108,23 @@ public class TripInfoFragmentActivity extends Fragment {
 
 
 
-        today = new Date();
-        ArrayList<Integer> today_int = changeForm(today);
-        String t_day = "" + today_int.get(0) + "." + today_int.get(1) + "." + today_int.get(2);
-
-        tripinfoBinding.txtStartDate.setText(t_day);
-
-//        tripinfoBinding.btnToday.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tripinfoBinding.calendar.selectDate(today);
-//                tripinfoBinding.txtStartDate.setText(t_day);
-//                tripinfoBinding.txtEndDate.setText("endDate");
-//            }
-//        });
-
+        Date today = new Date();
 
         Calendar nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR,2);
 
-        tripinfoBinding.calendar.init(today,nextYear.getTime())
-                .inMode(CalendarPickerView.SelectionMode.RANGE)
-                .withSelectedDate(today);
+        initDate();
+
+        projectViewModel.projectLiveData().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
+                    @Override
+                    public void onChanged(Map<String, Project> stringProjectMap) {
+                        initDate();
+                    }
+                });
+
+                tripinfoBinding.calendar.init(today, nextYear.getTime())
+                        .inMode(CalendarPickerView.SelectionMode.RANGE)
+                        .withSelectedDates(tripPeriod);
 
 
 
@@ -125,11 +136,11 @@ public class TripInfoFragmentActivity extends Fragment {
 
                 List<Date> periodList = tripinfoBinding.calendar.getSelectedDates();
 
-                Date startDate = periodList.get(0);
-                Date endDate = periodList.get(periodList.size()-1);
+                Date upStartDate = periodList.get(0);
+                Date upEndDate = periodList.get(periodList.size()-1);
 
-                ArrayList<Integer> start = changeForm(startDate);
-                ArrayList<Integer> end = changeForm(endDate);
+                ArrayList<Integer> start = changeForm(upStartDate);
+                ArrayList<Integer> end = changeForm(upEndDate);
 
                 String s_day = "" + start.get(0) + "." + start.get(1) + "." + start.get(2);
                 String e_day = "" + end.get(0) + "." + end.get(1) + "." + end.get(2);
@@ -183,7 +194,7 @@ public class TripInfoFragmentActivity extends Fragment {
     public void createAlertDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("일정 수정!")
-                .setMessage("기획하신 내용이 전부 삭제됩니다.\n수정하시겠습니까?")
+                .setMessage("일정 내용이 전부 삭제됩니다.\n수정하시겠습니까?")
                 .setIcon(R.drawable.ic_baseline_announcement_24);
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -205,5 +216,15 @@ public class TripInfoFragmentActivity extends Fragment {
         alertDialog.show();
     }
 
+    public void initDate(){
+        project.setStartDate(projectViewModel.projectLiveData().getValue().get(projectId).getStartDate());
+        project.setEndDate(projectViewModel.projectLiveData().getValue().get(projectId).getEndDate());
+
+        tripPeriod = new ArrayList<>();
+
+        tripPeriod.add(project.getStartDate());
+        tripPeriod.add(project.getEndDate());
+
+    }
 
 }
