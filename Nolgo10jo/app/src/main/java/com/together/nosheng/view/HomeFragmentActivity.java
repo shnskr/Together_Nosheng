@@ -41,18 +41,15 @@ public class HomeFragmentActivity extends Fragment {
         homeBinding = ActivityFragmentHomeBinding.inflate(inflater, container, false);
         View view = homeBinding.getRoot();
 
-//        projectViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
-//        projectViewModel.setUserProjects();
+        projectViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
+        projectViewModel.setUserProjects();
 //
-//        projectViewModel.getUserProjects().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
-//            @Override
-//            public void onChanged(Map<String, Project> userProject) {
-////                ArrayList<Project> temp = new ArrayList<>(projectViewModel.getUserProjects().getValue().values());
-//
-////                homeBinding.lvProject.setAdapter(new HomeAdapter(new ArrayList<>(projectViewModel.getUserProjects().getValue().values())));
-//                homeBinding.lvProject.setAdapter(new HomeAdapter(userProject));
-//            }
-//        });
+        projectViewModel.getUserProjects().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
+            @Override
+            public void onChanged(Map<String, Project> userProject) {
+                homeBinding.lvProject.setAdapter(new HomeAdapter(userProject));
+            }
+        });
 
         homeBinding.btnNewTrip.setOnClickListener(new View.OnClickListener() {
             @Override

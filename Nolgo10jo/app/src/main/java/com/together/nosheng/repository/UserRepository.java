@@ -23,10 +23,10 @@ import com.together.nosheng.viewmodel.UserViewModel;
 import java.util.ArrayList;
 
 public class UserRepository {
+    private String TAG = "UserRepository";
+
     private FirebaseFirestore db;
     private MutableLiveData<User> liveUser = new MutableLiveData<>();
-    private String TAG = "UserRepository";
-    private static String userId;
 
     private ArrayList<String> userNickName = new ArrayList<>();
     private MutableLiveData<ArrayList<String>> liveUserNickName = new MutableLiveData<ArrayList<String>>();
@@ -34,23 +34,7 @@ public class UserRepository {
 
     public UserRepository() {
         db = FirebaseFirestore.getInstance();
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (user != null) {
-            userId = user.getUid();
-        }
     }
-
-    public UserRepository(String userId) {
-        this.userId = userId;
-        db = FirebaseFirestore.getInstance();
-        initPush(userId);
-    }
-
-
-
-
 
     public LiveData<User> findAll() {
         return liveUser;

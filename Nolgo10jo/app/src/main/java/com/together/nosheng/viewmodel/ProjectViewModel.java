@@ -17,12 +17,9 @@ public class ProjectViewModel extends ViewModel {
     private MutableLiveData<Map<String, Project>> currentProject;
     private LiveData<Map<String, Project>> userProjects;
     private ProjectRepository projectRepository;
-    private String projectId;
 
     public ProjectViewModel() {
-        projectId = "C7kEu5V2XV3BZ4e8ztvc";
         projectRepository = new ProjectRepository();
-        currentProject = projectRepository.getDatepicker(projectId);
     }
 
 

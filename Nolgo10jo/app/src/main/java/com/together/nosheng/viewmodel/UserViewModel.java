@@ -16,19 +16,17 @@ import java.util.ArrayList;
 public class UserViewModel extends ViewModel {
     private LiveData<User> liveUser;
     public LiveData<FirebaseUser> firebaseUser;
-    private UserRepository userRepository = new UserRepository();
+    private UserRepository userRepository;
     private LiveData<ArrayList<String>> friendNickName;
     private static String Userid;
 
     String TAG = "User ViewModel : ";
 
     public UserViewModel() {
-        Log.i("달달", "asdasd5555");
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        MutableLiveData<FirebaseUser> firebaseUser = new MutableLiveData<>();
-        firebaseUser.setValue(user);
-        this.firebaseUser = firebaseUser;
+        userRepository = new UserRepository();
+//        MutableLiveData<FirebaseUser> firebaseUser = new MutableLiveData<>();
+//        firebaseUser.setValue(user);
+//        this.firebaseUser = firebaseUser;
 
 //        userRepository = new UserRepository(Userid);
 //        this.liveUser = userRepository.findAll();

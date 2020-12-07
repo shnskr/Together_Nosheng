@@ -60,9 +60,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
+                                            GlobalApplication.setFirebaseUser();
                                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                             startActivity(intent);
-                                            GlobalApplication.setFirebaseUser();
                                         } else {
                                             Toast.makeText(LoginActivity.this, "아이디 및 비밀번호를 다시 확인해 주세요", Toast.LENGTH_LONG).show();
                                         }
@@ -150,7 +150,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) { // 로그인 성공 시
-                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "구글 로그인 성공", Toast.LENGTH_SHORT).show();
+                            GlobalApplication.setFirebaseUser();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else { // 로그인 실패 시
@@ -158,8 +159,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         }
                     }
                 });
-        GlobalApplication.setFirebaseUser();
-        Log.i("daldal", "1111");
     }
 
     @Override

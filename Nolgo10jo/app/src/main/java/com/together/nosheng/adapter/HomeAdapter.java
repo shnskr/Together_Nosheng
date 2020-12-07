@@ -1,5 +1,6 @@
 package com.together.nosheng.adapter;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.BaseAdapter;
 
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.view.ProjectView;
+import com.together.nosheng.view.TabActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 public class HomeAdapter extends BaseAdapter {
-    List<Project> projects = new ArrayList<>();
 
     private Map<String, Project> userProject;
     private List<String> userProjectId;
@@ -42,20 +43,30 @@ public class HomeAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ProjectView projectView = new ProjectView(parent.getContext());
-        Project project = projects.get(position);
+        Project project = (Project) getItem(position);
 
         SimpleDateFormat format = new SimpleDateFormat("yy.MM.dd");
 
         projectView.setTravelTitle(project.getTitle());
         projectView.setTravelPeriod(format.format(project.getStartDate()) + " ~ " + format.format(project.getEndDate()));
+
+        projectView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(parent.getContext(), TabActivity.class);
+                intent.putExtra("projectId", userProjectId.get(position));
+                parent.getContext().startActivity(intent);
+            }
+        });
+
         return projectView;
     }
 
-    public ArrayList<Project> getProjects(){
-        ArrayList<Project> tripData = new ArrayList<>();
-        for(int x = 0; x < projects.size(); x++){
-            tripData.add(projects.get(x));
-        }
-        return tripData;
-    }
+//    public ArrayList<Project> getProjects(){
+//        ArrayList<Project> tripData = new ArrayList<>();
+//        for(int x = 0; x < projects.size(); x++){
+//            tripData.add(projects.get(x));
+//        }
+//        return tripData;
+//    }
 }

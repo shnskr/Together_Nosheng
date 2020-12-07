@@ -2,6 +2,7 @@ package com.together.nosheng.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -27,6 +28,9 @@ public class TabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         tabBinding = LayoutTabBinding.inflate(getLayoutInflater());
         setContentView(tabBinding.getRoot());
+
+        String projectId = getIntent().getStringExtra("projectId");
+        Log.i("daldal", projectId);
 
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
 
