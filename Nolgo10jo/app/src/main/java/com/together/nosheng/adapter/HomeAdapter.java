@@ -1,5 +1,6 @@
 package com.together.nosheng.adapter;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -7,11 +8,16 @@ import android.widget.BaseAdapter;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.view.ProjectView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class homeAdapter extends BaseAdapter {
+public class HomeAdapter extends BaseAdapter {
     List<Project> projects = new ArrayList<>();
+
+    public HomeAdapter(List<Project> projects) {
+        this.projects = projects;
+    }
 
     @Override
     public int getCount() {
@@ -32,9 +38,12 @@ public class homeAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ProjectView projectView = new ProjectView(parent.getContext());
         Project project = projects.get(position);
+
+        SimpleDateFormat format = new SimpleDateFormat("yy.MM.dd");
+
         projectView.setTravelTitle(project.getTitle());
-        projectView.setTravelPeriod(project.getStartDate());
-        return null;
+        projectView.setTravelPeriod(format.format(project.getStartDate()) + " ~ " + format.format(project.getEndDate()));
+        return projectView;
     }
 
     public ArrayList<Project> getProjects(){
