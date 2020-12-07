@@ -61,23 +61,6 @@ public class ProjectRepository {
         return currentProject;
     }
 
-    public void datepickerUpdate(){
-        db.collection("Project").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.w("TAG", "addShapshotListener failed", error);
-                    return;
-                }
-
-                if(value != null) {
-                    Log.w(TAG, "여기가 되나안되나 함 봅시다 : "+ value.getDocuments());
-                    value.toObjects(Project.class);
-//                    liveProject.setValue(document.add);
-                }
-            }
-        });
-    }
 
 
     public void addUserProject(Project userProject) {
@@ -100,5 +83,25 @@ public class ProjectRepository {
     public void updateUserProject(Project userProject, String projectId) {
         db.collection("Project").document(projectId)
                 .set(userProject, SetOptions.merge());
+    }
+
+
+
+    public void datepickerUpdate(){
+        db.collection("Project").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.w("TAG", "addShapshotListener failed", error);
+                    return;
+                }
+
+                if(value != null) {
+                    Log.w(TAG, "여기가 되나안되나 함 봅시다 : "+ value.getDocuments());
+                    value.toObjects(Project.class);
+//                    liveProject.setValue(document.add);
+                }
+            }
+        });
     }
 }   //end class
