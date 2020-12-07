@@ -99,4 +99,19 @@ public class Project {
 //    public void setProjectId(String projectId) {
 //        this.projectId = projectId;
 //    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "title='" + title + '\'' +
+                ", regDate=" + regDate +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", budgets=" + budgets +
+                ", tags=" + tags +
+                ", posts=" + posts +
+                ", checkLists=" + checkLists +
+                ", members=" + members +
+                '}';
+    }
 }

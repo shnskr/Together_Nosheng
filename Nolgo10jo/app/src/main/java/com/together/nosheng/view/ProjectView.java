@@ -21,7 +21,7 @@ public class ProjectView extends LinearLayout {
 
     private void init(Context context) {
         LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.activity_fragment_home,this,true);
+        layoutInflater.inflate(R.layout.layout_trip_list_item,this,true);
         travelTitle = findViewById(R.id.trip_title);
         travelPeriod = findViewById(R.id.trip_period);
     }
@@ -30,9 +30,7 @@ public class ProjectView extends LinearLayout {
         travelTitle.setText(tt);
     }
 
-    public void setTravelPeriod(Date tp){
-//        2019.02.13 - 2019.2.25
-        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
-        travelPeriod.setText(format.format(tp));
+    public void setTravelPeriod(String tp){
+        travelPeriod.setText(tp);
     }
 }
