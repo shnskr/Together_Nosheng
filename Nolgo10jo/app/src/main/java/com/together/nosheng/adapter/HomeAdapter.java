@@ -11,27 +11,32 @@ import com.together.nosheng.view.ProjectView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class HomeAdapter extends BaseAdapter {
     List<Project> projects = new ArrayList<>();
 
-    public HomeAdapter(List<Project> projects) {
-        this.projects = projects;
+    private Map<String, Project> userProject;
+    private List<String> userProjectId;
+
+    public HomeAdapter(Map<String, Project> userProject) {
+        this.userProject = userProject;
+        userProjectId = new ArrayList<>(userProject.keySet());
     }
 
     @Override
     public int getCount() {
-        return projects.size();
+        return userProjectId.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return projects.get(position);
+        return userProject.get(userProjectId.get(position));
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return userProjectId.indexOf(userProjectId.get(position));
     }
 
     @Override

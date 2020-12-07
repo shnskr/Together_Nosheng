@@ -5,16 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseUser;
 import com.together.nosheng.R;
 import com.together.nosheng.databinding.ActivityMainBinding;
+import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 import com.together.nosheng.viewmodel.UserViewModel;
 
@@ -32,31 +36,47 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        Log.i("daldal", "2222");
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
-
-        if (userViewModel.firebaseUser.getValue() == null) {
+        if (GlobalApplication.firebaseUser == null) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
 
-//        projectViewModel.projects.observe();
+        Log.i("daldal", "3333");
 
-        //Navigation
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navigationListener);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+//        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
 
-        bottomNavigationView.setSelectedItemId(R.id.nav_home);
 
-        binding.bottomNavigation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, NewTripActivity.class);
-                startActivity(intent);
+        Log.i("달달", "asdasd1111");
 
-            }
-        });
+//        userViewModel.firebaseUser.observe(this, new Observer<FirebaseUser>() {
+//            @Override
+//            public void onChanged(FirebaseUser firebaseUser) {
+//                Log.i("달달", "asdasd2222");
+//                if (firebaseUser == null) {
+//                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//                    startActivity(intent);
+//                    Log.i("달달", "asdasd3333");
+//                }
+//            }
+//        });
+        Log.i("달달", "asdasd4444");
+//        Navigation
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(navigationListener);
+//
+//        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+//
+//        binding.bottomNavigation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, NewTripActivity.class);
+//                startActivity(intent);
+//
+//            }
+//        });
     }
 
     @Override

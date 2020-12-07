@@ -41,25 +41,24 @@ public class HomeFragmentActivity extends Fragment {
         homeBinding = ActivityFragmentHomeBinding.inflate(inflater, container, false);
         View view = homeBinding.getRoot();
 
-        projectViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
-        projectViewModel.setUserProjects();
-
-        projectViewModel.getUserProjects().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
-            @Override
-            public void onChanged(Map<String, Project> stringProjectMap) {
-                ArrayList<Project> temp = new ArrayList<>(projectViewModel.getUserProjects().getValue().values());
-
-//                Log.i("달달", temp.get(0).toString());
-                homeBinding.lvProject.setAdapter(new HomeAdapter(new ArrayList<>(projectViewModel.getUserProjects().getValue().values())));
-            }
-        });
+//        projectViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
+//        projectViewModel.setUserProjects();
+//
+//        projectViewModel.getUserProjects().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
+//            @Override
+//            public void onChanged(Map<String, Project> userProject) {
+////                ArrayList<Project> temp = new ArrayList<>(projectViewModel.getUserProjects().getValue().values());
+//
+////                homeBinding.lvProject.setAdapter(new HomeAdapter(new ArrayList<>(projectViewModel.getUserProjects().getValue().values())));
+//                homeBinding.lvProject.setAdapter(new HomeAdapter(userProject));
+//            }
+//        });
 
         homeBinding.btnNewTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NewTripActivity.class);
                 startActivity(intent);
-
             }
         });
         return view;

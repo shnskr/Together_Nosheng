@@ -1,47 +1,49 @@
 package com.together.nosheng.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.together.nosheng.model.user.User;
-import com.together.nosheng.repository.FirebaseAuthDao;
-import com.together.nosheng.repository.FirebaseAuthDaoImpl;
 import com.together.nosheng.repository.UserRepository;
 
 import java.util.ArrayList;
 
 public class UserViewModel extends ViewModel {
-    private FirebaseAuthDao dao;
-    private  LiveData<User> liveUser;
-    public   LiveData<FirebaseUser> firebaseUser;
-    private  UserRepository userRepository = new UserRepository();
-    private  LiveData<ArrayList<String>> friendNickName;
+    private LiveData<User> liveUser;
+    public LiveData<FirebaseUser> firebaseUser;
+    private UserRepository userRepository = new UserRepository();
+    private LiveData<ArrayList<String>> friendNickName;
     private static String Userid;
 
     String TAG = "User ViewModel : ";
+
     public UserViewModel() {
-        dao = new FirebaseAuthDaoImpl();
-        getFirebaseUser();
-        if (firebaseUser.getValue() != null) {
-            Userid = firebaseUser.getValue().getUid();
-        }
-        userRepository = new UserRepository(Userid);
-        this.liveUser = userRepository.findAll();
+        Log.i("달달", "asdasd5555");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        MutableLiveData<FirebaseUser> firebaseUser = new MutableLiveData<>();
+        firebaseUser.setValue(user);
+        this.firebaseUser = firebaseUser;
+
+//        userRepository = new UserRepository(Userid);
+//        this.liveUser = userRepository.findAll();
     }
 
     public UserViewModel(boolean firstLogin) {
 
 
-        if (!firstLogin){
-            dao = new FirebaseAuthDaoImpl();
-            getFirebaseUser();
-            userRepository = new UserRepository(firebaseUser.getValue().getUid());
-
+//        if (!firstLogin){
+//            userRepository = new UserRepository(firebaseUser.getValue().getUid());
+//
 //            Log.w(TAG , "값확인 !!!!!!!!!!!!!!!!!!!!"+ liveUser.getValue());
 //            Log.w(TAG , "값확인 !!!!!!!!!!!!!!!!!!!!"+ liveUser.getValue().getFriendList());
 //            this.friendNickName = userRepository.setFriend(liveUser.getValue().getFriendList());
-        }
+//        }
     }
 
 
@@ -50,30 +52,21 @@ public class UserViewModel extends ViewModel {
     }
 
 
-
     public void changeNickname(String value) {
 
         userRepository.changeNickname(value, firebaseUser.getValue().getUid());
     }
 
 
-
     public LiveData<User> userModelLiveData() {
         return liveUser;
     }
 
-    public  LiveData<ArrayList<String>> friendLiveData() {
+    public LiveData<ArrayList<String>> friendLiveData() {
         return friendNickName;
     }
 
-
-
-    public void getFirebaseUser() {
-        firebaseUser = dao.getFirebaseUser();
-    }
-
-
-    public void setFriend (ArrayList<String> lists) {
+    public void setFriend(ArrayList<String> lists) {
         userRepository.setFriend(lists);
     }
 
