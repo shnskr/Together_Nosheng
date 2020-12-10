@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app= "http://schemas.android.com/apk/res-auto">
+
+    <item android:id ="@+id/action_search"
+        android:title= "Search"
+        android:icon = "@drawable/ic_launcher_search_foreground"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        />
+
+    <item android:title="제목"
+        android:id="@+id/search_title"/>
+
+    <item android:title="테마"
+        android:id="@+id/search_theme"/>
+
+</menu>

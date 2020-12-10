@@ -14,10 +14,19 @@ public class Plan {
     private Map<String, Location> locations; // Key : 위치 이름, Value : Location class
     private String projectId; // 프로젝트 id
     private Map<String, List<Pin>> route; // Key : 기획인지 최종경로인지, Value : Pin class
+    //추가된 항목
+    private String planTitle; // 플랜 제목
+    private int planLike; //플랜의 좋아요 개수
 
-    public Date getDate() {
-        return date;
-    }
+    public String getPlanTitle() { return planTitle; }
+
+    public void setPlanTitle(String planTitle) { this.planTitle = planTitle; }
+
+    public int getPlanLike() { return planLike; }
+
+    public void setPlanLike(int planLike) { this.planLike = planLike; }
+
+    public Date getDate() { return date; }
 
     public void setDate(Date date) {
         this.date = date;
