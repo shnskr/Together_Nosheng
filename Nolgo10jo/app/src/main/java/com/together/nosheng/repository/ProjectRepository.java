@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
+import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 
 import java.util.HashMap;
@@ -41,11 +42,6 @@ public class ProjectRepository {
 
     public ProjectRepository() {
         db = FirebaseFirestore.getInstance();
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            userId = user.getUid();
-        }
     }
 
     public MutableLiveData<Map<String, Project>> getDatepicker(String projectId) {
@@ -114,7 +110,7 @@ public class ProjectRepository {
     }
 
     public MutableLiveData<Map<String, Project>> getUserProject() {
-        db.collection("User").document(userId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
@@ -147,5 +143,23 @@ public class ProjectRepository {
             }
         });
         return userProject;
+    }
+
+    public MutableLiveData<Map<String, Project>> getCurrentProject(String projectId) {
+        db.collection("Project").document(projectId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.w(TAG, "addShapshotListener failed", error);
+                    return;
+                }
+
+                if (value != null && value.exists()) {
+                    Map<String, Project> currenProject = new HashMap<>();
+                    currenProject.put(projectId, value.toObject(Project.class));
+                }
+            }
+        });
+        return currentProject;
     }
 }   //end class

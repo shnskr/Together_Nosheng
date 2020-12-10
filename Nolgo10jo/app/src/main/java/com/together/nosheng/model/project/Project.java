@@ -1,5 +1,6 @@
 package com.together.nosheng.model.project;
 
+import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.model.user.User;
 
 import java.util.Date;
@@ -19,6 +20,7 @@ public class Project {
 //    private Map<String, PinMember> pinMembers;
 //    private Map<String, PinRecommend> pinRecommends;
     private List<User> members;
+    private List<Plan> plans;
 
     public String getTitle() {
         return title;
@@ -99,6 +101,14 @@ public class Project {
 //    public void setProjectId(String projectId) {
 //        this.projectId = projectId;
 //    }
+
+    public List<Plan> getPlans() {
+        return plans;
+    }
+
+    public void setPlans(List<Plan> plans) {
+        this.plans = plans;
+    }
 
     @Override
     public String toString() {

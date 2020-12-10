@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
 import com.together.nosheng.model.user.User;
+import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
@@ -45,37 +46,6 @@ public class UserRepository {
         return liveUserNickName;
     }
 
-    public void initPush(String userId) {
-
-        if (userId != null) {
-
-            final DocumentReference doRef = db.collection("User").document(userId);
-            doRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if (error != null) {
-                        Log.w(TAG, "Listen Failed", error);
-                        return;
-                    }
-                    if (value != null) {
-                        Log.w(TAG, "current Data" + value.getData());
-                        liveUser.setValue(value.toObject(User.class));
-
-                    } else {
-                        Log.d(TAG, "current Data : null");
-                    }
-
-                }
-            });
-        }
-
-    }
-
-
-
-
-
     public void setFriend(ArrayList<String> lists) {
         int count = lists.size();
         Log.d(TAG,"ListSize : " +lists.size());
@@ -99,22 +69,29 @@ public class UserRepository {
 
 
 
-    public LiveData<User> setData(String id) {
-        db.collection("User").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    public LiveData<User> getLiveUser() {
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                User user = task.getResult().toObject(User.class);
-                liveUser.setValue(user);
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.w(TAG, "Listen Failed", error);
+                    return;
+                }
+                if (value != null) {
+                    Log.w(TAG, "current Data" + value.getData());
+                    liveUser.setValue(value.toObject(User.class));
+
+                } else {
+                    Log.d(TAG, "current Data : null");
+                }
             }
         });
-
         return liveUser;
     }
 
 
 
-    public void changeNickname(String nickname, String id){
-        User user = new User(liveUser.getValue().geteMail(), nickname,liveUser.getValue().getRegDate(),liveUser.getValue().getThumbnail(),liveUser.getValue().getFriendList());
-        db.collection("User").document(id).set(user,SetOptions.merge());
+    public void changeNickname(User user){
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid()).set(user,SetOptions.merge());
     }
 }

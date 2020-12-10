@@ -1,30 +1,26 @@
 package com.together.nosheng.model.user;
 
-import com.google.type.Date;
+import com.google.firebase.Timestamp;
+import com.together.nosheng.model.project.Project;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class User {
     private String eMail;
     private String nickName;
     private Date regDate;
     private String thumbnail;
-    private ArrayList<String> friendList;
-    private ArrayList<String> projectList;
+    private List<String> friendList;
+    private List<String> projectList;
 
-    public User(String eMail, String nickName, Date regDate, String thumbnail,ArrayList<String> friendList) {
+    public User(String eMail, String nickName, Date regDate, String thumbnail, ArrayList<String> friendList) {
         this.eMail = eMail;
         this.nickName = nickName;
         this.regDate = regDate;
         this.thumbnail = thumbnail;
-        this.friendList = friendList;
-    }
-
-    public ArrayList<String> getFriendList() {
-        return friendList;
-    }
-
-    public void setFriendList(ArrayList<String> friendList) {
         this.friendList = friendList;
     }
 
@@ -35,11 +31,19 @@ public class User {
 
     }
 
-    public ArrayList<String> getProjectList() {
+    public List<String> getFriendList() {
+        return friendList;
+    }
+
+    public void setFriendList(List<String> friendList) {
+        this.friendList = friendList;
+    }
+
+    public List<String> getProjectList() {
         return projectList;
     }
 
-    public void setProjectList(ArrayList<String> projectList) {
+    public void setProjectList(List<String> projectList) {
         this.projectList = projectList;
     }
 
@@ -63,8 +67,8 @@ public class User {
         return regDate;
     }
 
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
+    public void setRegDate(Timestamp regDate) {
+        this.regDate = regDate.toDate();
     }
 
     public String getThumbnail() {

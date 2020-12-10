@@ -21,10 +21,10 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        new MemeberFragmentActivity();
+
         switch (position){
-            case 0 :
-                return new MemeberFragmentActivity();
+//            case 0 :
+//                return new MemeberFragmentActivity();
             case 1 :
                 return new BudgetFragmentActivity();
             case 2 :
@@ -63,7 +63,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 4 :
                 title = "정보";
                 break;
-
         }
         return title;
     }

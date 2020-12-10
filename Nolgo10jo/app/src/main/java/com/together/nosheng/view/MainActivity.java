@@ -46,20 +46,21 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+            userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+            BottomNavigationView bottomNavigationView = findViewById(binding.bottomNavigation.getId());
+            bottomNavigationView.setOnNavigationItemSelectedListener(navigationListener);
+
+            bottomNavigationView.setSelectedItemId(R.id.nav_home);
+
+            binding.bottomNavigation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, NewTripActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
-//        Navigation
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navigationListener);
-
-        bottomNavigationView.setSelectedItemId(R.id.nav_home);
-
-        binding.bottomNavigation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, NewTripActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override

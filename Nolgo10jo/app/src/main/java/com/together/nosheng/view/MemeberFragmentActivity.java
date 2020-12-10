@@ -20,7 +20,7 @@ public class MemeberFragmentActivity extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        memberBinding = com.together.nosheng.databinding.ActivityFragmentMemberBinding.inflate(inflater, container, false);
+        memberBinding = ActivityFragmentMemberBinding.inflate(inflater, container, false);
         View view = memberBinding.getRoot();
 
         return view;

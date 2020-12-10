@@ -2,6 +2,7 @@ package com.together.nosheng.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import com.together.nosheng.model.user.User;
 import com.together.nosheng.viewmodel.UserViewModel;
 
 public class SettingFragmentPro extends Fragment {
-    private UserViewModel userViewModel  = new UserViewModel(false);
+    private UserViewModel userViewModel;
 
     public static SettingFragmentPro newInstance() {
         return new SettingFragmentPro();
@@ -38,11 +39,13 @@ public class SettingFragmentPro extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.setting_fragment_pro,container,false);
         View root = binding.getRoot();
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        userViewModel.setLiveUser();
 
-        userViewModel.userModelLiveData().observe(getViewLifecycleOwner(), new Observer<User>() {
+        userViewModel.getLiveUser().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
+                Log.i("daldal", "변화가 생겨쬬");
                 binding.txtUsername.setText(user.getNickName());
                 binding.txtUseremail.setText(user.geteMail());
             }

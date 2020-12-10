@@ -115,12 +115,12 @@ public class TripInfoFragmentActivity extends Fragment {
 
         initDate();
 
-        projectViewModel.projectLiveData().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
-                    @Override
-                    public void onChanged(Map<String, Project> stringProjectMap) {
-                        initDate();
-                    }
-                });
+//        projectViewModel.projectLiveData().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
+//                    @Override
+//                    public void onChanged(Map<String, Project> stringProjectMap) {
+//                        initDate();
+//                    }
+//                });
 
                 tripinfoBinding.calendar.init(today, nextYear.getTime())
                         .inMode(CalendarPickerView.SelectionMode.RANGE)
@@ -217,8 +217,8 @@ public class TripInfoFragmentActivity extends Fragment {
     }
 
     public void initDate(){
-        project.setStartDate(projectViewModel.projectLiveData().getValue().get(projectId).getStartDate());
-        project.setEndDate(projectViewModel.projectLiveData().getValue().get(projectId).getEndDate());
+//        project.setStartDate(projectViewModel.projectLiveData().getValue().get(projectId).getStartDate());
+//        project.setEndDate(projectViewModel.projectLiveData().getValue().get(projectId).getEndDate());
 
         tripPeriod = new ArrayList<>();
 

@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.together.nosheng.R;
+import com.together.nosheng.databinding.LayoutTripListItemBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

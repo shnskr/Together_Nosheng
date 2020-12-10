@@ -41,9 +41,9 @@ public class HomeFragmentActivity extends Fragment {
         homeBinding = ActivityFragmentHomeBinding.inflate(inflater, container, false);
         View view = homeBinding.getRoot();
 
-        projectViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
+        projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
         projectViewModel.setUserProjects();
-//
+
         projectViewModel.getUserProjects().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
             public void onChanged(Map<String, Project> userProject) {

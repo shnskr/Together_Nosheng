@@ -18,10 +18,6 @@ import java.text.DecimalFormat;
 public class BudgetFragmentActivity extends Fragment {
 
     private ActivityFragmentBudgetBinding budgetBinding;
-    private FirebaseFirestore db;
-
-    private DecimalFormat df;
-    private DecimalFormat dfnd;
 
     @Nullable
     @Override
@@ -29,7 +25,6 @@ public class BudgetFragmentActivity extends Fragment {
         super.onCreate(savedInstanceState);
         budgetBinding = ActivityFragmentBudgetBinding.inflate(inflater, container, false);
         View view = budgetBinding.getRoot();
-
 
         return view;
     }
