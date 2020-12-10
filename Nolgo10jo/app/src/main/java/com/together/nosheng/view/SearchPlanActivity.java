@@ -12,22 +12,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.together.nosheng.R;
 import com.together.nosheng.adapter.SearchAdapter;
 import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.viewmodel.PlanViewModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SearchPlanActivity  extends AppCompatActivity {
     private SearchAdapter adapter;
-    private ListView listview;
-
+    //private ListView listview;
     private Map<String, Plan> searchList;//검색용 리스트
     private Map<String, Plan> planList;
+    private List<Plan> planSearch;
+
+    private RecyclerView mRecyclerView;
     private PlanViewModel planViewModel;
 
     @Override
@@ -35,17 +41,29 @@ public class SearchPlanActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        mRecyclerView = (RecyclerView) findViewById(R.id.search_listView);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
         planViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
         planViewModel.setPlanRepository();
 
-        listview = (ListView) findViewById(R.id.search_listView);
+        searchList = new HashMap<>();
+        planSearch = new ArrayList<>();
+
+        //listview = (ListView) findViewById(R.id.search_listView);
 
         planViewModel.getPlans().observe(this, new Observer<Map<String, Plan>>() {
             @Override
             public void onChanged(Map<String, Plan> stringPlanMap) {
                 planList = stringPlanMap;
+                planSearch = new ArrayList<>(stringPlanMap.values());//값 복사해주기
+
                 adapter = new SearchAdapter(planList);
-                listview.setAdapter(adapter);
+                mRecyclerView.setAdapter(adapter);
                 searchList = new HashMap<>(planList); //값 복사해주기
 
             }
@@ -63,7 +81,7 @@ public class SearchPlanActivity  extends AppCompatActivity {
                 planList.clear();
                 planList.putAll(searchList);
                 adapter = new SearchAdapter(planList);
-                listview.setAdapter(adapter);
+                mRecyclerView.setAdapter(adapter);
                 return false;
             }
         });
@@ -74,7 +92,7 @@ public class SearchPlanActivity  extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                search(query); 아직 서치 부분이 잘 작동하지 않아서 주석 처리 해놓겠습니다! 
+                //search(query); //아직 서치 부분이 잘 작동하지 않아서 주석 처리 해놓겠습니다!
                 return false;
             }
 
@@ -86,7 +104,7 @@ public class SearchPlanActivity  extends AppCompatActivity {
                     planList.clear();
                     planList.putAll(searchList);
                     adapter = new SearchAdapter(planList);
-                    listview.setAdapter(adapter);
+                    mRecyclerView.setAdapter(adapter);
                 }
                 return false;
             }
@@ -115,12 +133,13 @@ public class SearchPlanActivity  extends AppCompatActivity {
         }
 
     }
-    @Override
+
+    /*@Override
     public void onBackPressed() {
         Log.i("testing123", "adapter reset");
         adapter = new SearchAdapter(searchList);
         listview.setAdapter(adapter);
-    }
+    }*/
 
     public void search(String charText) {
 
@@ -134,14 +153,14 @@ public class SearchPlanActivity  extends AppCompatActivity {
         }
         // 문자 입력을 할때..
         else {
-            Log.i("확인", searchList.get(charText).toString());
+            //Log.i("확인", searchList.get(charText).toString());
             // 리스트의 모든 데이터를 검색한다.
-            for (int i = 0; i < searchList.size(); i++) {
+            for (int i = 0; i < planSearch.size(); i++) {
                 // arraylist의 모든 데이터에 입력받은 단어(charText)가 포함되어 있으면 true를 반환한다.
-                if (searchList.get(i).getPlanTitle().toLowerCase().contains(charText)) {
-                    Log.i("searching", "search complete and found : " + searchList.get(i).toString());
+                if (planSearch.get(i).getPlanTitle().contains(charText)) {
+                    //Log.i("searching", "search complete and found : " + searchList.get(i).toString());
                     // 검색된 데이터를 리스트에 추가한다.
-                    planList.put(Integer.toString(planList.size()),searchList.get(i));
+                    planList.put(Integer.toString(planList.size()), planSearch.get(i));
                 }
             }
         }

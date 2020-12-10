@@ -39,7 +39,8 @@ public class PlanRepository {
                     List<DocumentSnapshot> docs = value.getDocuments();
                     for (DocumentSnapshot doc: docs) {
                         temp.put(doc.getId(), doc.toObject(Plan.class));
-                    }plans.setValue(temp);
+                    }
+                    plans.setValue(temp);
                 } else {
                     Log.d(TAG, "Current data:null");
                 }
