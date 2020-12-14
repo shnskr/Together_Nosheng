@@ -13,7 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nolgo10jo">
-        <activity android:name=".view.AdminActivity"></activity>
+
+        <activity android:name=".view.BoardWriteActivity"/>
+        <activity android:name=".view.ItemViewActivity"/>
+        <activity android:name=".view.BoardActivity"/>
+        <activity android:name=".view.AdminUserActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
