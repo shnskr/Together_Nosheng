@@ -26,9 +26,9 @@ public class Plan {
 
     public void setPlanLike(int planLike) { this.planLike = planLike; }
 
-    public Date getDate() { return date; }
+    public Date getPlanDate() { return date; }
 
-    public void setDate(Date date) {
+    public void setPlanDate(Date date) {
         this.date = date;
     }
 

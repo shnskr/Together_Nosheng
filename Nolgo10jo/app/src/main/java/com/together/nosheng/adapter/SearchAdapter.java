@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -27,6 +28,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.CustomView
     private List<String> planId;
 
 
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
+    private OnItemClickListener mListener = null;
+    public void setOnItemClickListener (OnItemClickListener listener){
+        this.mListener = listener;
+    }
+
+
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         protected TextView plan_title;
         protected TextView plan_theme;
@@ -37,6 +47,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.CustomView
             this.plan_title = (TextView) itemView.findViewById(R.id.plan_title);
             this.plan_theme=(TextView) itemView.findViewById(R.id.plan_theme);
             this.plan_like = (TextView) itemView.findViewById(R.id.plan_like);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        if(mListener !=null){
+                            mListener.onItemClick(v,pos);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -77,4 +99,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.CustomView
     public int getItemCount() {
         return (null != plans ? plans.size() :0);
     }
+
+
 }
