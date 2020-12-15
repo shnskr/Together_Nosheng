@@ -18,7 +18,7 @@ import com.together.nosheng.databinding.ActivityFragmentHomeBinding;
 public class HomeFragmentActivity extends Fragment {
 
     private ActivityFragmentHomeBinding homeBinding;
-    private HomeAdapter homeAdapter;
+    //private HomeAdapter homeAdapter;
     FloatingActionButton btn;
 
     @Nullable
