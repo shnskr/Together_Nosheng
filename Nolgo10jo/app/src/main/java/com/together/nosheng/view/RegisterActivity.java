@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,13 +13,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.together.nosheng.databinding.ActivityRegisterBinding;
+import com.together.nosheng.model.user.User;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private ActivityRegisterBinding binding;
 
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,8 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
         String email = binding.email.getText().toString();
         String pw = binding.regPasswd.getText().toString();
         String pwcheck = binding.regPasswdcheck.getText().toString();
+        String nickName = binding.etNickName.getText().toString();
 
-        if(email.length() > 0 && pw.length()>0 && pwcheck.length()>0) {
+        if(email.length() > 0 && pw.length()>0 && pwcheck.length()>0 && nickName.length() > 0) {
             if(pw.equals(pwcheck)){
                 firebaseAuth.createUserWithEmailAndPassword(email, pw)
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -47,6 +56,15 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
+                                    User user = new User();
+                                    user.seteMail(email);
+                                    user.setNickName(nickName);
+                                    user.setProjectList(new ArrayList<>());
+                                    user.setFriendList(new ArrayList<>());
+                                    user.setRegDate(new Date());
+
+                                    addUser(task.getResult().getUser().getUid(), user);
+
                                     startToast("가입성공");
                                     startMyActivity(LoginActivity.class);
                                 } else {
@@ -73,5 +91,19 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void addUser(String uid, User user) {
+        db.collection("User").document(uid)
+                .set(user)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.i("RegisterActivity", "유저 추가 성공 : " + user);
+                        } else {
+                            Log.i("RegisterActivity", "유저 추가 실패 : " + user);
+                        }
+                    }
+                });
+    }
 
 }
