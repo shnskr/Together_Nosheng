@@ -1,6 +1,7 @@
 package com.together.nosheng.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.together.nosheng.R;
 import com.together.nosheng.databinding.SettingFragmentProBinding;
 import com.together.nosheng.model.user.User;
+import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.UserViewModel;
 
 public class SettingFragmentPro extends Fragment {
@@ -45,7 +47,6 @@ public class SettingFragmentPro extends Fragment {
         userViewModel.getLiveUser().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                Log.i("daldal", "변화가 생겨쬬");
                 binding.txtUsername.setText(user.getNickName());
                 binding.txtUseremail.setText(user.geteMail());
             }
@@ -55,6 +56,15 @@ public class SettingFragmentPro extends Fragment {
             @Override
             public void onClick(View v) {
                 changenickName();
+            }
+        });
+
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalApplication.logout();
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                requireActivity().finish();
             }
         });
 
