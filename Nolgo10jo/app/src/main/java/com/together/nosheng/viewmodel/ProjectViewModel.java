@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.repository.ProjectRepository;
 
@@ -16,8 +17,11 @@ import java.util.Map;
 
 public class ProjectViewModel extends ViewModel {
 
+    private String TAG = "ProjectViewModel";
+
     private LiveData<Map<String, Project>> currentProject;
     private LiveData<Map<String, Project>> userProjects;
+    private LiveData<List<Post>> projectPosts;
     private ProjectRepository projectRepository;
 
     public ProjectViewModel() {
@@ -30,6 +34,7 @@ public class ProjectViewModel extends ViewModel {
 
     public void setCurrentProject(String projectId) {
         currentProject = projectRepository.getCurrentProject(projectId);
+        Log.i(TAG, "project view model 접근 완료");
     }
 
     public void addUserProject(Project userProject) {
@@ -46,5 +51,14 @@ public class ProjectViewModel extends ViewModel {
 
     public LiveData<Map<String, Project>> getUserProjects() {
         return userProjects;
+    }
+
+    public void addPost(String projectId, List<Post> posts) {
+        projectRepository.addPost(projectId, posts);
+    }
+
+    public LiveData<List<Post>> getProjectPosts(String projectID) {
+        projectRepository.getProjectPosts(projectID);
+        return projectPosts;
     }
 }
