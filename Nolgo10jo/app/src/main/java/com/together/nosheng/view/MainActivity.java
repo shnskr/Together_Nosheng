@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if (GlobalApplication.firebaseUser == null) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
         } else {
             projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
             userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
