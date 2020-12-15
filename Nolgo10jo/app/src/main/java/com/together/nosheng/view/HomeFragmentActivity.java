@@ -31,13 +31,8 @@ import java.util.Map;
 public class HomeFragmentActivity extends Fragment {
 
     private ActivityFragmentHomeBinding homeBinding;
-<<<<<<< HEAD
-    //private HomeAdapter homeAdapter;
-    FloatingActionButton btn;
-=======
 
     private ProjectViewModel projectViewModel;
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
 
     @Nullable
     @Override

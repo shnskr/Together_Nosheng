@@ -10,15 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-<<<<<<< HEAD
-
-import com.together.nosheng.R;
-import com.together.nosheng.databinding.ActivityFragmentSettingBinding;
-
-public class SettingFragment extends Fragment {
-
-
-=======
 import androidx.lifecycle.ViewModelProvider;
 
 import com.together.nosheng.R;
@@ -27,35 +18,10 @@ import com.together.nosheng.viewmodel.UserViewModel;
 
 public class SettingFragment extends Fragment {
 
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
     public static SettingFragment newInstance() {
         return new SettingFragment();
     }
 
-<<<<<<< HEAD
-
-    private ActivityFragmentSettingBinding binding;
-    private View view;
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //view = inflater.inflate(R.layout.activity_fragment_setting,container,false);
-        binding = DataBindingUtil.inflate(inflater, R.layout.activity_fragment_setting,container,false);
-        View root = binding.getRoot();
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        SettingFragmentPro pro = new SettingFragmentPro();
-        transaction.replace(R.id.framelaout2,pro);
-        transaction.commit();
-        binding.btnPro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SettingFragmentPro pro = new SettingFragmentPro();
-                ((MainActivity)getActivity()).replaceFragment(SettingFragmentPro.newInstance());
-            }
-        });
-
-        return root;
-=======
     private ActivityFragmentSettingBinding binding;
     private FragmentTransaction transaction;
 
@@ -114,6 +80,5 @@ public class SettingFragment extends Fragment {
             }
         });
         return view;
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
     }
 }

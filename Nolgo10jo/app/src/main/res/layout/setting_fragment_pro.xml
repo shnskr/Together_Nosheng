@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<<<<<<< HEAD
-<layout
-=======
 <layout xmlns:tools="http://schemas.android.com/tools"
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
@@ -14,10 +10,7 @@
     android:layout_width="305dp"
     android:layout_height="650dp"
     android:id="@+id/fragment_pro"
-<<<<<<< HEAD
-=======
     android:background="@color/maincolor"
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
     >
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -84,8 +77,6 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_mytrip"
         app:srcCompat="@drawable/ic_map" />
 
-<<<<<<< HEAD
-=======
     <Button
         android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
@@ -95,7 +86,6 @@
         android:text="로그아웃"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

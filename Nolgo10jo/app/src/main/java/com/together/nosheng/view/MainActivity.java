@@ -1,21 +1,10 @@
 package com.together.nosheng.view;
-<<<<<<< HEAD
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-=======
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-<<<<<<< HEAD
-import androidx.lifecycle.ViewModelProvider;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-=======
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -27,7 +16,6 @@ import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseUser;
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
 import com.together.nosheng.R;
 import com.together.nosheng.adapter.HomeAdapter;
 import com.together.nosheng.databinding.ActivityMainBinding;
@@ -53,17 +41,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-<<<<<<< HEAD
-
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
-        if (userViewModel.firebaseUser.getValue() == null) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }
-
-
-=======
         if (GlobalApplication.firebaseUser == null) {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
@@ -73,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
             BottomNavigationView bottomNavigationView = findViewById(binding.bottomNavigation.getId());
             bottomNavigationView.setOnNavigationItemSelectedListener(navigationListener);
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
 
             bottomNavigationView.setSelectedItemId(R.id.nav_home);
 
@@ -98,11 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-<<<<<<< HEAD
-        fragmentTransaction.replace(R.id.framelaout2,fragment).commit();
-=======
         fragmentTransaction.replace(R.id.framelaout2, fragment).commit();
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
@@ -118,11 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_search:
                             selectedFragment = new SearchFragmentActivity();
                             break;
-<<<<<<< HEAD
-                        case R.id.nav_setting :
-=======
                         case R.id.nav_setting:
->>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
                             selectedFragment = SettingFragment.newInstance();
                             //selectedFragment = new SettingFragmentActivity();
                             break;
