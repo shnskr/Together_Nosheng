@@ -10,16 +10,34 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.together.nosheng.adapter.HomeAdapter;
 import com.together.nosheng.databinding.ActivityFragmentHomeBinding;
+import com.together.nosheng.model.project.Project;
+import com.together.nosheng.viewmodel.ProjectViewModel;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class HomeFragmentActivity extends Fragment {
 
     private ActivityFragmentHomeBinding homeBinding;
+<<<<<<< HEAD
     //private HomeAdapter homeAdapter;
     FloatingActionButton btn;
+=======
+
+    private ProjectViewModel projectViewModel;
+>>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
 
     @Nullable
     @Override
@@ -28,16 +46,24 @@ public class HomeFragmentActivity extends Fragment {
         homeBinding = ActivityFragmentHomeBinding.inflate(inflater, container, false);
         View view = homeBinding.getRoot();
 
-        Log.i("aptpsldkmfwlekf", "sdfsdfs");
+        projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
+        projectViewModel.setUserProjects();
+
+        projectViewModel.getUserProjects().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
+            @Override
+            public void onChanged(Map<String, Project> userProject) {
+                homeBinding.lvProject.setAdapter(new HomeAdapter(userProject));
+            }
+        });
+
         homeBinding.btnNewTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("ㅁㄴㅇㅁ", "ㅂㅂㅂ");
-                Intent intent = new Intent(getActivity(), BottomBtnActivity.class);
+                Intent intent = new Intent(getActivity(), NewTripActivity.class);
                 startActivity(intent);
             }
         });
-        Log.i("aptpsldkmfwlekf", "sdfsd654132fs");
         return view;
     }
+
 }

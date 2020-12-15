@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,15 +22,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.together.nosheng.databinding.ActivityLoginBinding;
+import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private ActivityLoginBinding binding;
-
-    private UserViewModel userViewModel;
 
     private GoogleApiClient googleApiClient; // 구글 API 클라이언트 객체
     private static final int REQ_SIGN_GOOGLE = 100; // 구글 로그인 결과 코드
@@ -41,11 +42,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
-        if (userViewModel.firebaseUser.getValue() != null) {
-            Intent intent = new Intent (LoginActivity.this, MainActivity.class);
-            startActivity(intent);
+        if (GlobalApplication.firebaseUser != null) {
+            startActivity(new Intent (LoginActivity.this, MainActivity.class));
+            finish();
         }
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
+                                            GlobalApplication.setFirebaseUser();
                                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                             startActivity(intent);
                                         } else {
@@ -116,6 +116,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 startActivityForResult(intent, REQ_SIGN_GOOGLE);
             }
         });
+
+        binding.btnAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, AdminUserActivity.class));
+            }
+        });
     }
 
     // 구글 로그인 인증을 요청 했을 때 결과 값을 되돌려 받는 곳
@@ -143,13 +150,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) { // 로그인 성공 시
-                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-
-//                            intent.putExtra("nickName", account.getDisplayName());
-//                            intent.putExtra("photoUrl", String.valueOf(account.getPhotoUrl())); // String.valueof : 특정 자료형을 String 형태로 반환
-
-//                            startActivity(intent);
+                            Toast.makeText(LoginActivity.this, "구글 로그인 성공", Toast.LENGTH_SHORT).show();
+                            GlobalApplication.setFirebaseUser();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else { // 로그인 실패 시

@@ -1,7 +1,13 @@
 package com.together.nosheng.view;
 
 import android.content.DialogInterface;
+<<<<<<< HEAD
 import android.os.Bundle;
+=======
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+>>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +26,18 @@ import androidx.lifecycle.ViewModelProvider;
 import com.together.nosheng.R;
 import com.together.nosheng.databinding.SettingFragmentProBinding;
 import com.together.nosheng.model.user.User;
+<<<<<<< HEAD
 import com.together.nosheng.viewmodel.UserViewModel;
 
 public class SettingFragmentPro extends Fragment {
     private UserViewModel userViewModel  = new UserViewModel();
+=======
+import com.together.nosheng.util.GlobalApplication;
+import com.together.nosheng.viewmodel.UserViewModel;
+
+public class SettingFragmentPro extends Fragment {
+    private UserViewModel userViewModel;
+>>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
 
     public static SettingFragmentPro newInstance() {
         return new SettingFragmentPro();
@@ -38,8 +52,15 @@ public class SettingFragmentPro extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.setting_fragment_pro,container,false);
         View root = binding.getRoot();
 
+<<<<<<< HEAD
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.userModelLiveData().observe(getViewLifecycleOwner(), new Observer<User>() {
+=======
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        userViewModel.setLiveUser();
+
+        userViewModel.getLiveUser().observe(getViewLifecycleOwner(), new Observer<User>() {
+>>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
             @Override
             public void onChanged(User user) {
                 binding.txtUsername.setText(user.getNickName());
@@ -54,6 +75,18 @@ public class SettingFragmentPro extends Fragment {
             }
         });
 
+<<<<<<< HEAD
+=======
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalApplication.logout();
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                requireActivity().finish();
+            }
+        });
+
+>>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
         return root;
 
 

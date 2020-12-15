@@ -11,5 +11,9 @@
     <color name = "jinBlack">#242424</color>
     <color name="softBlack">#7E7E7E</color>
     <color name="hite">#FFFFFF</color>
+<<<<<<< HEAD
 
+=======
+    <color name="hotpink">#E91E63</color>
+>>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
 </resources>

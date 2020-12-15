@@ -6,15 +6,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
+        android:id="@+id/lv_project"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerView"
-        android:orientation="vertical"
-        android:padding="5dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:padding="5dp">
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </ListView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_newTrip"

@@ -14,21 +14,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register" />
+        android:text="회원가입" />
 
     <!-- Edit text for email -->
     <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your Email" />
+        android:hint="Email" />
 
     <!-- Edit text for password -->
     <EditText
         android:id="@+id/reg_passwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your Password"
+        android:hint="비밀번호"
         android:inputType="textPassword" />
 
     <!-- Button for register with text "Register" -->
@@ -37,14 +37,14 @@
         android:id="@+id/reg_passwdcheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Re-Enter your Password"
+        android:hint="비밀번호 확인"
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/btnregister"
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register" />
+        android:text="회원가입" />
 
     <!-- ProgressBar for loading time -->
     <ProgressBar

@@ -38,23 +38,35 @@ dependencies {
     // 구글 로그인
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
+    // 구글 place
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.firebase:firebase-functions:19.1.0'
+
     // ACC
     def lifecycle_version = "2.2.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    // firebase
     implementation platform('com.google.firebase:firebase-bom:26.0.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-database:19.5.1'
     implementation 'com.google.firebase:firebase-auth:20.0.1'
+    implementation 'com.google.firebase:firebase-firestore:22.0.0'
+    implementation 'com.google.firebase:firebase-storage:19.2.0'
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+    // Import Calendar for calendarPicker
+    implementation 'com.squareup:android-times-square:1.6.5@aar'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+<<<<<<< HEAD
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.google.firebase:firebase-analytics'
@@ -63,6 +75,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation 'com.google.firebase:firebase-firestore:22.0.0'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
+=======
+    implementation 'com.google.android.gms:play-services-gcm:17.0.0'
+>>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
@@ -74,9 +89,12 @@ dependencies {
 
     implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
 
+<<<<<<< HEAD
     def arch_version = "2.1.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+=======
+>>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'

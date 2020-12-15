@@ -9,7 +9,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_shadow_start_color">
+    android:background="@color/maincolor">
 
 
     <Button
@@ -72,6 +72,70 @@
         android:textColor="#FFFFFF"
         android:textSize="12sp"/>
 
+<<<<<<< HEAD
+
+    <Button
+        android:id="@+id/btn_pro"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:text="프로필"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_mark"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        android:text="북마크"
+        app:layout_constraintEnd_toEndOf="@+id/btn_pro"
+        app:layout_constraintStart_toStartOf="@+id/btn_pro"
+        app:layout_constraintTop_toBottomOf="@+id/btn_pro"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        />
+
+    <Button
+        android:id="@+id/btn_fre"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        android:text="친구"
+        app:layout_constraintEnd_toEndOf="@+id/btn_mark"
+        app:layout_constraintStart_toStartOf="@+id/btn_mark"
+        app:layout_constraintTop_toBottomOf="@+id/btn_mark"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"/>
+    <Button
+        android:id="@+id/btn_common"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        android:text="일반"
+        app:layout_constraintEnd_toEndOf="@+id/btn_fre"
+        app:layout_constraintStart_toStartOf="@+id/btn_fre"
+        app:layout_constraintTop_toBottomOf="@+id/btn_fre"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"/>
+
+    <Button
+        android:id="@+id/btn_info"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        android:text="정보"
+        app:layout_constraintEnd_toEndOf="@+id/btn_common"
+        app:layout_constraintStart_toStartOf="@+id/btn_common"
+        app:layout_constraintTop_toBottomOf="@+id/btn_common"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"/>
+
+=======
+>>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
     <FrameLayout
         android:id="@+id/framelaout2"
         android:layout_width="305dp"

@@ -6,18 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-
-
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_navigation" >
+<<<<<<< HEAD
 
 
 
 
 
+=======
+>>>>>>> 9e9310ffcb3c03b6acde7cdc93f70eb13219809c
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
