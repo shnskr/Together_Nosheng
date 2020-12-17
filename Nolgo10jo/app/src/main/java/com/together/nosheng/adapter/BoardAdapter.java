@@ -133,8 +133,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                   Log.d("성공!","성공!!!!!!!!!!!!!!!!");
-                                   Log.i("지우기성공",documentId);
+                                    Log.d("성공!","성공!!!!!!!!!!!!!!!!");
+                                    Log.i("지우기성공",documentId);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -145,7 +145,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
                             });
                 }
             });
-  /////////////////////          /////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////          /////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
 
 

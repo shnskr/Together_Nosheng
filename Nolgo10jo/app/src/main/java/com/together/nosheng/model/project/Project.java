@@ -17,8 +17,6 @@ public class Project {
     private Map<String, String> tags; // Key : 유저 id, Value : Tag name
     private List<Post> posts; // 게시글 목록
     private Map<String, CheckList> checkLists; // Key : 유저 ID,  Value : CheckList class(체크리스트 항목)
-//    private Map<String, PinMember> pinMembers;
-//    private Map<String, PinRecommend> pinRecommends;
     private List<User> members;
     private List<Plan> plans;
 
@@ -93,14 +91,6 @@ public class Project {
     public void setMembers(List<User> members) {
         this.members = members;
     }
-
-//    public String getProjectId() {
-//        return projectId;
-//    }
-//
-//    public void setProjectId(String projectId) {
-//        this.projectId = projectId;
-//    }
 
     public List<Plan> getPlans() {
         return plans;

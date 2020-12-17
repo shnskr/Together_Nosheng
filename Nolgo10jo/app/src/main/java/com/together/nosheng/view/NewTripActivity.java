@@ -43,9 +43,6 @@ public class NewTripActivity extends AppCompatActivity {
 
     private ActivityNewTripBinding newTripBinding;
 
-//    private Date today;
-//    private Date startDate;
-//    private Date endDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

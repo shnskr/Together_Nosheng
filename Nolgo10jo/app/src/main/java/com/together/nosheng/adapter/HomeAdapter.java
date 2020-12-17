@@ -62,11 +62,4 @@ public class HomeAdapter extends BaseAdapter {
         return projectView;
     }
 
-//    public ArrayList<Project> getProjects(){
-//        ArrayList<Project> tripData = new ArrayList<>();
-//        for(int x = 0; x < projects.size(); x++){
-//            tripData.add(projects.get(x));
-//        }
-//        return tripData;
-//    }
 }

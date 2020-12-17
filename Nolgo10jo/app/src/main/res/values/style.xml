@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="MyAlertDialogStyle" parent="@style/Theme.AppCompat.Dialog.Alert">
+    <style name="MyAlertDialogStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
 
         <item name="android:textColor">@color/white</item>
 
