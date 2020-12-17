@@ -1,7 +1,6 @@
 package com.together.nosheng.repository;
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
@@ -10,6 +9,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -21,30 +24,30 @@ import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
+import com.together.nosheng.viewmodel.ProjectViewModel;
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ProjectRepository {
+    private FirebaseFirestore db;
 
+    private ProjectViewModel projectViewModel;
+    //    private MutableLiveData<Project> liveProject = new MutableLiveData<>();
+    private MutableLiveData<Map<String, Project>> currentProject= new MutableLiveData<>();
     private String TAG = "ProjectRepository";
 
-    private FirebaseFirestore db;
-    private MutableLiveData<Map<String, Project>> currentProject = new MutableLiveData<>();
-    private MutableLiveData<Map<String, Project>> userProject = new MutableLiveData<>();
-    private MutableLiveData<List<Post>> projectPosts = new MutableLiveData<>();
-
     private String userId;
-    private List<Post> posts = new ArrayList<>();
+    private MutableLiveData<Map<String, Project>> userProject = new MutableLiveData<>();
+    private Map<String, Project> userProjectMap = new HashMap<>();
+    private List<Post> posts;
+    private MutableLiveData<List<Post>> projectPosts = new MutableLiveData<>();
 
     public ProjectRepository() {
         db = FirebaseFirestore.getInstance();
     }
 
-    //기존 date Datepicker에 표시
     public MutableLiveData<Map<String, Project>> getDatepicker(String projectId) {
         DocumentReference docRef = db.collection("Project").document(projectId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -69,7 +72,7 @@ public class ProjectRepository {
     }
 
 
-    //로그인한 user에게 project 추가
+
     public void addUserProject(Project userProject) {
         db.collection("Project")
                 .add(userProject)
@@ -87,14 +90,12 @@ public class ProjectRepository {
                 });
     }
 
-    //user project update - 전체 필드 set
     public void updateUserProject(Project userProject, String projectId) {
         db.collection("Project").document(projectId)
                 .set(userProject, SetOptions.merge());
     }
 
-    //Datepicker date db 저장
-    public void datepickerUpdate() {
+    public void datepickerUpdate(){
         db.collection("Project").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -103,8 +104,8 @@ public class ProjectRepository {
                     return;
                 }
 
-                if (value != null) {
-                    Log.w(TAG, "여기가 되나안되나 함 봅시다 : " + value.getDocuments());
+                if(value != null) {
+                    Log.w(TAG, "여기가 되나안되나 함 봅시다 : "+ value.getDocuments());
                     value.toObjects(Project.class);
 //                    liveProject.setValue(document.add);
                 }
@@ -112,7 +113,6 @@ public class ProjectRepository {
         });
     }
 
-    //로그인된 사용자 프로젝트 가져오기.
     public MutableLiveData<Map<String, Project>> getUserProject() {
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -132,10 +132,9 @@ public class ProjectRepository {
                                         DocumentSnapshot document = task.getResult();
                                         if (task.isSuccessful()) {
                                             if (document.exists()) {
-                                                Map<String, Project> temp = new HashMap<>();
-                                                temp.put(projectId, document.toObject(Project.class));
+                                                userProjectMap.put(projectId, document.toObject(Project.class));
                                                 Log.i(TAG, projectId);
-                                                userProject.setValue(temp);
+                                                userProject.setValue(userProjectMap);
                                             }
                                         } else {
                                             Log.i(TAG, "유저 프로젝트가 null임");
@@ -149,7 +148,6 @@ public class ProjectRepository {
         return userProject;
     }
 
-    //현재 진입한 프로젝트
     public MutableLiveData<Map<String, Project>> getCurrentProject(String projectId) {
         db.collection("Project").document(projectId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -160,68 +158,26 @@ public class ProjectRepository {
                 }
 
                 if (value != null && value.exists()) {
-                    Map<String, Project> currentProject_ = new HashMap<>();
-                    currentProject_.put(projectId, value.toObject(Project.class));
-                    currentProject.setValue(currentProject_);
+                    Map<String, Project> currenProject = new HashMap<>();
+                    currenProject.put(projectId, value.toObject(Project.class));
+                    currentProject.setValue(currenProject);
                 }
             }
         });
         return currentProject;
     }
 
-    //post list
-    public MutableLiveData<List<Post>> getProjectPosts(String projectId) {
+    public void addPost(String projectId, List<Post> posts) {
         db.collection("Project").document(projectId)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                .update("posts",posts)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Log.w(TAG, "add SnapshotListener failed", error);
-                            return;
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Log.i(TAG, "");
+                        } else {
+                            Log.e(TAG, "add post error !");
                         }
-                        if (value != null) {
-                            List<Post> postList = value.toObject(Project.class).getPosts();
-
-                            for (int i = 0; postList.size() >= i; i++) {
-                                db.collection("Project").document(projectId).get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                DocumentSnapshot documentSnapshot = task.getResult();
-                                                if (task.isSuccessful()) {
-                                                    if (documentSnapshot.exists()) {
-                                                        List<Post> temp = new ArrayList<>();
-                                                        temp.add(documentSnapshot.toObject(Post.class));
-                                                        Log.i(TAG, projectId);
-                                                        projectPosts.setValue(temp);
-                                                    } else {
-                                                        Log.i(TAG, "Project Repository is null");
-                                                    }
-                                                }
-                                            }
-                                        });
-                            }
-                        }
-                    }
-                });
-        return projectPosts;
-    }
-
-    //새로 작성한 post 올리기
-    public void addPost(String projectId, List<Post> posts){
-        DocumentReference doc = db.collection("Project").document(projectId);
-
-        doc.update("posts", posts)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(TAG, "Success adding new Post");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding new Post", e);
                     }
                 });
     }

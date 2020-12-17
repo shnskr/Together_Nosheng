@@ -16,6 +16,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:divider="@null"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:focusable="false"/>
 
 </LinearLayout>

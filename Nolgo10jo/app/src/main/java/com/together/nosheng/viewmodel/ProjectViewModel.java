@@ -57,8 +57,4 @@ public class ProjectViewModel extends ViewModel {
         projectRepository.addPost(projectId, posts);
     }
 
-    public LiveData<List<Post>> getProjectPosts(String projectID) {
-        projectRepository.getProjectPosts(projectID);
-        return projectPosts;
-    }
 }

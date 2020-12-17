@@ -58,16 +58,6 @@ public class BoardFragmentActivity extends Fragment implements View.OnClickListe
         boardBinding.fabSub1.setOnClickListener(this);
         boardBinding.fabSub2.setOnClickListener(this);
 
-//        for (Fragment fragment: getActivity().getSupportFragmentManager().getFragments()) {
-//            if (fragment.isVisible()) {
-//                if(fragment instanceof NewPostFragment){
-//                    boardBinding.fabMain.setVisibility(View.GONE);
-//                } else {
-//                    boardBinding.fabMain.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        }
-
         return view;
     }
 

@@ -9,19 +9,15 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.Timestamp;
 import com.together.nosheng.R;
-import com.together.nosheng.databinding.ActivityFragmentBoardBinding;
 import com.together.nosheng.databinding.FragmentNewPostBinding;
 import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
@@ -62,6 +58,17 @@ public class NewPostFragment extends Fragment implements
         postBinding = FragmentNewPostBinding.inflate(inflater, container, false);
         View view = postBinding.getRoot();
 
+
+        Log.i("dddddddddddddd", "emfdjdkTsk?");
+        Bundle bundle = getArguments();
+        Log.i("KKKKKkkkkkkkk",bundle+"");
+
+        if(bundle != null){
+            int position = bundle.getInt("position");
+            Log.i("sdggggggggggggg", String.valueOf(position));
+
+        }
+
         projectId = getActivity().getIntent().getStringExtra("projectId");
         projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
         projectViewModel.getCurrentProject().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
@@ -78,6 +85,8 @@ public class NewPostFragment extends Fragment implements
         } else {
             disableContentInteraction();
         }
+
+
 
         return view;
     }

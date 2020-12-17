@@ -11,16 +11,12 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
-import com.together.nosheng.adapter.ViewPagerAdapter;
+import com.together.nosheng.adapter.TabAdapter;
 import com.together.nosheng.databinding.LayoutTabBinding;
-import com.together.nosheng.model.project.Project;
 import com.together.nosheng.viewmodel.ProjectViewModel;
-
-import java.util.Map;
 
 public class TabActivity extends AppCompatActivity {
 
@@ -40,7 +36,7 @@ public class TabActivity extends AppCompatActivity {
 
         projectViewModel.setCurrentProject(projectId);
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        TabAdapter viewPagerAdapter = new TabAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         tabBinding.viewPager.setAdapter(viewPagerAdapter);
 
         tabBinding.layTab.setupWithViewPager(tabBinding.viewPager);

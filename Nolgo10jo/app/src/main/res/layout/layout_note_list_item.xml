@@ -7,7 +7,8 @@
     android:weightSum="100"
     android:background="@drawable/layout_note_item"
     android:gravity="center_vertical"
-    android:layout_marginBottom="3dp">
+    android:layout_marginBottom="3dp"
+    android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,8 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center"
-            android:layout_marginRight="15dp">
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/txt_notice"
@@ -62,7 +62,7 @@
                 android:textSize="15sp"
                 android:textColor="#B80F0A"
                 android:textStyle="bold"
-                android:visibility="invisible"/>
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/txt_write_date"
@@ -73,6 +73,24 @@
                 android:text="YY.MM.DD"
                 android:padding="10dp" />
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:background="@null"
+                android:layout_margin="10dp"
+                android:focusable="false"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
+                android:contextClickable="false"/>
         </LinearLayout>
 
     </LinearLayout>
