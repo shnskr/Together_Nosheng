@@ -23,14 +23,8 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="화폐 단위 (원)"-->
-        <!--            android:textSize="15sp"-->
-        <!--            android:textStyle="bold" />-->
-
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -198,6 +192,7 @@
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/etxt_total"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"

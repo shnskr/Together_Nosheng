@@ -18,7 +18,6 @@ public class UserViewModel extends ViewModel {
     private LiveData<User> liveUser;
     private UserRepository userRepository;
     private LiveData<ArrayList<String>> friendNickName;
-    private static String Userid;
 
     String TAG = "User ViewModel : ";
 
