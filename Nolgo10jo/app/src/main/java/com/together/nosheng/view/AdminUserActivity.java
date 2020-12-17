@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -14,10 +15,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.together.nosheng.R;
 import com.together.nosheng.adapter.UserListAdapter;
 import com.together.nosheng.databinding.ActivityAdminUserBinding;
 import com.together.nosheng.model.user.User;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +31,16 @@ public class AdminUserActivity extends AppCompatActivity implements View.OnClick
 
     private ActivityAdminUserBinding binding;
 
+    private ListView listView;
+
     FirebaseFirestore db;
     UserListAdapter userListAdapter = new UserListAdapter();
+
+    private StorageReference mStorageRef;
+    private UploadTask uploadTask;
+    private List<User> userList;
+    private File tempFile;
+    private String path;//이미지 경로
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +49,15 @@ public class AdminUserActivity extends AppCompatActivity implements View.OnClick
         setContentView(binding.getRoot());
 
         db = FirebaseFirestore.getInstance();
+        Log.i("start","start");
+
+        //ListView 아이디 : ListView Id
+        listView = (ListView)findViewById(R.id.lv_user);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        userList = new ArrayList<>();
+
+//        ImageView iv = findViewById(R.id.iv_admin);
 
         db.collection("User")
                 .get()

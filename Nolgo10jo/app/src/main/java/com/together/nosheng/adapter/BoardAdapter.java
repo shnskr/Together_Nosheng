@@ -77,8 +77,9 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
                 Intent intent = new Intent(context, ItemViewActivity.class);
                 intent.putExtra("title", data.getTitle());
                 intent.putExtra("contents", data.getContents());
-                intent.putExtra("date", "작성일:" + format.format(data.getDate()));
-                intent.putExtra("docId", "작성자:"+data.getDocId());
+                intent.putExtra("date", format.format(data.getDate()));
+                intent.putExtra("docId", data.getDocId());
+                intent.putExtra("documentId", data.getDocumentId());
                 context.startActivity(intent);
             }
         });
