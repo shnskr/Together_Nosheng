@@ -24,4 +24,9 @@ public class GlobalApplication extends Application {
     public static void setFirebaseUser() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     }
+
+    public static void logout() {
+        FirebaseAuth.getInstance().signOut();
+        setFirebaseUser();
+    }
 }

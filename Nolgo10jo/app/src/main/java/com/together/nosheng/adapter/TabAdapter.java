@@ -12,9 +12,9 @@ import com.together.nosheng.view.MemeberFragmentActivity;
 import com.together.nosheng.view.PlanFragmentActivity;
 import com.together.nosheng.view.TripInfoFragmentActivity;
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+public class TabAdapter extends FragmentStatePagerAdapter {
 
-    public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+    public TabAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
 

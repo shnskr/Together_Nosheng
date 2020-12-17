@@ -1,12 +1,8 @@
 package com.together.nosheng.model.user;
 
-import com.google.firebase.Timestamp;
-import com.together.nosheng.model.project.Project;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class User {
     private String eMail;
@@ -67,8 +63,8 @@ public class User {
         return regDate;
     }
 
-    public void setRegDate(Timestamp regDate) {
-        this.regDate = regDate.toDate();
+    public void setRegDate(Date regDate) {
+        this.regDate = regDate;
     }
 
     public String getThumbnail() {
@@ -77,5 +73,17 @@ public class User {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "eMail='" + eMail + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", regDate=" + regDate +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", friendList=" + friendList +
+                ", projectList=" + projectList +
+                '}';
     }
 }

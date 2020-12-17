@@ -49,7 +49,7 @@ public class TripInfoFragmentActivity extends Fragment {
 
     private ActivityFragmentTripinfoBinding tripinfoBinding;
 
-    String TAG = "DB 연동 가즈아~~~~~~~~~~~";
+    String TAG = "TripInfoFragmentActivity";
 
     @Nullable
     @Override

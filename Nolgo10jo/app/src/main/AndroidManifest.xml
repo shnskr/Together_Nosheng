@@ -22,11 +22,12 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
+        <activity android:name=".view.SearchPlanDetailActivity" />
         <activity android:name=".view.MemberInfoActivity" />
         <activity android:name=".view.RegisterActivity" />
         <activity android:name=".view.LoginActivity" />
         <activity android:name=".view.PasswordResetActivity" />
+        <activity android:name=".view.PostActivity" />
         <activity android:name=".view.SearchPlanActivity">
             <meta-data
                 android:name="android.app.searchable"

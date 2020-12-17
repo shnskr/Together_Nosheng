@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#73C2FB">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+        <ListView
+            android:id="@+id/lv_post"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:divider="@null"
+            android:padding="5dp"
+            android:focusable="false"/>
+
+</LinearLayout>

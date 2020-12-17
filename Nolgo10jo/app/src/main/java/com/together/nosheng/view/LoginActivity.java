@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         if (GlobalApplication.firebaseUser != null) {
             startActivity(new Intent (LoginActivity.this, MainActivity.class));
+            finish();
         }
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {

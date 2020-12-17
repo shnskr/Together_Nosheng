@@ -4,9 +4,10 @@ import java.util.Date;
 
 public class Post {
     private String title;
-    private String writer;
+    private String content;
     private Date regDate;
     private boolean notice;
+    private String nickName;
 
     public String getTitle() {
         return title;
@@ -16,12 +17,12 @@ public class Post {
         this.title = title;
     }
 
-    public String getWriter() {
-        return writer;
+    public String getContent() {
+        return content;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getRegDate() {
@@ -38,5 +39,24 @@ public class Post {
 
     public void setNotice(boolean notice) {
         this.notice = notice;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", regDate=" + regDate +
+                ", notice=" + notice +
+                ", nickName='" + nickName + '\'' +
+                '}';
     }
 }

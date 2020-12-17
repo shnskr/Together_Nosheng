@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
@@ -33,12 +34,15 @@ public class ProjectRepository {
     private FirebaseFirestore db;
 
     private ProjectViewModel projectViewModel;
-//    private MutableLiveData<Project> liveProject = new MutableLiveData<>();
+    //    private MutableLiveData<Project> liveProject = new MutableLiveData<>();
     private MutableLiveData<Map<String, Project>> currentProject= new MutableLiveData<>();
     private String TAG = "ProjectRepository";
 
     private String userId;
     private MutableLiveData<Map<String, Project>> userProject = new MutableLiveData<>();
+    private Map<String, Project> userProjectMap = new HashMap<>();
+    private List<Post> posts;
+    private MutableLiveData<List<Post>> projectPosts = new MutableLiveData<>();
 
     public ProjectRepository() {
         db = FirebaseFirestore.getInstance();
@@ -128,10 +132,9 @@ public class ProjectRepository {
                                         DocumentSnapshot document = task.getResult();
                                         if (task.isSuccessful()) {
                                             if (document.exists()) {
-                                                Map<String, Project> temp = new HashMap<>();
-                                                temp.put(projectId, document.toObject(Project.class));
+                                                userProjectMap.put(projectId, document.toObject(Project.class));
                                                 Log.i(TAG, projectId);
-                                                userProject.setValue(temp);
+                                                userProject.setValue(userProjectMap);
                                             }
                                         } else {
                                             Log.i(TAG, "유저 프로젝트가 null임");
@@ -157,9 +160,26 @@ public class ProjectRepository {
                 if (value != null && value.exists()) {
                     Map<String, Project> currenProject = new HashMap<>();
                     currenProject.put(projectId, value.toObject(Project.class));
+                    currentProject.setValue(currenProject);
                 }
             }
         });
         return currentProject;
     }
+
+    public void addPost(String projectId, List<Post> posts) {
+        db.collection("Project").document(projectId)
+                .update("posts",posts)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Log.i(TAG, "");
+                        } else {
+                            Log.e(TAG, "add post error !");
+                        }
+                    }
+                });
+    }
+
 }   //end class
