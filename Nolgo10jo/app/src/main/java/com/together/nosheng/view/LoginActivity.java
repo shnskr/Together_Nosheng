@@ -117,12 +117,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        binding.btnAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, AdminUserActivity.class));
-            }
-        });
     }
 
     // 구글 로그인 인증을 요청 했을 때 결과 값을 되돌려 받는 곳

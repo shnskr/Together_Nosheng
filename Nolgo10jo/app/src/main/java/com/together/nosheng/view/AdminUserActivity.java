@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -80,11 +81,25 @@ public class AdminUserActivity extends AppCompatActivity implements View.OnClick
 
         binding.btnGoboard.setOnClickListener(this);
 
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {//아이템 클릭시 해당유저 프로젝트로
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String data = (String) parent.getItemAtPosition(position);
+
+            }
+        });
+
+
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) {//게시판이동
         Intent intent = new Intent(AdminUserActivity.this, BoardActivity.class);
         startActivity(intent);
     }
+
+
+
+
 }
