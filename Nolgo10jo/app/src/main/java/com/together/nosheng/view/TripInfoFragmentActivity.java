@@ -43,9 +43,9 @@ public class TripInfoFragmentActivity extends Fragment {
 
     private Project project;
     private ProjectViewModel projectViewModel;
-    String projectId;
 
-    private ArrayList<Date> tripPeriod;
+    private String projectId;
+    private ArrayList tripPeriod;
 
     private ActivityFragmentTripinfoBinding tripinfoBinding;
 
@@ -60,20 +60,29 @@ public class TripInfoFragmentActivity extends Fragment {
 
         project = new Project();
         projectViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
-        projectId = getActivity().getIntent().getStringExtra("projectId");
 
+        projectId = getActivity().getIntent().getStringExtra("projectId");
+        String title =  projectViewModel.getCurrentProject().getValue().get(projectId).getTitle();
+        project.setTitle(title);
         tripinfoBinding.setProjectId(projectId);
+        tripinfoBinding.setTest(project);
+
+        projectViewModel.getCurrentProject().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
+            @Override
+            public void onChanged(Map<String, Project> stringProjectMap) {
+                Log.i("들어오나?", "??");
+                initDate();
+            }
+        });
 
         //code duplicate
-        String tripCode = tripinfoBinding.txtTripCode.getText().toString();
-
         tripinfoBinding.btnDuplicate.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
 
                     ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
-                    ClipData clipData = ClipData.newPlainText("Trip Code", tripCode);
+                    ClipData clipData = ClipData.newPlainText("Trip Code", projectId);
                     clipboardManager.setPrimaryClip(clipData);
 
                     Toast.makeText(getContext(), "Trip Code 복사 완료", Toast.LENGTH_SHORT).show();
@@ -94,39 +103,25 @@ public class TripInfoFragmentActivity extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                tripinfoBinding.txtCountLength.setText(s.length()+"글자");   //글자수 TextView에 보여주기.
+                tripinfoBinding.txtCountLength.setText(25-s.length()+"글자");   //글자수 TextView에 보여주기.
             }
         });
 
-        //EditText Enter key 방지
-        tripinfoBinding.etxtTitle.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
+        //calendar function
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
 
-
-
-        Date today = new Date();
-
+        Calendar pastYear = Calendar.getInstance();
+        pastYear.add(Calendar.YEAR, -1);
         Calendar nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR,2);
 
         initDate();
 
-//        projectViewModel.projectLiveData().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
-//                    @Override
-//                    public void onChanged(Map<String, Project> stringProjectMap) {
-//                        initDate();
-//                    }
-//                });
+        Log.i(TAG+"tripPeriod", tripPeriod.toString()+"2");
 
-                tripinfoBinding.calendar.init(today, nextYear.getTime())
-                        .inMode(CalendarPickerView.SelectionMode.RANGE)
-                        .withSelectedDates(tripPeriod);
-
-
+        tripinfoBinding.calendar.init(pastYear.getTime(), nextYear.getTime())
+                .inMode(CalendarPickerView.SelectionMode.RANGE)
+                .withSelectedDates(tripPeriod);
 
         tripinfoBinding.calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
@@ -136,23 +131,17 @@ public class TripInfoFragmentActivity extends Fragment {
 
                 List<Date> periodList = tripinfoBinding.calendar.getSelectedDates();
 
-                Date upStartDate = periodList.get(0);
-                Date upEndDate = periodList.get(periodList.size()-1);
-
-                ArrayList<Integer> start = changeForm(upStartDate);
-                ArrayList<Integer> end = changeForm(upEndDate);
-
-                String s_day = "" + start.get(0) + "." + start.get(1) + "." + start.get(2);
-                String e_day = "" + end.get(0) + "." + end.get(1) + "." + end.get(2);
-
-                System.out.println("박일 : " + periodList.size() + "/" + periodList.size()+1);
+                Date startDate = periodList.get(0);
+                project.setStartDate(startDate);
+                Date endDate = periodList.get(periodList.size()-1);
+                project.setEndDate(endDate);
 
                 if (periodList.size() > 1){
-                    tripinfoBinding.txtEndDate.setText(e_day);
+                    tripinfoBinding.txtEndDate.setText(dateFormat.format(endDate));
                     tripinfoBinding.txtCountDate.setText((periodList.size()-1) + " 박 " + periodList.size() + " 일");
 
                 }else if(periodList.size() == 1){
-                    tripinfoBinding.txtStartDate.setText(s_day);
+                    tripinfoBinding.txtStartDate.setText(dateFormat.format(startDate));
                     tripinfoBinding.txtEndDate.setText("endDate");
                 }
             }
@@ -166,30 +155,13 @@ public class TripInfoFragmentActivity extends Fragment {
         tripinfoBinding.btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAlertDialog();
+//                createAlertDialog();
             }
         });
         return view;
 
     }   //end onCreateView()
 
-
-    public ArrayList<Integer> changeForm(Date d){
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-
-        ArrayList dateList = new ArrayList<Integer>();
-
-        dateList.add(0,year);
-        dateList.add(1,month);
-        dateList.add(2,day);
-
-        return dateList;
-    }
 
     public void createAlertDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -200,6 +172,7 @@ public class TripInfoFragmentActivity extends Fragment {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                projectViewModel.updateUserProject(project, projectId);
                 Toast.makeText(getActivity(), "일정이 수정되었습니다.", Toast.LENGTH_SHORT).show();
                 Log.i("일정이 수정되었습니다.", "0");
             }
@@ -217,14 +190,12 @@ public class TripInfoFragmentActivity extends Fragment {
     }
 
     public void initDate(){
-//        project.setStartDate(projectViewModel.projectLiveData().getValue().get(projectId).getStartDate());
-//        project.setEndDate(projectViewModel.projectLiveData().getValue().get(projectId).getEndDate());
-
         tripPeriod = new ArrayList<>();
 
-        tripPeriod.add(project.getStartDate());
-        tripPeriod.add(project.getEndDate());
+        tripPeriod.add(projectViewModel.getCurrentProject().getValue().get(projectId).getStartDate());
+        tripPeriod.add(projectViewModel.getCurrentProject().getValue().get(projectId).getEndDate());
 
+        Log.i(TAG+"tripPeriod", tripPeriod.toString()+"3");
     }
 
 }

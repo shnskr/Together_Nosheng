@@ -29,6 +29,7 @@ import com.together.nosheng.databinding.ActivityNewTripBinding;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,9 +41,11 @@ public class NewTripActivity extends AppCompatActivity {
 
     private Project project;
     private ProjectViewModel projectViewModel;
-
     private ActivityNewTripBinding newTripBinding;
 
+    private String projectId;
+
+    private String TAG = "NewTripActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,17 +56,14 @@ public class NewTripActivity extends AppCompatActivity {
         project = new Project();
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
 
-
-        //trip project code duplicate
-        String tripCode = newTripBinding.txtTripCode.getText().toString();
-
+        //code duplicate
         newTripBinding.btnDuplicate.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
 
                     ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                    ClipData clipData = ClipData.newPlainText("Trip Code", tripCode);
+                    ClipData clipData = ClipData.newPlainText("Trip Code", projectId);
                     clipboardManager.setPrimaryClip(clipData);
 
                     Toast.makeText(getApplicationContext(),"Trip Code 복사 완료", Toast.LENGTH_SHORT).show();
@@ -84,30 +84,22 @@ public class NewTripActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                newTripBinding.txtCountLength.setText(s.length()+"글자");   //글자수 TextView에 보여주기.
-            }
-        });
-
-        //EditText Enter key 방지
-        newTripBinding.etxtTitle.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
+                newTripBinding.txtCountLength.setText(25-s.length()+"글자");   //글자수 TextView에 보여주기.
             }
         });
 
         //calendar function
-        Date today = new Date();
-        ArrayList<Integer> today_int = changeForm(today);
-        String t_day = "" + today_int.get(0) + "." + today_int.get(1) + "." + today_int.get(2);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");   //추가
 
-        newTripBinding.txtStartDate.setText(t_day);
+        Date today = new Date();
+
+        newTripBinding.txtStartDate.setText(dateFormat.format(today));
 
         newTripBinding.btnToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 newTripBinding.calendar.selectDate(today);
-                newTripBinding.txtStartDate.setText(t_day);
+                newTripBinding.txtStartDate.setText(dateFormat.format(today));
                 newTripBinding.txtEndDate.setText("endDate");
             }
         });
@@ -133,20 +125,12 @@ public class NewTripActivity extends AppCompatActivity {
                 Date endDate = periodList.get(periodList.size()-1);
                 project.setEndDate(endDate);
 
-                ArrayList<Integer> start = changeForm(startDate);
-                ArrayList<Integer> end = changeForm(endDate);
-
-                String s_day = "" + start.get(0) + "." + start.get(1) + "." + start.get(2);
-                String e_day = "" + end.get(0) + "." + end.get(1) + "." + end.get(2);
-
-                System.out.println("박일 : " + periodList.size() + "/" + periodList.size()+1);
-
                 if (periodList.size() > 1){
-                    newTripBinding.txtEndDate.setText(e_day);
+                    newTripBinding.txtEndDate.setText(dateFormat.format(endDate));
                     newTripBinding.txtCountDate.setText((periodList.size()-1) + " 박 " + periodList.size() + " 일");
 
                 }else if(periodList.size() == 1){
-                    newTripBinding.txtStartDate.setText(s_day);
+                    newTripBinding.txtStartDate.setText(dateFormat.format(startDate));
                     newTripBinding.txtEndDate.setText("endDate");
                 }
             }
@@ -175,23 +159,6 @@ public class NewTripActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public ArrayList<Integer> changeForm(Date d){
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-
-        ArrayList dateList = new ArrayList<Integer>();
-
-        dateList.add(0,year);
-        dateList.add(1,month);
-        dateList.add(2,day);
-
-        return dateList;
     }
 
     //keyboard controller
