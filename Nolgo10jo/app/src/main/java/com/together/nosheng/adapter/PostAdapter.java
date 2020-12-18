@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import com.together.nosheng.R;
 import com.together.nosheng.databinding.LayoutNoteListItemBinding;
 import com.together.nosheng.model.project.Post;
 import com.together.nosheng.util.GlobalApplication;
+import com.together.nosheng.view.NewPostFragment;
 import com.together.nosheng.view.PostView;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 
@@ -28,7 +31,6 @@ import java.util.Date;
 
 public class PostAdapter extends BaseAdapter {
 
-    private LayoutNoteListItemBinding listItemBinding;
     private List<Post> posts;
     private Context context;
     private String projectId;
@@ -63,7 +65,6 @@ public class PostAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         PostView postView = new PostView(parent.getContext());
         Post post = (Post)getItem(position);
-        Log.i(TAG, post.toString());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy.MM.dd");
 
@@ -71,9 +72,9 @@ public class PostAdapter extends BaseAdapter {
         postView.setPostRegDate(dateFormat.format(post.getRegDate()));
         postView.setTxt_nickname(post.getNickName());
         postView.setNotice(post.isNotice());
-        Log.i(TAG, post.isNotice() + "");
 
         postView.deleteNote(context, posts, projectId, position, fragment);
+
 
         return postView;
     }
@@ -81,3 +82,4 @@ public class PostAdapter extends BaseAdapter {
 
 
 }
+
