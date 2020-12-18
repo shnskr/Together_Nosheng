@@ -14,16 +14,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.timessquare.CalendarPickerView;
 import com.together.nosheng.databinding.ActivityNewTripBinding;
 import com.together.nosheng.model.project.Project;
@@ -33,9 +29,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class NewTripActivity extends AppCompatActivity {
 
@@ -55,22 +51,6 @@ public class NewTripActivity extends AppCompatActivity {
 
         project = new Project();
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
-
-        //code duplicate
-        newTripBinding.btnDuplicate.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-
-                    ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                    ClipData clipData = ClipData.newPlainText("Trip Code", projectId);
-                    clipboardManager.setPrimaryClip(clipData);
-
-                    Toast.makeText(getApplicationContext(),"Trip Code 복사 완료", Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-        });
 
         //EditText 리스너 (입력시 반응)
         newTripBinding.etxtTitle.addTextChangedListener(new TextWatcher() {

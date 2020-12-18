@@ -34,6 +34,9 @@ public class HomeFragmentActivity extends Fragment {
 
     private ProjectViewModel projectViewModel;
 
+    private Project project;
+    private String projectId;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class HomeFragmentActivity extends Fragment {
                 homeBinding.lvProject.setAdapter(new HomeAdapter(userProject));
             }
         });
+
 
         homeBinding.btnNewTrip.setOnClickListener(new View.OnClickListener() {
             @Override
