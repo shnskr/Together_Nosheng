@@ -16,6 +16,7 @@ import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserRepository {
     private String TAG = "UserRepository";
@@ -25,6 +26,7 @@ public class UserRepository {
 
     private ArrayList<String> userNickName = new ArrayList<>();
     private MutableLiveData<ArrayList<String>> liveUserNickName = new MutableLiveData<ArrayList<String>>();
+    private MutableLiveData<List<String>> friendList = new MutableLiveData<>();
 
 
     public UserRepository() {
@@ -74,7 +76,6 @@ public class UserRepository {
                 if (value != null) {
                     Log.w(TAG, "current Data" + value.getData());
                     liveUser.setValue(value.toObject(User.class));
-
                 } else {
                     Log.d(TAG, "current Data : null");
                 }
@@ -88,4 +89,17 @@ public class UserRepository {
     public void changeNickname(User user){
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).set(user,SetOptions.merge());
     }
+
+    //친구 목록 관련 코드
+    public LiveData<List<String>> getFriendList() {
+        if (liveUser == null) {
+            Log.i("testing", "liveuser null");
+        } else {
+            List<String> temp = liveUser.getValue().getFriendList();
+            friendList.setValue(temp);
+            return friendList;
+        }
+        return friendList;
+    }
+
 }
