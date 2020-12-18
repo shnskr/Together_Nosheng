@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="100"
+    android:background="@drawable/layout_list_item"
+    android:gravity="center_vertical">
+
+
+    <!--제목-->
+    <TextView
+        android:id="@+id/list_title"
+        android:layout_width="227dp"
+        android:layout_height="80dp"
+        android:gravity="left|center_vertical"
+        android:text="제목"
+        android:textColor="#000000"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <!--내용 -->
+        <TextView
+            android:id="@+id/list_content"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="내용"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+        <!--부가 내용 -->
+        <TextView
+            android:id="@+id/list_content2"
+            android:layout_width="121dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

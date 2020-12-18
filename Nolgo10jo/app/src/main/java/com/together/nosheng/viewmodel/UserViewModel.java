@@ -13,11 +13,16 @@ import com.together.nosheng.repository.UserRepository;
 import com.together.nosheng.util.GlobalApplication;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserViewModel extends ViewModel {
     private LiveData<User> liveUser;
     private UserRepository userRepository;
+
+    //친구 정보 관련
     private LiveData<ArrayList<String>> friendNickName;
+
+    private LiveData<List<String>> friendNickNamelist;
 
     String TAG = "User ViewModel : ";
 
@@ -36,19 +41,6 @@ public class UserViewModel extends ViewModel {
         userRepository.changeNickname(user);
     }
 
-
-    public LiveData<ArrayList<String>> friendLiveData() {
-        return friendNickName;
-    }
-
-    public void setFriend(ArrayList<String> lists) {
-        userRepository.setFriend(lists);
-    }
-
-    public LiveData<ArrayList<String>> friendNameLiveData() {
-        return friendNickName;
-    }
-
     public LiveData<User> getLiveUser() {
         return liveUser;
     }
@@ -57,4 +49,20 @@ public class UserViewModel extends ViewModel {
         liveUser = userRepository.getLiveUser();
     }
 
+    //정민님 코드
+//    public LiveData<ArrayList<String>> friendLiveData() {
+//        return friendNickName;
+//    }
+//    public void setFriend(ArrayList<String> lists) {
+//        userRepository.setFriend(lists);
+//    }
+//    public LiveData<ArrayList<String>> friendNameLiveData() {
+//        return friendNickName;
+//    }
+
+
+    public LiveData<List<String>> getFriendNickName() {
+        friendNickNamelist =userRepository.getFriendList();
+        return friendNickNamelist;
+    }
 }
