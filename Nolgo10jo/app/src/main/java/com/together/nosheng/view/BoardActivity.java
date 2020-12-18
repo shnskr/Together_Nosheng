@@ -64,6 +64,7 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         Board board = new Board();
         db.collection("AdminBoard")
 //                .orderBy(board.getDate(), Query.Direction.ASCENDING);
+//                .orderBy("documentId", Query.Direction.ASCENDING)
 
         .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -84,7 +85,7 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
                     }
                     mAdapter = new BoardAdapter(mDatas,listener, BoardActivity.this);
                     binding.mainRecyclerview.setAdapter(mAdapter);
-                    binding.mainRecyclerview.addItemDecoration(new RecyclerViewDecoration(6));
+                    binding.mainRecyclerview.addItemDecoration(new RecyclerViewDecoration(3));
                 }
             }
         });
