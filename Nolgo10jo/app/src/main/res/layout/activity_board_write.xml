@@ -42,9 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:background="@color/black"
-        android:textColor="@color/white"
-        android:text="저장저장"
+        android:text="저장"
         />
 
 

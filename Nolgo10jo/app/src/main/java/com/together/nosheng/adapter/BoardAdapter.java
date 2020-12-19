@@ -1,6 +1,8 @@
 package com.together.nosheng.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.together.nosheng.R;
 import com.together.nosheng.model.board.Board;
+import com.together.nosheng.view.BoardActivity;
 import com.together.nosheng.view.ItemViewActivity;
 
 import java.io.Serializable;
@@ -129,26 +133,50 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
             itemView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    db.collection("AdminBoard").document(documentId)
-                            .delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("성공!","성공!!!!!!!!!!!!!!!!");
-                                    Log.i("지우기성공",documentId);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("실패!","실패!!!!!!!!!!!!!!!!!!!!!!!!");
-                                }
-                            });
+                    show();
+
+
                 }
             });
             /////////////////////          /////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
+        void show() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
+            builder.setTitle("삭제하시겄어유?");//팝업창의 제목
+
+            String tv_text = "ㄹㅇ삭제?!";//팝업창 내용
+            builder.setMessage(tv_text);
+
+            builder.setPositiveButton("이이",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            db.collection("AdminBoard").document(documentId)
+                                    .delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("성공!","성공!!!!!!!!!!!!!!!!");
+                                            Log.i("지우기성공",documentId);
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("실패!","실패!!!!!!!!!!!!!!!!!!!!!!!!");
+                                        }
+                                    });
+                        }
+                    });
+
+            builder.setNegativeButton("노노",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+            builder.show();
+        }
 
         //이건 원본에 없길래 잠시 지웟당;
 

@@ -12,6 +12,7 @@ import com.together.nosheng.view.MemeberFragmentActivity;
 import com.together.nosheng.view.PlanFragmentActivity;
 import com.together.nosheng.view.TripInfoFragmentActivity;
 
+
 public class TabAdapter extends FragmentStatePagerAdapter {
 
     public TabAdapter(@NonNull FragmentManager fm, int behavior) {
@@ -23,8 +24,8 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
 
         switch (position){
-//            case 0 :
-//                return new MemeberFragmentActivity();
+            case 0 :
+                return new MemeberFragmentActivity();
             case 1 :
                 return new BudgetFragmentActivity();
             case 2 :
