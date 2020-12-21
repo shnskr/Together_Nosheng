@@ -65,4 +65,8 @@ public class UserViewModel extends ViewModel {
         friendNickNamelist =userRepository.getFriendList();
         return friendNickNamelist;
     }
+
+    public void updateUserProjectList(List<String> projectList){
+        userRepository.updateUserProjectList(projectList);
+    }
 }

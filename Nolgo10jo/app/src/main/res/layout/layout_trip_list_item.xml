@@ -7,12 +7,13 @@
     android:weightSum="100"
     android:background="@drawable/layout_list_item"
     android:gravity="center_vertical"
-    android:layout_marginBottom="3dp">
+    android:layout_marginBottom="3dp"
+    android:descendantFocusability="blocksDescendants">
 
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="280dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:weightSum="100"
@@ -29,7 +30,8 @@
             android:textStyle="bold"
             android:lines="1"
             android:padding="10dp"
-            android:layout_marginLeft="30dp"/>
+            android:layout_marginLeft="30dp"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/trip_period"
@@ -48,19 +50,33 @@
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center">
 
         <TextView
             android:id="@+id/trip_status"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textSize="17sp"
             android:textColor="@color/cardview_light_background"
-            android:text="진행 중"
-            android:textStyle="bold"
+            android:text="Carpe Diem"
+            android:textStyle="bold|italic"
+            android:textAlignment="center"
             android:padding="10dp" />
+
+        <ImageButton
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:background="@null"
+            android:layout_margin="10dp"
+            android:layout_gravity="right|bottom"
+            android:focusable="false"
+            android:clickable="false"
+            android:focusableInTouchMode="false"
+            android:contextClickable="false"/>
 
     </LinearLayout>
 

@@ -47,6 +47,7 @@ public class ProjectRepository {
     }
 
 
+
     public void addUserProject(Project userProject) {
         db.collection("Project")
                 .add(userProject)
@@ -54,6 +55,21 @@ public class ProjectRepository {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.i(TAG, "Success adding document : " + documentReference.getId());
+
+//                        DocumentReference doc = db.collection("User").document(GlobalApplication.firebaseUser.getUid());
+//                        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                User user = task.getResult().toObject(User.class);
+//                                if (task.isSuccessful() && task.getResult().exists()) {
+//                                    List<String> projects = user.getProjectList();
+//                                    projects.add(documentReference.getId());
+//
+//                                    doc.update("projectList", projects);
+//                                }
+//                            }
+//                        });
+                        updateUserProjectList(documentReference);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -63,8 +79,6 @@ public class ProjectRepository {
                     }
                 });
     }
-
-
 
     public MutableLiveData<Map<String, Project>> getUserProject() {
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -101,8 +115,6 @@ public class ProjectRepository {
         return userProject;
     }
 
-
-
     public MutableLiveData<Map<String, Project>> getCurrentProject(String projectId) {
         db.collection("Project").document(projectId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -122,6 +134,42 @@ public class ProjectRepository {
         return currentProject;
     }
 
+    public void updateUserProject(Project userProject, String projectId) {
+        db.collection("Project").document(projectId)
+                .set(userProject, SetOptions.merge());
+    }
+
+    public void updateUserProjectList(DocumentReference documentReference) {
+        DocumentReference doc = db.collection("User").document(GlobalApplication.firebaseUser.getUid());
+        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                User user = task.getResult().toObject(User.class);
+                if (task.isSuccessful() && task.getResult().exists()) {
+                    List<String> projects = user.getProjectList();
+                    projects.add(documentReference.getId());
+
+                    doc.update("projectList", projects);
+                }
+            }
+        });
+    }
+
+    public void deleteUserProject(String projectId) {
+        db.collection("Project").document(projectId)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Log.i(TAG, "delete project!");
+                        } else {
+                            Log.i(TAG, "delete project error");
+                        }
+                    }
+                });
+    }
+
 
     public void addPost(String projectId, List<Post> posts) {
         db.collection("Project").document(projectId)
@@ -136,11 +184,6 @@ public class ProjectRepository {
                         }
                     }
                 });
-    }
-
-        public void updateUserProject(Project userProject, String projectId) {
-            db.collection("Project").document(projectId)
-                .set(userProject, SetOptions.merge());
     }
 
 }   //end class

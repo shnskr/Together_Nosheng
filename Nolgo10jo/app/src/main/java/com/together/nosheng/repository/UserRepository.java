@@ -2,16 +2,20 @@ package com.together.nosheng.repository;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
+import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
 
@@ -100,6 +104,21 @@ public class UserRepository {
             return friendList;
         }
         return friendList;
+    }
+
+    public void updateUserProjectList(List<String> projectList) {
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid())
+                .update("projectList", projectList)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Log.i(TAG, "updateUserProjectList is successfull");
+                        } else {
+                            Log.i(TAG, "update user project list error");
+                        }
+                    }
+                });
     }
 
 }

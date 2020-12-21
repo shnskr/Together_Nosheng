@@ -103,7 +103,6 @@ public class PostView extends LinearLayout {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.i("메모 삭제 요청이 취소되었습니다.", "1");
-
                     }
                 });
 

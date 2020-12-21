@@ -3,12 +3,14 @@ package com.together.nosheng.model.project;
 import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.model.user.User;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Project {
-//    private String projectId;
+    //    private String projectId;
     private String title;
     private Date regDate;
     private Date startDate;
@@ -19,6 +21,20 @@ public class Project {
     private Map<String, CheckList> checkLists; // Key : 유저 ID,  Value : CheckList class(체크리스트 항목)
     private List<User> members;
     private List<Plan> plans;
+
+    public Project() {
+        budgets = new HashMap<>();
+        checkLists = new HashMap<>();
+        tags = new HashMap<>();
+        posts = new ArrayList<>();
+        plans = new ArrayList<>();
+        members = new ArrayList<>();
+        budgets.put("식비", new Budget());
+        budgets.put("숙박비", new Budget());
+        budgets.put("교통비", new Budget());
+        budgets.put("비상금", new Budget());
+        budgets.put("기타", new Budget());
+    }
 
     public String getTitle() {
         return title;

@@ -1,10 +1,12 @@
 package com.together.nosheng.adapter;
 
+import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import androidx.fragment.app.FragmentActivity;
 
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.view.ProjectView;
@@ -14,14 +16,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 public class HomeAdapter extends BaseAdapter {
 
-    private Map<String, Project> userProject;
     private List<String> userProjectId;
+    private Map<String, Project> userProject;
+    private Context context;
+    private FragmentActivity fragment;
+    private List<String> projects;
 
-    public HomeAdapter(Map<String, Project> userProject) {
+    public HomeAdapter(Map<String, Project> userProject, Context context, FragmentActivity fragment, List<String> projects) {
         this.userProject = userProject;
+        this.context = context;
+        this.fragment = fragment;
+        this.projects = projects;
+
         userProjectId = new ArrayList<>(userProject.keySet());
     }
 
@@ -49,6 +59,18 @@ public class HomeAdapter extends BaseAdapter {
 
         projectView.setTravelTitle(project.getTitle());
         projectView.setTravelPeriod(format.format(project.getStartDate()) + " ~ " + format.format(project.getEndDate()));
+
+        Date today = new Date();
+
+        if(project.getStartDate().after(today)){
+            projectView.setTravelStatus("Planning");
+        } else if(today.before(project.getStartDate()) && today.after(project.getEndDate())){
+            projectView.setTravelStatus("Carpe Diem");
+        } else if(project.getEndDate().before(today)) {
+            projectView.setTravelStatus("the End");
+        }
+
+        projectView.deleteProject(context, position, fragment, projects);
 
         projectView.setOnClickListener(new View.OnClickListener() {
             @Override

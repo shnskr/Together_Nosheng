@@ -1,7 +1,5 @@
 package com.together.nosheng.view;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,30 +14,30 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.squareup.timessquare.CalendarPickerView;
 import com.together.nosheng.databinding.ActivityNewTripBinding;
 import com.together.nosheng.model.project.Project;
+import com.together.nosheng.model.user.User;
 import com.together.nosheng.viewmodel.ProjectViewModel;
+import com.together.nosheng.viewmodel.UserViewModel;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class NewTripActivity extends AppCompatActivity {
 
     private Project project;
     private ProjectViewModel projectViewModel;
+    private UserViewModel userViewModel;
     private ActivityNewTripBinding newTripBinding;
 
-    private String projectId;
+    private List<String> projectList;
 
     private String TAG = "NewTripActivity";
 
@@ -51,6 +49,8 @@ public class NewTripActivity extends AppCompatActivity {
 
         project = new Project();
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
 
         //EditText 리스너 (입력시 반응)
         newTripBinding.etxtTitle.addTextChangedListener(new TextWatcher() {
@@ -64,7 +64,7 @@ public class NewTripActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                newTripBinding.txtCountLength.setText(25-s.length()+"글자");   //글자수 TextView에 보여주기.
+                newTripBinding.txtCountLength.setText(15-s.length()+"글자");   //글자수 TextView에 보여주기.
             }
         });
 
@@ -127,8 +127,11 @@ public class NewTripActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(project.getStartDate() != null){
-
+                    project.setTitle(newTripBinding.etxtTitle.getText().toString());
+                    project.setRegDate(new Date());
                     projectViewModel.addUserProject(project);
+
+//                    userViewModel.updateUserProjectList(projectList);
 
                     Intent intent = new Intent(NewTripActivity.this, MainActivity.class);
                     startActivity(intent);
