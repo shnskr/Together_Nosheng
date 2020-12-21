@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nolgo10jo">
-        <activity android:name=".view.BoardEditActivity"></activity>
+        <activity android:name=".view.AuserProjectListActivity"></activity>
+        <activity android:name=".view.BoardEditActivity" />
         <activity android:name=".view.BoardWriteActivity" />
         <activity android:name=".view.ItemViewActivity" />
         <activity android:name=".view.BoardActivity" />
@@ -22,6 +23,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
         <activity android:name=".view.SearchPlanDetailActivity" />
         <activity android:name=".view.MemberInfoActivity" />
         <activity android:name=".view.RegisterActivity" />

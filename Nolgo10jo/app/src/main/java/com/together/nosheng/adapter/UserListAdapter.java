@@ -1,5 +1,7 @@
 package com.together.nosheng.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -15,6 +17,8 @@ import com.google.firebase.storage.StorageReference;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.view.AdminList_Inflater;
+import com.together.nosheng.view.AdminUserActivity;
+import com.together.nosheng.view.AuserProjectListActivity;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -25,18 +29,27 @@ import java.util.ArrayList;
 
 public class UserListAdapter extends BaseAdapter {
 
+    ArrayList<String> ids = new ArrayList<>();
     ArrayList<User> items = new ArrayList<>();
 //    LayoutInflater inflater;
+    Context context;
+
+
+    public UserListAdapter(Context context) {
+        this.context = context;
+    }
 
     //데이터 추가 메소드
-    public void addItem(User user) {
+    public void addItem(User user, String docId) {
         items.add(user);
+        ids.add(docId);
     }
 
     @Override
     public int getCount() {
         return items.size();
     }
+
 
     @Override
     public Object getItem(int position) {
@@ -62,19 +75,25 @@ public class UserListAdapter extends BaseAdapter {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Log.i("ddddd", "11111");
         storageRef.child("/user/UID/ic_ivtest1.png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 //이미지 로드 성공시
-                Log.i("testing", "goooooooooooooood");
                 if (uri != null) {
                     //view.setImageView(uri);
                     view.setImageView(parent.getContext(), uri);
                 }
             }
         });
-        Log.i("ddddd", "22222");
+
+        view.setOnClickListener(new View.OnClickListener() {//회원리스트 아이템 클릭해서 프로젝트 리스트로 이동
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context , AuserProjectListActivity.class);
+                intent.putExtra("docId", ids.get(position));
+                context.startActivity(intent);
+            }
+        });
         return view;
 
 
