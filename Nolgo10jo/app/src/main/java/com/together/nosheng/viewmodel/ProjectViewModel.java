@@ -56,4 +56,11 @@ public class ProjectViewModel extends ViewModel {
         projectRepository.addPost(projectId, posts);
     }
 
+    public void deleteUserProject(String projectId){
+        projectRepository.deleteUserProject(projectId);
+    }
+
+    public void updateUserProjectList(List<String> projects) {
+        projectRepository.updateUserProjectList(projects);
+    }
 }

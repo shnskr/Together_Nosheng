@@ -12,19 +12,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.together.nosheng.R;
 import com.together.nosheng.databinding.LayoutTripListItemBinding;
+import com.together.nosheng.model.user.User;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class ProjectView extends LinearLayout {
 
     private ProjectViewModel projectViewModel;
+
 
     private TextView travelTitle, travelPeriod, travelStatus;
     private ImageButton delete;
@@ -54,8 +58,10 @@ public class ProjectView extends LinearLayout {
     public void setTravelStatus(String ts) {
         travelStatus.setText(ts);
     }
+
     public void deleteProject(Context context, int position, FragmentActivity fragment, List<String> projects){
         projectViewModel = new ViewModelProvider(fragment).get(ProjectViewModel.class);
+
         delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,8 +73,15 @@ public class ProjectView extends LinearLayout {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //posts.remove(position) -> 예시
-                        //user에 묶인 project list 가져오기. position 값 가져와서 list 삭제하기.
+                        String projectId = projects.get(position);
+                        for(int i = 0; i < projects.size(); i++){
+                            if(projects.get(i) == projectId){
+                                projects.remove(projectId);
+                                break;
+                            }
+                        }
+                        projectViewModel.deleteUserProject(projectId);
+                        projectViewModel.updateUserProjectList(projects);
 
                         Toast.makeText(context, "여행기가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                         Log.i("여행기가 삭제되었습니다.", "0");

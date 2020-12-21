@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.together.nosheng.model.project.Project;
+import com.together.nosheng.model.user.User;
 import com.together.nosheng.view.ProjectView;
 import com.together.nosheng.view.TabActivity;
 
@@ -25,6 +27,7 @@ public class HomeAdapter extends BaseAdapter {
     private Context context;
     private FragmentActivity fragment;
     private List<String> projects;
+    private FragmentTransaction ft;
 
     public HomeAdapter(Map<String, Project> userProject, Context context, FragmentActivity fragment, List<String> projects) {
         this.userProject = userProject;
@@ -57,7 +60,11 @@ public class HomeAdapter extends BaseAdapter {
 
         SimpleDateFormat format = new SimpleDateFormat("yy.MM.dd");
 
-        projectView.setTravelTitle(project.getTitle());
+        if(project.getTitle() != ""){
+            projectView.setTravelTitle(project.getTitle());
+        } else {
+            projectView.setTravelTitle("여행기");
+        }
         projectView.setTravelPeriod(format.format(project.getStartDate()) + " ~ " + format.format(project.getEndDate()));
 
         Date today = new Date();
@@ -70,7 +77,7 @@ public class HomeAdapter extends BaseAdapter {
             projectView.setTravelStatus("the End");
         }
 
-        projectView.deleteProject(context, position, fragment, projects);
+        projectView.deleteProject(context, position, fragment, userProjectId);
 
         projectView.setOnClickListener(new View.OnClickListener() {
             @Override
