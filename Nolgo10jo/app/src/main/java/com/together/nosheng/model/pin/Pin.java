@@ -2,29 +2,30 @@ package com.together.nosheng.model.pin;
 
 import com.together.nosheng.model.user.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Pin {
-    private String latitude; // 위도
-    private String longitude; // 경도
-    private List<String> theme; // 테마
-    private String pinName; // 이름
-    private List<User> visitors; // 방문객 리스트
+    private double latitude; // 위도
+    private double longitude; // 경도
+    private List<String> theme = new ArrayList<>(); // 테마
+    private String pinName = ""; // 이름
+    private List<User> visitors = new ArrayList<>(); // 방문객 리스트
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

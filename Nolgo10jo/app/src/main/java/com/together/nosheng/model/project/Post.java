@@ -3,11 +3,11 @@ package com.together.nosheng.model.project;
 import java.util.Date;
 
 public class Post {
-    private String title;
-    private String content;
-    private Date regDate;
+    private String title = "";
+    private String content = "";
+    private Date regDate = new Date();
     private boolean notice;
-    private String nickName;
+    private String nickName = "";
 
     public String getTitle() {
         return title;
