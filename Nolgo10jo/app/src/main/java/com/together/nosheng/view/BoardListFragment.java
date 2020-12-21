@@ -60,7 +60,6 @@ public class BoardListFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.board_container, fragment).commit();
             }
         });
-
         return view;
     }
 

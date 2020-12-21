@@ -37,9 +37,7 @@ public class ProjectRepository {
     private MutableLiveData<Map<String, Project>> userProject = new MutableLiveData<>();
     private MutableLiveData<Map<String, Project>> currentProject= new MutableLiveData<>();
 
-    private Map<String, Project> userProjectMap = new HashMap<>();
-    private String userId;
-
+    private Map<String, Project> userProjectMap;
 
 
     public ProjectRepository() {
@@ -56,20 +54,7 @@ public class ProjectRepository {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.i(TAG, "Success adding document : " + documentReference.getId());
 
-//                        DocumentReference doc = db.collection("User").document(GlobalApplication.firebaseUser.getUid());
-//                        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                User user = task.getResult().toObject(User.class);
-//                                if (task.isSuccessful() && task.getResult().exists()) {
-//                                    List<String> projects = user.getProjectList();
-//                                    projects.add(documentReference.getId());
-//
-//                                    doc.update("projectList", projects);
-//                                }
-//                            }
-//                        });
-                        updateUserProjectList(documentReference);
+                        updateProjectList(documentReference);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -89,6 +74,8 @@ public class ProjectRepository {
                     return;
                 }
                 if (value != null) {
+                    userProjectMap = new HashMap<>();
+                    Log.i("여기있다!", "왔나?0");
                     List<String> projectList = value.toObject(User.class).getProjectList();
 
                     for (String projectId : projectList) {
@@ -139,7 +126,7 @@ public class ProjectRepository {
                 .set(userProject, SetOptions.merge());
     }
 
-    public void updateUserProjectList(DocumentReference documentReference) {
+    public void updateProjectList(DocumentReference documentReference) {
         DocumentReference doc = db.collection("User").document(GlobalApplication.firebaseUser.getUid());
         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -153,6 +140,11 @@ public class ProjectRepository {
                 }
             }
         });
+    }
+
+    public void updateUserProjectList(List<String> projects) {
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid())
+                .update("projectList",projects);
     }
 
     public void deleteUserProject(String projectId) {
