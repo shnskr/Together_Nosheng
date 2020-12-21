@@ -21,7 +21,6 @@ public class ProjectViewModel extends ViewModel {
 
     private LiveData<Map<String, Project>> currentProject;
     private LiveData<Map<String, Project>> userProjects;
-    private LiveData<List<Post>> projectPosts;
     private ProjectRepository projectRepository;
 
     public ProjectViewModel() {

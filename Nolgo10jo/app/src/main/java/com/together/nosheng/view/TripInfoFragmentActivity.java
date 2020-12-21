@@ -72,6 +72,7 @@ public class TripInfoFragmentActivity extends Fragment {
             public void onChanged(Map<String, Project> stringProjectMap) {
                 Log.i("들어오나?", "??");
                 initDate();
+                init();
             }
         });
 
@@ -103,7 +104,7 @@ public class TripInfoFragmentActivity extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                tripinfoBinding.txtCountLength.setText(25-s.length()+"글자");   //글자수 TextView에 보여주기.
+                tripinfoBinding.txtCountLength.setText(15-s.length()+"글자");   //글자수 TextView에 보여주기.
             }
         });
 
@@ -155,7 +156,7 @@ public class TripInfoFragmentActivity extends Fragment {
         tripinfoBinding.btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                createAlertDialog();
+                createAlertDialog();
             }
         });
         return view;
@@ -196,6 +197,16 @@ public class TripInfoFragmentActivity extends Fragment {
         tripPeriod.add(projectViewModel.getCurrentProject().getValue().get(projectId).getEndDate());
 
         Log.i(TAG+"tripPeriod", tripPeriod.toString()+"3");
+    }
+
+    public void init() {
+        project.setBudgets(projectViewModel.getCurrentProject().getValue().get(projectId).getBudgets());
+        project.setCheckLists(projectViewModel.getCurrentProject().getValue().get(projectId).getCheckLists());
+        project.setMembers(projectViewModel.getCurrentProject().getValue().get(projectId).getMembers());
+        project.setPlans(projectViewModel.getCurrentProject().getValue().get(projectId).getPlans());
+        project.setPosts(projectViewModel.getCurrentProject().getValue().get(projectId).getPosts());
+        project.setRegDate(projectViewModel.getCurrentProject().getValue().get(projectId).getRegDate());
+        project.setTags(projectViewModel.getCurrentProject().getValue().get(projectId).getTags());
     }
 
 }

@@ -1,16 +1,11 @@
 package com.together.nosheng.view;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,15 +18,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.together.nosheng.R;
 import com.together.nosheng.adapter.PostAdapter;
 import com.together.nosheng.databinding.FragmentBoardListBinding;
-import com.together.nosheng.databinding.LayoutNoteListItemBinding;
-import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 
-import java.util.List;
 import java.util.Map;
 
-public class BoardListFragment extends Fragment implements View.OnClickListener {
+public class BoardListFragment extends Fragment {
 
     private FragmentBoardListBinding boardListBinding;
     private ProjectViewModel projectViewModel;
@@ -53,12 +45,10 @@ public class BoardListFragment extends Fragment implements View.OnClickListener 
         projectViewModel.getCurrentProject().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
             public void onChanged(Map<String, Project> stringProjectMap) {
-                boardListBinding.lvPost.setAdapter(new PostAdapter(stringProjectMap.get(projectId).getPosts(), getContext(), projectId, getActivity()));
+                boardListBinding.lvPost.setAdapter(new PostAdapter(stringProjectMap.get(projectId).getPosts(), requireActivity(), projectId, getActivity()));
                 Log.i(TAG, stringProjectMap.get(projectId).toString());
             }
         });
-
-
 
         boardListBinding.lvPost.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,16 +57,11 @@ public class BoardListFragment extends Fragment implements View.OnClickListener 
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", position);
                 fragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.board_container, new NewPostFragment()).commit();
-                Log.i("dexxgfsw", "durlRkslsdkjf?");
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.board_container, fragment).commit();
             }
         });
 
         return view;
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }
