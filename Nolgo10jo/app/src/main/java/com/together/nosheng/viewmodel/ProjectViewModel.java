@@ -34,7 +34,6 @@ public class ProjectViewModel extends ViewModel {
 
     public void setCurrentProject(String projectId) {
         currentProject = projectRepository.getCurrentProject(projectId);
-        Log.i(TAG, "project view model 접근 완료");
     }
 
     public void addUserProject(Project userProject) {

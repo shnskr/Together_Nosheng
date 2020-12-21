@@ -138,6 +138,10 @@ public class ProjectRepository {
                 });
     }
 
+    public void updateUserProject(Project userProject, String projectId) {
+        db.collection("Project").document(projectId)
+                .set(userProject, SetOptions.merge());
+    }
 
 }   //end class
 
@@ -147,10 +151,7 @@ public class ProjectRepository {
 
 //이하 안쓰는 코드 빼놨습니다.
 
-//    public void updateProject(Project userProject, String projectId) {
-//        db.collection("Project").document(projectId)
-//                .set(userProject, SetOptions.merge());
-//    }
+
 
 
 
