@@ -11,24 +11,18 @@ import java.util.Map;
 
 public class Project {
     //    private String projectId;
-    private String title;
-    private Date regDate;
-    private Date startDate;
-    private Date endDate;
-    private Map<String, Budget> budgets; // Key : 식비같은 큰 항목 이름, Value : Budget class(total 예산과 세부 항목이 필드)
-    private Map<String, String> tags; // Key : 유저 id, Value : Tag name
-    private List<Post> posts; // 게시글 목록
-    private Map<String, CheckList> checkLists; // Key : 유저 ID,  Value : CheckList class(체크리스트 항목)
-    private List<User> members;
-    private List<Plan> plans;
+    private String title = "";
+    private Date regDate = new Date();
+    private Date startDate = new Date();
+    private Date endDate = new Date();
+    private Map<String, Budget> budgets = new HashMap<>(); // Key : 식비같은 큰 항목 이름, Value : Budget class(total 예산과 세부 항목이 필드)
+    private Map<String, String> tags = new HashMap<>(); // Key : 유저 id, Value : Tag name
+    private List<Post> posts = new ArrayList<>(); // 게시글 목록
+    private Map<String, CheckList> checkLists = new HashMap<>(); // Key : 유저 ID,  Value : CheckList class(체크리스트 항목)
+    private List<User> members = new ArrayList<>();
+    private List<Plan> plans = new ArrayList<>();
 
     public Project() {
-        budgets = new HashMap<>();
-        checkLists = new HashMap<>();
-        tags = new HashMap<>();
-        posts = new ArrayList<>();
-        plans = new ArrayList<>();
-        members = new ArrayList<>();
         budgets.put("식비", new Budget());
         budgets.put("숙박비", new Budget());
         budgets.put("교통비", new Budget());
