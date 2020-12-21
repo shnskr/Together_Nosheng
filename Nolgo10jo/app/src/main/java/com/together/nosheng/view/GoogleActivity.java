@@ -1,13 +1,18 @@
 package com.together.nosheng.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.common.api.Status;
@@ -29,7 +34,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public class GoogleActivity extends Fragment implements OnMapReadyCallback {
+public class GoogleActivity extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
+
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean locationPermissionGranted;
 
     private LayoutGoogleBinding binding;
 
@@ -48,24 +56,24 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
 
 //        PlacesClient placesClient = Places.createClient(getContext());
 
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NotNull Place place) {
-                // TODO: Get info about the selected place.
-                Log.i("daldal", "Place: " + place.getName() + ", " + place.getId());
-            }
-
-            @Override
-            public void onError(@NotNull Status status) {
-                // TODO: Handle the error.
-                Log.i("daldal", "An error occurred: " + status);
-            }
-        });
+//        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+//                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+//
+//        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+//
+//        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//            @Override
+//            public void onPlaceSelected(@NotNull Place place) {
+//                // TODO: Get info about the selected place.
+//                Log.i("daldal", "Place: " + place.getName() + ", " + place.getId());
+//            }
+//
+//            @Override
+//            public void onError(@NotNull Status status) {
+//                // TODO: Handle the error.
+//                Log.i("daldal", "An error occurred: " + status);
+//            }
+//        });
         return view;
 
     }
@@ -75,10 +83,53 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
         Log.i("daldal", "지도 load 완료");
         mMap = googleMap;
 
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+//        mMap.setOnMyLocationButtonClickListener(this);
+
+        updateUI();
+
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions()
                 .position(sydney)
                 .title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        return false;
+    }
+
+    private void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(requireActivity().getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationPermissionGranted = true;
+            updateUI();
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    private void updateUI() {
+        if (mMap == null) {
+            Log.i("daldal", "???");
+            return;
+        }
+        try {
+            if (locationPermissionGranted) {
+                Log.i("daldal", "heyhey");
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                Log.i("daldal", "아아앜");
+                mMap.setMyLocationEnabled(false);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                getLocationPermission();
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
+        }
     }
 }
