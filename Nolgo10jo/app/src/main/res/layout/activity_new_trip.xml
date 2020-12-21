@@ -12,31 +12,6 @@
     android:isScrollContainer="true">
 
     <LinearLayout
-        android:id="@+id/lay_newTrip_code"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/txt_trip_code"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:layout_gravity="center"
-            android:text="프로젝트 공유 코드"
-            android:textSize="20sp"/>
-
-        <Button
-            android:id="@+id/btn_duplicate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_weight="1"
-            android:text="dup" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/lay_newTrip_project"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -47,13 +22,15 @@
             android:id="@+id/etxt_title"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:hint="여행 이름을 정해보세요!" />
+            android:hint="여행 이름을 정해보세요!"
+            android:maxLines="1"
+            android:maxLength="15"/>
 
         <TextView
             android:id="@+id/txt_countLength"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="0글자"
+            android:text="15글자"
             android:textAlignment="center"/>
 
     </LinearLayout>
@@ -137,7 +114,7 @@
             android:id="@+id/btn_check"
             android:layout_width="350dp"
             android:layout_height="60dp"
-            android:text="여행 일정 수정"
+            android:text="여행 시작하기!"
             android:textSize="18sp"
             android:layout_marginTop="15dp" />
 

@@ -14,6 +14,7 @@ import com.together.nosheng.util.GlobalApplication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UserViewModel extends ViewModel {
     private LiveData<User> liveUser;
@@ -23,6 +24,7 @@ public class UserViewModel extends ViewModel {
     private LiveData<ArrayList<String>> friendNickName;
 
     private LiveData<List<String>> friendNickNamelist;
+    private LiveData<List<User>> userFriendList;
 
     String TAG = "User ViewModel : ";
 
@@ -65,4 +67,17 @@ public class UserViewModel extends ViewModel {
         friendNickNamelist =userRepository.getFriendList();
         return friendNickNamelist;
     }
+
+    public void updateUserProjectList(List<String> projectList){
+        userRepository.updateUserProjectList(projectList);
+    }
+
+    public LiveData<List<User>> getUserFriendList(){
+        return userFriendList;
+    }
+
+    public void setUserFriendList(){
+        userFriendList = userRepository.getUserFriendList();
+    }
+
 }

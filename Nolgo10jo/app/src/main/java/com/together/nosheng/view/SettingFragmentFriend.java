@@ -1,7 +1,9 @@
 package com.together.nosheng.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +37,11 @@ public class SettingFragmentFriend extends Fragment {
     private RecyclerView mRecyclerView;
     private UserViewModel userViewModel;
     private SettingAdapter adapter;
+    private SettingAdapter.SettingRecyclerViewClickListener listener ;
 
-    private ArrayList<String> friendlist= new ArrayList<>();;
+//    private ArrayList<String> friendlist= new ArrayList<>();
+//    private Map<String, User> friendlist= new HashMap<>();
+    private List<User> friendList = new ArrayList<>();
 
 
 
@@ -48,13 +53,14 @@ public class SettingFragmentFriend extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.setting_fragment_friend,container,false);
+//        binding = SettingFragmentFriendBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         Context context = view.getContext();
 
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.search_listView);
         mRecyclerView = view.findViewById(R.id.setting_listView);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(view.getContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 mLinearLayoutManager.getOrientation());
@@ -62,15 +68,36 @@ public class SettingFragmentFriend extends Fragment {
 
         userViewModel= new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
-        userViewModel.getLiveUser().observe(getViewLifecycleOwner(), new Observer<User>() {
+        userViewModel.setUserFriendList();
+
+//        userViewModel.getLiveUser().observe(getViewLifecycleOwner(), new Observer<User>() {
+//            @Override
+//            public void onChanged(User user) {
+//                friendlist.addAll(user.getFriendList());
+//                adapter = new SettingAdapter(context,friendlist);
+//                mRecyclerView.setAdapter(adapter);
+//            }
+//        });
+
+        userViewModel.getUserFriendList().observe(getViewLifecycleOwner(), new Observer<List<User>>() {
             @Override
-            public void onChanged(User user) {
-                friendlist.addAll(user.getFriendList());
-                adapter = new SettingAdapter(context,friendlist);
-                mRecyclerView.setAdapter(adapter);
+            public void onChanged(List<User> users) {
+                Log.i("daldal", users.toString());
+                friendList.clear();
+                friendList.addAll(users);
+                adapter = new SettingAdapter(friendList, listener,context );
+                binding.settingListView.setAdapter(adapter);
             }
         });
-        
+
         return view;
+    }
+    private void setOnClickListener () {
+        listener = new SettingAdapter.SettingRecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                //일단 요로케만
+            }
+        };
     }
 }

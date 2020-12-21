@@ -32,43 +32,16 @@ import java.util.Map;
 
 public class ProjectRepository {
     private FirebaseFirestore db;
-
-    private ProjectViewModel projectViewModel;
-    //    private MutableLiveData<Project> liveProject = new MutableLiveData<>();
-    private MutableLiveData<Map<String, Project>> currentProject= new MutableLiveData<>();
     private String TAG = "ProjectRepository";
 
-    private String userId;
     private MutableLiveData<Map<String, Project>> userProject = new MutableLiveData<>();
-    private Map<String, Project> userProjectMap = new HashMap<>();
-    private List<Post> posts;
-    private MutableLiveData<List<Post>> projectPosts = new MutableLiveData<>();
+    private MutableLiveData<Map<String, Project>> currentProject= new MutableLiveData<>();
+
+    private Map<String, Project> userProjectMap;
+
 
     public ProjectRepository() {
         db = FirebaseFirestore.getInstance();
-    }
-
-    public MutableLiveData<Map<String, Project>> getDatepicker(String projectId) {
-        DocumentReference docRef = db.collection("Project").document(projectId);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        Map<String, Project> test = new HashMap<>();
-                        test.put(projectId, document.toObject(Project.class));
-                        currentProject.setValue(test);
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-        return currentProject;
     }
 
 
@@ -80,6 +53,8 @@ public class ProjectRepository {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.i(TAG, "Success adding document : " + documentReference.getId());
+
+                        updateProjectList(documentReference);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -88,29 +63,6 @@ public class ProjectRepository {
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
-    }
-
-    public void updateUserProject(Project userProject, String projectId) {
-        db.collection("Project").document(projectId)
-                .set(userProject, SetOptions.merge());
-    }
-
-    public void datepickerUpdate(){
-        db.collection("Project").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.w("TAG", "addShapshotListener failed", error);
-                    return;
-                }
-
-                if(value != null) {
-                    Log.w(TAG, "여기가 되나안되나 함 봅시다 : "+ value.getDocuments());
-                    value.toObjects(Project.class);
-//                    liveProject.setValue(document.add);
-                }
-            }
-        });
     }
 
     public MutableLiveData<Map<String, Project>> getUserProject() {
@@ -122,6 +74,8 @@ public class ProjectRepository {
                     return;
                 }
                 if (value != null) {
+                    userProjectMap = new HashMap<>();
+                    Log.i("여기있다!", "왔나?0");
                     List<String> projectList = value.toObject(User.class).getProjectList();
 
                     for (String projectId : projectList) {
@@ -167,6 +121,48 @@ public class ProjectRepository {
         return currentProject;
     }
 
+    public void updateUserProject(Project userProject, String projectId) {
+        db.collection("Project").document(projectId)
+                .set(userProject, SetOptions.merge());
+    }
+
+    public void updateProjectList(DocumentReference documentReference) {
+        DocumentReference doc = db.collection("User").document(GlobalApplication.firebaseUser.getUid());
+        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                User user = task.getResult().toObject(User.class);
+                if (task.isSuccessful() && task.getResult().exists()) {
+                    List<String> projects = user.getProjectList();
+                    projects.add(documentReference.getId());
+
+                    doc.update("projectList", projects);
+                }
+            }
+        });
+    }
+
+    public void updateUserProjectList(List<String> projects) {
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid())
+                .update("projectList",projects);
+    }
+
+    public void deleteUserProject(String projectId) {
+        db.collection("Project").document(projectId)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Log.i(TAG, "delete project!");
+                        } else {
+                            Log.i(TAG, "delete project error");
+                        }
+                    }
+                });
+    }
+
+
     public void addPost(String projectId, List<Post> posts) {
         db.collection("Project").document(projectId)
                 .update("posts",posts)
@@ -183,3 +179,56 @@ public class ProjectRepository {
     }
 
 }   //end class
+
+
+
+
+
+//이하 안쓰는 코드 빼놨습니다.
+
+
+
+
+
+//    public MutableLiveData<Map<String, Project>> getDatepicker(String projectId) {
+//        DocumentReference docRef = db.collection("Project").document(projectId);
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//                        Map<String, Project> test = new HashMap<>();
+//                        test.put(projectId, document.toObject(Project.class));
+//                        currentProject.setValue(test);
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
+//        return currentProject;
+//    }
+
+
+
+//    public void datepickerUpdate(){
+//        db.collection("Project").addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                if (error != null) {
+//                    Log.w("TAG", "addShapshotListener failed", error);
+//                    return;
+//                }
+//
+//                if(value != null) {
+//                    Log.w(TAG, "여기가 되나안되나 함 봅시다 : "+ value.getDocuments());
+//                    value.toObjects(Project.class);
+////                    liveProject.setValue(document.add);
+//                }
+//            }
+//        });
+//    }

@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 public class User {
-    private String eMail;
-    private String nickName;
-    private Date regDate;
-    private String thumbnail;
-    private List<String> friendList;
-    private List<String> projectList;
+    private String eMail = "";
+    private String nickName = "";
+    private Date regDate = new Date();
+    private String thumbnail = "";
+    private List<String> friendList = new ArrayList<>();
+    private List<String> projectList = new ArrayList<>();
 
     public User(String eMail, String nickName, Date regDate, String thumbnail, ArrayList<String> friendList) {
         this.eMail = eMail;
