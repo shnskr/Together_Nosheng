@@ -34,8 +34,8 @@ public class AdminUserActivity extends AppCompatActivity implements View.OnClick
 
     private ListView listView;
 
-    FirebaseFirestore db;
-    UserListAdapter userListAdapter = new UserListAdapter();
+    private FirebaseFirestore db;//
+    UserListAdapter userListAdapter = new UserListAdapter(this);
 
     private StorageReference mStorageRef;
     private UploadTask uploadTask;
@@ -68,7 +68,7 @@ public class AdminUserActivity extends AppCompatActivity implements View.OnClick
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("@@성공@@", document.getId() + " => " + document.getData());
-                                userListAdapter.addItem(document.toObject(User.class));
+                                userListAdapter.addItem(document.toObject(User.class),document.getId());
                                 binding.lvUser.setAdapter(userListAdapter);
                             }
                         } else {
@@ -82,13 +82,13 @@ public class AdminUserActivity extends AppCompatActivity implements View.OnClick
         binding.btnGoboard.setOnClickListener(this);
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {//아이템 클릭시 해당유저 프로젝트로
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String data = (String) parent.getItemAtPosition(position);
-
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {//아이템 클릭시 해당유저 프로젝트로
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String data = (String) parent.getItemAtPosition(position);
+//                String ids = ()
+//            }
+//        });
 
 
     }
