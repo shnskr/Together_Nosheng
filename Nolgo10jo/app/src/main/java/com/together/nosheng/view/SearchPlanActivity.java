@@ -25,7 +25,9 @@ import com.google.common.collect.HashBiMap;
 import com.together.nosheng.R;
 import com.together.nosheng.adapter.SearchAdapter;
 import com.together.nosheng.model.plan.Plan;
+import com.together.nosheng.model.user.User;
 import com.together.nosheng.viewmodel.PlanViewModel;
+import com.together.nosheng.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +62,7 @@ public class SearchPlanActivity  extends AppCompatActivity {
                 mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
+
         planViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
         planViewModel.setPlanRepository();
 
@@ -79,16 +82,23 @@ public class SearchPlanActivity  extends AppCompatActivity {
                 biMap = HashBiMap.create(stringPlanMap);
                 biMap2 = biMap.inverse();
 
+
                 adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
                         Intent intent = new Intent(getApplicationContext(), SearchPlanDetailActivity.class);
+                        String key = biMap2.get(planSearchList.get(position)); //DocID 보내주기
+
+
                         intent.putExtra("Title", planSearchList.get(position).getPlanTitle());
                         intent.putExtra("Theme", planSearchList.get(position).getPlanTheme());
                         intent.putExtra("Like", planSearchList.get(position).getPlanLike());
+                        intent.putExtra("Key", key);
+
+
+                        //plan 정보 다 보내주기
                         //intent.putExtra("Date", planSearchList.get(position).getPlanDate());
                         startActivity(intent);
-
                     }
                 });
             }

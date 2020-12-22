@@ -1,8 +1,11 @@
 package com.together.nosheng.model.user;
 
+import com.together.nosheng.model.plan.Plan;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class User {
     private String eMail;
@@ -11,13 +14,17 @@ public class User {
     private String thumbnail;
     private List<String> friendList;
     private List<String> projectList;
+    private List<String> bookmarkList; // docID, string
 
-    public User(String eMail, String nickName, Date regDate, String thumbnail, ArrayList<String> friendList) {
+
+
+    public User(String eMail, String nickName, Date regDate, String thumbnail, ArrayList<String> friendList, ArrayList<String> bookmarkList) {
         this.eMail = eMail;
         this.nickName = nickName;
         this.regDate = regDate;
         this.thumbnail = thumbnail;
         this.friendList = friendList;
+        this.bookmarkList = bookmarkList;
     }
 
     public User (String nickName){
@@ -74,6 +81,10 @@ public class User {
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
+
+    public List<String> getBookmarkList() { return bookmarkList;}
+
+    public void setBookmarkList(List<String> bookmarkList) {this.bookmarkList = bookmarkList;}
 
     @Override
     public String toString() {

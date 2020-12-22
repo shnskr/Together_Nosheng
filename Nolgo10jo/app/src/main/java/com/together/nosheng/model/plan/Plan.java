@@ -18,6 +18,7 @@ public class Plan {
     private String planTitle; // 플랜 제목
     private int planLike; //플랜의 좋아요 개수
 
+
     public String getPlanTitle() { return planTitle; }
 
     public void setPlanTitle(String planTitle) { this.planTitle = planTitle; }
