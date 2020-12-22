@@ -1,6 +1,8 @@
 package com.together.nosheng.adapter;
 
 import android.content.Context;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,13 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     @Override
     public void onBindViewHolder(@NonNull BookmarkAdapter.BookmarkViewHolder holder, int position) {
         Plan plan = bookmarkList.get(position);
+
+        holder.title.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+        holder.content.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+        holder.content2.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+
+        holder.title.setGravity(Gravity.CENTER);
+
 
         holder.title.setText(plan.getPlanTitle());
         holder.content.setText(plan.getPlanTheme());

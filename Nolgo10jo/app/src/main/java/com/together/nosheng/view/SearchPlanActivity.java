@@ -2,11 +2,15 @@ package com.together.nosheng.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -49,11 +53,16 @@ public class SearchPlanActivity  extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private PlanViewModel planViewModel;
 
+    private EditText editText;
+    private TextWatcher textWatcher;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        editText = findViewById(R.id.editText);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.search_listView);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
@@ -69,6 +78,44 @@ public class SearchPlanActivity  extends AppCompatActivity {
         //searchList = new HashMap<>();
 
         //listview = (ListView) findViewById(R.id.search_listView);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                editText.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        //Enter key Action
+                        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                            search(s.toString());
+                            adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View v, int position) {
+                                    Intent intent = new Intent(getApplicationContext(), SearchPlanDetailActivity.class);
+                                    String key = biMap2.get(planSearchList.get(position)); //DocID 보내주기
+
+                                    Log.i("TESING AT 2AM", "실행됨");
+
+
+                                    intent.putExtra("Title", planSearchList.get(position).getPlanTitle());
+                                    intent.putExtra("Theme", planSearchList.get(position).getPlanTheme());
+                                    intent.putExtra("Like", planSearchList.get(position).getPlanLike());
+                                    intent.putExtra("Key", key);
+
+
+                                    //plan 정보 다 보내주기
+                                    //intent.putExtra("Date", planSearchList.get(position).getPlanDate());
+                                    startActivity(intent);
+                                }
+                            });
+                            return true; }
+                        return false; } }); }
+            @Override
+            public void afterTextChanged(Editable s) { }});
 
         planViewModel.getPlans().observe(this, new Observer<Map<String, Plan>>() {
             @Override
@@ -89,6 +136,8 @@ public class SearchPlanActivity  extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), SearchPlanDetailActivity.class);
                         String key = biMap2.get(planSearchList.get(position)); //DocID 보내주기
 
+                         Log.i("TESING AT 2AM", "실행됨");
+
 
                         intent.putExtra("Title", planSearchList.get(position).getPlanTitle());
                         intent.putExtra("Theme", planSearchList.get(position).getPlanTheme());
@@ -103,6 +152,11 @@ public class SearchPlanActivity  extends AppCompatActivity {
                 });
             }
         });
+
+
+
+
+
 
 
 
