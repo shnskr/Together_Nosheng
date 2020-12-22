@@ -8,14 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 public class User {
-    private String eMail;
-    private String nickName;
-    private Date regDate;
-    private String thumbnail;
-    private List<String> friendList;
-    private List<String> projectList;
-    private List<String> bookmarkList; // docID, string
 
+
+    private String eMail = "";
+    private String nickName = "";
+    private Date regDate = new Date();
+    private String thumbnail = "";
+    private List<String> friendList = new ArrayList<>();
+    private List<String> projectList = new ArrayList<>();
+    private List<String> bookmarkList; // docID, string
 
 
     public User(String eMail, String nickName, Date regDate, String thumbnail, ArrayList<String> friendList, ArrayList<String> bookmarkList) {

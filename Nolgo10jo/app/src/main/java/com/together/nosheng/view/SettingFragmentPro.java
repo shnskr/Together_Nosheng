@@ -68,7 +68,7 @@ public class SettingFragmentPro extends Fragment {
             }
         });
 
-        if (GlobalApplication.firebaseUser.getUid().equals("tGRTfkAvFKR2vFUJ4BKHRKKM5fq1")) {//dal@dal.dal 이메일일 경우(관리자 계정)
+        if (GlobalApplication.firebaseUser.getUid().equals("OfItgRJq0ZXQllJIFe5Zn9jrTZ73")) {//dal@dal.dal 이메일일 경우(관리자 계정)
             binding.btnGoadmin.setVisibility(View.VISIBLE);                                 //btnGoadmin버튼이 활성화
 
             binding.btnGoadmin.setOnClickListener(new View.OnClickListener() {

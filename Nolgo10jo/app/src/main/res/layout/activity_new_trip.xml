@@ -24,13 +24,13 @@
             android:layout_height="wrap_content"
             android:hint="여행 이름을 정해보세요!"
             android:maxLines="1"
-            android:maxLength="25"/>
+            android:maxLength="15"/>
 
         <TextView
             android:id="@+id/txt_countLength"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="25글자"
+            android:text="15글자"
             android:textAlignment="center"/>
 
     </LinearLayout>

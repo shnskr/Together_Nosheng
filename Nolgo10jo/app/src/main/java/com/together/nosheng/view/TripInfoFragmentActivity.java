@@ -104,7 +104,7 @@ public class TripInfoFragmentActivity extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                tripinfoBinding.txtCountLength.setText(25-s.length()+"글자");   //글자수 TextView에 보여주기.
+                tripinfoBinding.txtCountLength.setText(15-s.length()+"글자");   //글자수 TextView에 보여주기.
             }
         });
 

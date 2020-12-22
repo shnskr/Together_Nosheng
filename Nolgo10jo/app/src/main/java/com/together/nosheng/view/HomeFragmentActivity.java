@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -33,9 +34,7 @@ public class HomeFragmentActivity extends Fragment {
     private ActivityFragmentHomeBinding homeBinding;
 
     private ProjectViewModel projectViewModel;
-
-    private Project project;
-    private String projectId;
+    private List<String> projectIds;
 
     @Nullable
     @Override
@@ -44,13 +43,16 @@ public class HomeFragmentActivity extends Fragment {
         homeBinding = ActivityFragmentHomeBinding.inflate(inflater, container, false);
         View view = homeBinding.getRoot();
 
+
         projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
         projectViewModel.setUserProjects();
+
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
 
         projectViewModel.getUserProjects().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
             public void onChanged(Map<String, Project> userProject) {
-                homeBinding.lvProject.setAdapter(new HomeAdapter(userProject));
+                homeBinding.lvProject.setAdapter(new HomeAdapter(userProject, getActivity(), requireActivity(), projectIds));
             }
         });
 

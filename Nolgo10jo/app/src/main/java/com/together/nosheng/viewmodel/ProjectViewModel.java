@@ -21,7 +21,6 @@ public class ProjectViewModel extends ViewModel {
 
     private LiveData<Map<String, Project>> currentProject;
     private LiveData<Map<String, Project>> userProjects;
-    private LiveData<List<Post>> projectPosts;
     private ProjectRepository projectRepository;
 
     public ProjectViewModel() {
@@ -34,7 +33,6 @@ public class ProjectViewModel extends ViewModel {
 
     public void setCurrentProject(String projectId) {
         currentProject = projectRepository.getCurrentProject(projectId);
-        Log.i(TAG, "project view model 접근 완료");
     }
 
     public void addUserProject(Project userProject) {
@@ -57,4 +55,11 @@ public class ProjectViewModel extends ViewModel {
         projectRepository.addPost(projectId, posts);
     }
 
+    public void deleteUserProject(String projectId){
+        projectRepository.deleteUserProject(projectId);
+    }
+
+    public void updateUserProjectList(List<String> projects) {
+        projectRepository.updateUserProjectList(projects);
+    }
 }

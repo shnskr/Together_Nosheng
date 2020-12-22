@@ -16,7 +16,11 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
+//<<<<<<< HEAD
 import com.together.nosheng.model.plan.Plan;
+//=======
+import com.together.nosheng.model.project.Project;
+//>>>>>>> a18f415fd15f6ff928a4b55a78ff7fef23bf3dbf
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
 
@@ -181,6 +185,7 @@ public class UserRepository {
         return bookmarkList;
     }
 
+//<<<<<<< HEAD
     public LiveData<List<String>> getBookMarkID () {
         bookmarkIDHolder.clear();
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -200,4 +205,21 @@ public class UserRepository {
     }
 
 
+//=======
+    public void updateUserProjectList(List<String> projectList) {
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid())
+                .update("projectList", projectList)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Log.i(TAG, "updateUserProjectList is successfull");
+                        } else {
+                            Log.i(TAG, "update user project list error");
+                        }
+                    }
+                });
+    }
+
+//>>>>>>> a18f415fd15f6ff928a4b55a78ff7fef23bf3dbf
 }

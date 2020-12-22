@@ -74,6 +74,8 @@ public class UserViewModel extends ViewModel {
     public void setBookmarkID() {bookmarkID = userRepository.getBookMarkID();}
 
 
+
+
 }
 
 //정민님 코드
@@ -87,8 +89,3 @@ public class UserViewModel extends ViewModel {
 //        return friendNickName;
 //    }
 
-//
-//    public LiveData<List<String>> getFriendNickName() {
-//        friendNickNamelist =userRepository.getFriendList();
-//        return friendNickNamelist;
-//    }
