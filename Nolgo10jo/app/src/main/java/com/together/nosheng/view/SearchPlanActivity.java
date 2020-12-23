@@ -90,7 +90,7 @@ public class SearchPlanActivity  extends AppCompatActivity {
                     @Override
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
                         //Enter key Action
-                        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        if ((event.getAction() == KeyEvent.ACTION_DOWN) || (keyCode == KeyEvent.KEYCODE_ENTER)) {
                             search(s.toString());
                             adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
                                 @Override
@@ -113,7 +113,7 @@ public class SearchPlanActivity  extends AppCompatActivity {
                                 }
                             });
                             return true; }
-                        return false; } }); }
+                        return false; } });}
             @Override
             public void afterTextChanged(Editable s) { }});
 
@@ -135,9 +135,6 @@ public class SearchPlanActivity  extends AppCompatActivity {
                     public void onItemClick(View v, int position) {
                         Intent intent = new Intent(getApplicationContext(), SearchPlanDetailActivity.class);
                         String key = biMap2.get(planSearchList.get(position)); //DocID 보내주기
-
-                         Log.i("TESING AT 2AM", "실행됨");
-
 
                         intent.putExtra("Title", planSearchList.get(position).getPlanTitle());
                         intent.putExtra("Theme", planSearchList.get(position).getPlanTheme());
@@ -246,7 +243,7 @@ public class SearchPlanActivity  extends AppCompatActivity {
     }*/
 
     public void search(String charText) {
-        charText = charText.trim();
+        charText = charText.toLowerCase().trim();
         // 문자 입력시마다 리스트를 지우고 새로 뿌려준다.
         searchList = new HashMap<>();
 

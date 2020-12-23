@@ -163,11 +163,13 @@ public class UserRepository {
                 if(value != null){
                     List<String> bookmarkList1 = value.toObject(User.class).getBookmarkList(); //북마크리스트 가져오기
                     for(String bookMark : bookmarkList1){
+                        Log.i("Testing", bookMark);
                         db.collection("Plan").document(bookMark).get() //플랜 아이디로 플랜 가져오기
                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         DocumentSnapshot document = task.getResult();
+
                                         if(task.isSuccessful()){
                                             if(document.exists()){
                                                 bookmarkListHolder.add(document.toObject(Plan.class));

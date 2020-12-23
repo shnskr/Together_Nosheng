@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -61,19 +62,22 @@ public class SearchPlanDetailActivity extends AppCompatActivity {
 
 
         getUserBookmark();
-        binding.searchBookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //addBookmark(key);
-                if (!(bookmarkID.contains(key))){
-                    bookmark(key);
-                }else{
-                    Log.i("testing", "이미있지롱 ");
+        if (key != null) {
+            binding.searchBookmark.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //addBookmark(key);
+                    if (!(bookmarkID.contains(key))) {
+                        bookmark(key);
+                    } else {
+                        Log.i("testing", "이미있지롱 ");
+                    }
                 }
-    }
 
-});
-
+            });
+        } else{
+            Toast.makeText(getApplicationContext(), "이미 북마크에 추가되어 있습니다", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void bookmark (String key){
