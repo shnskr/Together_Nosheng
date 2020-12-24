@@ -10,11 +10,19 @@
     <!-- Include other widget or layout tags here. These are considered
             "child views" or "children" of the linear layout -->
 
+
+
     <LinearLayout
         android:layout_width="150dp"
         android:layout_height="384dp"
         android:layout_weight="1"
         android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_search_go_board"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="공지사항"/>
 
         <Button
             android:id="@+id/btn_search_title"
@@ -29,6 +37,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Theme" />
+
+
+
+
     </LinearLayout>
 
 </LinearLayout>

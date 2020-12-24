@@ -12,19 +12,30 @@ public class Board {
     private String contents;
     private String writer;
 
+    private int docNumber;//문서아이디 숫자로 해볼려고 잠시,,
+
     @ServerTimestamp
     private Date date;
 
     public Board() {
     }
 
-    public Board(String documentId,String docId, String title, String contents, String writer, Date date) {
+    public Board(String documentId,String docId, String title, String contents, String writer, Date date, int docNumber) {
         this.documentId = documentId;
         this.docId = docId;
         this.title = title;
         this.contents = contents;
         this.writer = writer;
         this.date = date;
+        this.docNumber = docNumber;
+    }
+
+    public int getDocNumber() {
+        return docNumber;
+    }
+
+    public void setDocNumber(int docNumber) {
+        this.docNumber = docNumber;
     }
 
     public String getDocumentId() {
