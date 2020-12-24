@@ -71,7 +71,7 @@ public class SearchPlanActivity  extends AppCompatActivity {
 
 
         planViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
-        planViewModel.setPlanRepository();
+        //planViewModel.setPlanRepository();
 
         editText.addTextChangedListener(new TextWatcher() { //검색바 관련 코드
             @Override
@@ -98,7 +98,7 @@ public class SearchPlanActivity  extends AppCompatActivity {
 
                                     intent.putExtra("Title", planSearchList.get(position).getPlanTitle());
                                     intent.putExtra("Theme", planSearchList.get(position).getPlanTheme());
-                                    intent.putExtra("Like", planSearchList.get(position).getPlanLike());
+                                    intent.putExtra("Like", planSearchList.get(position).getPlanLike().size());
                                     intent.putExtra("Key", key);
 
 
@@ -138,7 +138,7 @@ public class SearchPlanActivity  extends AppCompatActivity {
 
                         intent.putExtra("Title", planSearchList.get(position).getPlanTitle());
                         intent.putExtra("Theme", planSearchList.get(position).getPlanTheme());
-                        intent.putExtra("Like", planSearchList.get(position).getPlanLike());
+                        intent.putExtra("Like", planSearchList.get(position).getPlanLike().size());
                         intent.putExtra("Key", key);
 
                         startActivity(intent);
@@ -148,36 +148,6 @@ public class SearchPlanActivity  extends AppCompatActivity {
 
         });
 
-//        planViewModel.getPlans().observe(this, new Observer<Map<String, Plan>>() {
-//            @Override
-//            public void onChanged(Map<String, Plan> stringPlanMap) {
-//                planList = stringPlanMap;
-//
-//                adapter = new SearchAdapter(planList);
-//                mRecyclerView.setAdapter(adapter);
-//
-//                planSearchList = new ArrayList<>(stringPlanMap.values());//검색용 리스트에다가 플랜값 넣어주기
-//                biMap = HashBiMap.create(stringPlanMap);
-//                biMap2 = biMap.inverse();
-//
-//                adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(View v, int position) {
-//                        Intent intent = new Intent(getApplicationContext(), SearchPlanDetailActivity.class);
-//                        String key = biMap2.get(planSearchList.get(position)); //DocID 보내주기
-//
-//                        intent.putExtra("Title", planSearchList.get(position).getPlanTitle());
-//                        intent.putExtra("Theme", planSearchList.get(position).getPlanTheme());
-//                        intent.putExtra("Like", planSearchList.get(position).getPlanLike());
-//                        intent.putExtra("Key", key);
-//
-//                        startActivity(intent);
-//                    }
-//                });
-//            }
-//        });
-//
-//    }
     }
     public void search(String charText) {
         charText = charText.toLowerCase().trim();
