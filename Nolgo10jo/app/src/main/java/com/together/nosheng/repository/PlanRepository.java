@@ -37,8 +37,11 @@ public class PlanRepository {
                 if(value != null) {
                     Map<String, Plan> temp = new HashMap<>();
                     List<DocumentSnapshot> docs = value.getDocuments();
+                    Log.i("daldal", "시작");
                     for (DocumentSnapshot doc: docs) {
-                        temp.put(doc.getId(), doc.toObject(Plan.class));
+                        Log.i("daldal", doc.getData().toString());
+//                        temp.put(doc.getId(), doc.toObject(Plan.class));
+                        Log.i("daldal", "끝");
                     }
                     plans.setValue(temp);
                 } else {

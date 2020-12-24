@@ -54,7 +54,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
 
         holder.title.setText(plan.getPlanTitle());
         holder.content.setText(plan.getPlanTheme());
-        holder.content2.setText(Integer.toString(plan.getPlanLike()));
+        holder.content2.setText(Integer.toString(plan.getPlanLike().size()));
 
     }
 

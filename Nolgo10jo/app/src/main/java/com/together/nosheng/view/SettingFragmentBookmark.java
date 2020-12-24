@@ -77,7 +77,7 @@ public class SettingFragmentBookmark extends Fragment {
 
                             intent.putExtra("Title", plans.get(position).getPlanTitle());
                             intent.putExtra("Theme", plans.get(position).getPlanTheme());
-                            intent.putExtra("Like", plans.get(position).getPlanLike());
+                            intent.putExtra("Like", plans.get(position).getPlanLike().size());
 //                            intent.putExtra("Key", key);
 
 
