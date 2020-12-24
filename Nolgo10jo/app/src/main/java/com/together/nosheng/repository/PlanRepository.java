@@ -20,6 +20,7 @@ import java.util.Map;
 public class PlanRepository {
     private FirebaseFirestore db;
     private MutableLiveData<Map<String, Plan>> plans= new MutableLiveData<>();
+    private MutableLiveData<Map<String, Plan>> publicPlans= new MutableLiveData<>();
     private final String TAG = "PlanRepostiory";
 
     public PlanRepository(){ db= FirebaseFirestore.getInstance();
@@ -33,7 +34,6 @@ public class PlanRepository {
                     Log.w(TAG, "Listen failed.", error);
                     return;
                 }
-
                 if(value != null) {
                     Map<String, Plan> temp = new HashMap<>();
                     List<DocumentSnapshot> docs = value.getDocuments();
@@ -47,11 +47,35 @@ public class PlanRepository {
             }
         });
         return plans;
+
+
     }
 
-
-
-
+    public MutableLiveData<Map<String, Plan>> getPublicPlans() {
+        db.collection("Plan").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.w(TAG, "Listen failed.", error);
+                    return;
+                }
+                if(value != null) {
+                    Map<String, Plan> temp = new HashMap<>();
+                    List<DocumentSnapshot> docs = value.getDocuments();
+                    for (DocumentSnapshot doc: docs) {
+                        if(doc.toObject(Plan.class).isOpen()) {
+                            Log.i("testing1111","되고있는건감");
+                            temp.put(doc.getId(), doc.toObject(Plan.class));
+                        }
+                    }
+                    publicPlans.setValue(temp);
+                } else {
+                    Log.d(TAG, "Current data:null");
+                }
+            }
+        });
+        return publicPlans;
+    }
 
 
 }
