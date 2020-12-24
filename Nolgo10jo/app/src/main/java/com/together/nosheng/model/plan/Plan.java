@@ -19,7 +19,7 @@ public class Plan {
     private Map<String, List<Pin>> route = new HashMap<>(); // Key : 기획인지 최종경로인지, Value : Pin class
     //추가된 항목
     private String planTitle = ""; // 플랜 제목
-    private List<String> planLike; //플랜의 좋아요 개수
+    private List<String> planLike = new ArrayList<>(); //플랜의 좋아요 개수
 
     public List<Pin> getPins() {
         return pins;
