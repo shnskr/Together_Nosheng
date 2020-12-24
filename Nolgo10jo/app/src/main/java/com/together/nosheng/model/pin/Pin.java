@@ -12,6 +12,15 @@ public class Pin {
     private List<String> theme = new ArrayList<>(); // 테마
     private String pinName = ""; // 이름
     private List<User> visitors = new ArrayList<>(); // 방문객 리스트
+    private String address = "";
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public double getLatitude() {
         return latitude;

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,7 +59,7 @@ public class SettingFragmentFriend extends Fragment {
         Context context = view.getContext();
 
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.search_listView);
+        //mRecyclerView = (RecyclerView) view.findViewById(R.id.search_listView);
         mRecyclerView = view.findViewById(R.id.setting_listView);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(view.getContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -70,28 +71,21 @@ public class SettingFragmentFriend extends Fragment {
 
         userViewModel.setUserFriendList();
 
-//        userViewModel.getLiveUser().observe(getViewLifecycleOwner(), new Observer<User>() {
-//            @Override
-//            public void onChanged(User user) {
-//                friendlist.addAll(user.getFriendList());
-//                adapter = new SettingAdapter(context,friendlist);
-//                mRecyclerView.setAdapter(adapter);
-//            }
-//        });
-
         userViewModel.getUserFriendList().observe(getViewLifecycleOwner(), new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
-                Log.i("daldal", users.toString());
-                friendList.clear();
-                friendList.addAll(users);
-                adapter = new SettingAdapter(friendList, listener,context );
-                binding.settingListView.setAdapter(adapter);
+                if (users == null){
+                    Toast.makeText(context, "친구 음써ㅜㅜㅜ", Toast.LENGTH_LONG).show();
+                }
+                    adapter = new SettingAdapter(users, listener, context);
+                    binding.settingListView.setAdapter(adapter);
+
             }
         });
 
         return view;
     }
+
     private void setOnClickListener () {
         listener = new SettingAdapter.SettingRecyclerViewClickListener() {
             @Override

@@ -135,7 +135,7 @@ public class NewTripActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(NewTripActivity.this, MainActivity.class);
                     startActivity(intent);
-
+                    finish();
                 }else {
                     Toast.makeText(getApplicationContext(),"날짜를 선택해주세요!", Toast.LENGTH_SHORT).show();
                     Log.i("날짜를 선택해주세요!!!!!!!", "3");

@@ -3,26 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-<androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
 
-    android:layout_width="305dp"
-    android:layout_height="650dp"
-    android:background="@color/maincolor"
-    >
+        android:layout_width="305dp"
+        android:layout_height="650dp"
+        android:background="@color/maincolor"
+
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/setting_listView_bookmark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@android:color/darker_gray"
+            android:scrollbars="vertical"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="bookmark"
+            android:textSize="50dp"
+            android:gravity="center"
+            />
 
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="BookMark"
-        android:textSize="50dp"
-        android:gravity="center"
-
-        />
-
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -62,4 +62,8 @@ public class ProjectViewModel extends ViewModel {
     public void updateUserProjectList(List<String> projects) {
         projectRepository.updateUserProjectList(projects);
     }
+
+    public void updateDate(String projectId) {
+        projectRepository.updateDate(projectId);
+    }
 }

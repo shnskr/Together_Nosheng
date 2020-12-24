@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,8 @@ public class PlanFragmentActivity extends Fragment {
     private ProjectViewModel projectViewModel;
 
     private Project currentProject;
+    
+    private Fragment googleActivity;
 
     @Nullable
     @Override
@@ -62,8 +65,10 @@ public class PlanFragmentActivity extends Fragment {
                 updateUI();
             }
         });
+        
+        googleActivity = new GoogleActivity();
 
-        getChildFragmentManager().beginTransaction().replace(binding.flContainer.getId(), new GoogleActivity()).commit();
+        getChildFragmentManager().beginTransaction().replace(binding.flContainer.getId(), googleActivity).commit();
 
         return view;
     }
@@ -81,5 +86,16 @@ public class PlanFragmentActivity extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), R.layout.support_simple_spinner_dropdown_item, spinnerList);
         binding.spDay.setAdapter(adapter);
 
+        binding.spDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("daldal", position + "");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 }
