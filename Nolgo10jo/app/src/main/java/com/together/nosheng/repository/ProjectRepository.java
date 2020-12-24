@@ -201,19 +201,59 @@ public class ProjectRepository {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         temp.add(documentReference.getId());
-                                        db.collection("Project").document(projectId).update("plans", temp);
+                                        db.collection("Project").document(projectId).update("plans", temp).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                updatePlan(projectId);
+                                            }
+                                        });
                                     }
                                 });
                     }
                 } else {
                     temp = plans.subList(0, diffDays);
-                    db.collection("Project").document(projectId).update("plans", temp);
+                    db.collection("Project").document(projectId).update("plans", temp).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            updatePlan(projectId);
+                        }
+                    });
 
                     List<String> deletePlan = plans.subList(diffDays, plans.size());
 
                     for (String planId : deletePlan) {
                         db.collection("Plan").document(planId).delete();
                     }
+                }
+            }
+        });
+    }
+
+    public void updatePlan(String projectId) {
+        db.collection("Project").document(projectId)
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Project project = documentSnapshot.toObject(Project.class);
+                List<String> plans = project.getPlans();
+
+                Date startDate = project.getStartDate();
+                long oneDay = 1000 * 60 * 60 * 24;
+
+                for (int i = 0; i < plans.size(); i++) {
+                    String planId = plans.get(i);
+                    int finalI = i;
+                    db.collection("Plan").document(planId).get()
+                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    Plan plan = documentSnapshot.toObject(Plan.class);
+                                    plan.setProjectId(projectId);
+                                    plan.setPlanDate(new Date(startDate.getTime() + (oneDay * finalI)));
+
+                                    db.collection("Plan").document(planId).set(plan);
+                                }
+                            });
                 }
             }
         });
