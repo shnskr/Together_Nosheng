@@ -61,4 +61,16 @@ public class Pin {
     public void setVisitors(List<User> visitors) {
         this.visitors = visitors;
     }
+
+    @Override
+    public String toString() {
+        return "Pin{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", theme=" + theme +
+                ", pinName='" + pinName + '\'' +
+                ", visitors=" + visitors +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }
