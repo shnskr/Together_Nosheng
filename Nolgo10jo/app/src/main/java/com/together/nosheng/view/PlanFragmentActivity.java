@@ -44,7 +44,7 @@ public class PlanFragmentActivity extends Fragment {
     private ProjectViewModel projectViewModel;
 
     private Project currentProject;
-    
+
     private Fragment googleActivity;
 
     @Nullable
@@ -65,7 +65,7 @@ public class PlanFragmentActivity extends Fragment {
                 updateUI();
             }
         });
-        
+
         googleActivity = new GoogleActivity();
 
         getChildFragmentManager().beginTransaction().replace(binding.flContainer.getId(), googleActivity).commit();
@@ -89,7 +89,10 @@ public class PlanFragmentActivity extends Fragment {
         binding.spDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("daldal", position + "");
+                Log.i("daldal1", position + "");
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", position);
+                getChildFragmentManager().setFragmentResult("result", bundle);
             }
 
             @Override
