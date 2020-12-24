@@ -12,6 +12,8 @@ public class PlanViewModel extends ViewModel {
     private LiveData<Map<String, Plan>> userProjects;
     private PlanRepository planRepository;
 
+    private LiveData<Map<String,Plan>> publicPlans;
+
     public PlanViewModel() {
         planRepository = new PlanRepository();
         //userProjects = planRepository.getPlans();
@@ -21,5 +23,10 @@ public class PlanViewModel extends ViewModel {
     public void setPlanRepository() {
         userProjects =planRepository.getPlans();
     }
+
+    public LiveData<Map<String, Plan>> getPublicPlans (){return publicPlans;}
+    public void setPublicPlans() {publicPlans = planRepository.getPublicPlans();}
+
+
 
 }
