@@ -57,6 +57,8 @@ public class ProjectRepository {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.i(TAG, "Success adding document : " + documentReference.getId());
 
+                        updateDate(documentReference.getId());
+
                         updateProjectList(documentReference);
                     }
                 })
@@ -151,18 +153,37 @@ public class ProjectRepository {
     }
 
     public void deleteUserProject(String projectId) {
-        db.collection("Project").document(projectId)
-                .delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Log.i(TAG, "delete project!");
-                        } else {
-                            Log.i(TAG, "delete project error");
-                        }
+        db.collection("Project").document(projectId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                List<String> plans = documentSnapshot.toObject(Project.class).getPlans();
+                Log.i("dddal", plans.toString());
+
+                for (int i = 0; i < plans.size(); i++) {
+                    if (i == plans.size()-1) {
+                        db.collection("Plan").document(plans.get(i)).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                db.collection("Project").document(projectId)
+                                        .delete()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Log.i(TAG, "delete project!");
+                                                } else {
+                                                    Log.i(TAG, "delete project error");
+                                                }
+                                            }
+                                        });
+                            }
+                        });
+                    } else {
+                        db.collection("Plan").document(plans.get(i)).delete();
                     }
-                });
+                }
+            }
+        });
     }
 
 
@@ -181,7 +202,7 @@ public class ProjectRepository {
                 });
     }
 
-    public void updataDate(String projectId) {
+    public void updateDate(String projectId) {
         db.collection("Project").document(projectId)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

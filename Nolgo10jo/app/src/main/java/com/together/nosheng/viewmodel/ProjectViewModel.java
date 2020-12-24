@@ -64,6 +64,6 @@ public class ProjectViewModel extends ViewModel {
     }
 
     public void updateDate(String projectId) {
-        projectRepository.updataDate(projectId);
+        projectRepository.updateDate(projectId);
     }
 }
