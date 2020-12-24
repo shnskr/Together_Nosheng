@@ -53,7 +53,8 @@ public class BoardWriteActivity extends AppCompatActivity implements View.OnClic
         board.setTitle(binding.writeTitleEdit.getText().toString());
         board.setContents(binding.writeContentsEdit.getText().toString());
         board.setDate(new Date());
-        db.collection("AdminBoard").document().set(board, SetOptions.merge());
+
+            db.collection("AdminBoard").document().set(board, SetOptions.merge());
         finish();
 
 

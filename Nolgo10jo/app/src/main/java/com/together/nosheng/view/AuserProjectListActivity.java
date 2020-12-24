@@ -57,7 +57,7 @@ public class AuserProjectListActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        String docId = getIntent().getStringExtra("docId");
+        String docId = getIntent().getStringExtra("docId");//intent로 넘긴 docId를 받아서 밑에 document(docId)부분에 쓰면되용>ㅁ<
 
         db.collection("User").document(docId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override

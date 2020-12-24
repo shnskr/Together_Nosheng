@@ -57,7 +57,7 @@ public class UserProjectListAdapter extends BaseAdapter {
 //        Log.i("아아앜","아아아앜"+position+"/"+items.toString());
 //        User user = items.get(position);
 
-        SimpleDateFormat format = new SimpleDateFormat("yy-mm-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd");
 
 
         view.setProject_title(project.getTitle());// 리스트 아이템 하나에 하나하나 set
@@ -65,12 +65,21 @@ public class UserProjectListAdapter extends BaseAdapter {
         view.setTv_enddate(format.format(project.getEndDate()));
 
         Date today = new Date();
+        Log.i("dkdkkdkdkd",today+"");
+
+        Log.i("dk",project.getStartDate().after(today)+"dkdkdkkdkd 0");
+        Log.i("dk",project.getStartDate() + "");
+        Log.i("dk",project.getEndDate() + "");
+        Log.i("dk",today + "");
 
         if(project.getStartDate().after(today)){
+            Log.i("dkdkkdkdkd","dkdkdkkdkd 1");
             view.setTv_status("Planning");
-        } else if(today.before(project.getStartDate()) && today.after(project.getEndDate())){
+        } else if(today.after(project.getStartDate()) && today.before(project.getEndDate())){
+            Log.i("dkdkkdkdkd","dkdkdkkdkd 2");
             view.setTv_status("Carpe Diem");
         } else if(project.getEndDate().before(today)) {
+            Log.i("dkdkkdkdkd","dkdkdkkdkd 3");
             view.setTv_status("the End");
         }
 
