@@ -143,12 +143,12 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
         void show() {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            builder.setTitle("삭제하시겄어유?");//팝업창의 제목
+            builder.setTitle("게시글을 삭제 하시겠습니까??");//팝업창의 제목
 
-            String tv_text = "ㄹㅇ삭제?!";//팝업창 내용
+            String tv_text = "삭제하면 되돌릴 수 없습니다!";//팝업창 내용
             builder.setMessage(tv_text);
 
-            builder.setPositiveButton("이이",
+            builder.setPositiveButton("예",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -170,7 +170,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
                         }
                     });
 
-            builder.setNegativeButton("노노",
+            builder.setNegativeButton("아니오",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                         }

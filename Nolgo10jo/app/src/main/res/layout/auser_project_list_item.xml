@@ -19,11 +19,12 @@
             android:id="@+id/project_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
+            android:textSize="25sp"
             android:textStyle="bold"
-            android:textColor="@color/purple_200"
+            android:textColor="@color/black"
             android:paddingBottom="8dp"
             tools:text="프로젝트 이름"/>
+
 
 
         <LinearLayout
@@ -35,23 +36,19 @@
                 android:id="@+id/tv_startdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13dp"
-                android:textStyle="bold"
+                android:textSize="15sp"
                 android:textColor="@color/hotpink"
                 tools:text="시작날짜 ~"/>
 
-            <TextView
-                android:id="@+id/tv_enddate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13dp"
-                android:textStyle="bold"
-                android:textColor="@color/hotpink"
-                tools:text="종료날짜"/>
+        <TextView
+            android:id="@+id/tv_enddate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/hotpink"
+            tools:text="종료날짜"/>
 
-    </LinearLayout>
-
-
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -59,19 +56,20 @@
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center">
 
         <TextView
             android:id="@+id/tv_status"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textSize="23sp"
-            android:textColor="@color/black"
-            android:text="진행 중"
+            android:textColor="@color/softBlack"
+            tools:text="진행 중"
             android:textStyle="bold"
-            android:paddingLeft="70dp"/>
+            android:textAlignment="center"
+            android:paddingLeft="10dp"/>
 
     </LinearLayout>
 

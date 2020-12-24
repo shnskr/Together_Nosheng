@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:textStyle="bold"
-            android:textColor="@color/purple_200"
+            android:textColor="@color/black"
             android:text="이름"/>
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textStyle="bold"
-            android:textColor="@color/hotpink"
+            android:textColor="@color/softBlack"
             android:text="이메일"/>
 
 

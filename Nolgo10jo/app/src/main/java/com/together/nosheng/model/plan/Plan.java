@@ -90,4 +90,18 @@ public class Plan {
     public void setRoute(Map<String, List<Pin>> route) {
         this.route = route;
     }
+
+    @Override
+    public String toString() {
+        return "Plan{" +
+                "date=" + date +
+                ", open=" + open +
+                ", planTheme='" + planTheme + '\'' +
+                ", pins=" + pins +
+                ", projectId='" + projectId + '\'' +
+                ", route=" + route +
+                ", planTitle='" + planTitle + '\'' +
+                ", planLike=" + planLike +
+                '}';
+    }
 }
