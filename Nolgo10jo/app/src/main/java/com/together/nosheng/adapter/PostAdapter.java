@@ -27,7 +27,6 @@ import com.together.nosheng.viewmodel.ProjectViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Date;
 
 public class PostAdapter extends BaseAdapter {
 
@@ -43,7 +42,6 @@ public class PostAdapter extends BaseAdapter {
         this.context = context;
         this.projectId = projectId;
         this.fragment = fragment;
-
     }
 
     @Override

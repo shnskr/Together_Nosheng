@@ -80,4 +80,8 @@ public class UserViewModel extends ViewModel {
         userFriendList = userRepository.getUserFriendList();
     }
 
+    public List<String> getUserProject(){
+        return userRepository.getUserProject();
+    }
+
 }

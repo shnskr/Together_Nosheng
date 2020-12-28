@@ -14,6 +14,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
@@ -37,6 +39,7 @@ public class UserRepository {
 
     private MutableLiveData<List<User>> userFriendList2 = new MutableLiveData<>();
     private List<User> userFriendListHolder = new ArrayList<>();
+    private List<String> userProjectList = new ArrayList<>();
 //    private User temp;
 
 
@@ -175,6 +178,23 @@ public class UserRepository {
                         }
                     }
                 });
+    }
+
+    public List<String> getUserProject() {
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    List<String> temp = task.getResult().toObject(User.class).getProjectList();
+                    userProjectList.addAll(temp);
+                    Log.i(TAG+" 성공!",userProjectList.toString());
+                } else {
+                    Log.i(TAG, "Error getting user projectList");
+                }
+            }
+        });
+        return userProjectList;
     }
 
 }

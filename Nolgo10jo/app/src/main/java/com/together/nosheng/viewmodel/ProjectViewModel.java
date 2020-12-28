@@ -1,15 +1,11 @@
 package com.together.nosheng.viewmodel;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
+import com.together.nosheng.model.user.User;
 import com.together.nosheng.repository.ProjectRepository;
 
 import java.util.List;
@@ -61,5 +57,25 @@ public class ProjectViewModel extends ViewModel {
 
     public void updateUserProjectList(List<String> projects) {
         projectRepository.updateUserProjectList(projects);
+    }
+
+    public void addMember(String projectId, List<User> members){
+        projectRepository.addMember(projectId, members);
+    }
+
+    public void addNonmember(String projectId, List<String> nonmember){
+        projectRepository.addNonmember(projectId, nonmember);
+    }
+
+    public void addTag(String projectId, List<String> tags){
+        projectRepository.addTag(projectId, tags);
+    }
+
+    public void addUserTags(String projectId, Map<String, List<String>> userTags){
+        projectRepository.addUserTags(projectId, userTags);
+    }
+
+    public List<String> getProjectList(){
+        return projectRepository.getProjectList();
     }
 }

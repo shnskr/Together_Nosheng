@@ -12,6 +12,35 @@
     android:isScrollContainer="true">
 
     <LinearLayout
+        android:id="@+id/lay_join_project"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:background="#FFF">
+
+        <EditText
+            android:id="@+id/etxt_join_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:hint="참여할 여행기 코드를 입력하세요!"
+            android:maxLines="1" />
+
+        <Button
+            android:id="@+id/btn_join"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="Join"
+            android:textAlignment="center"
+            android:textColor="#0080FF"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/lay_newTrip_project"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -98,6 +127,7 @@
 
 
     <LinearLayout
+        android:id="@+id/lay_calenar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">

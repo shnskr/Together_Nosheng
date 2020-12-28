@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,12 +22,15 @@ import com.squareup.timessquare.CalendarPickerView;
 import com.together.nosheng.databinding.ActivityNewTripBinding;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
+import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 import com.together.nosheng.viewmodel.UserViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,9 +41,9 @@ public class NewTripActivity extends AppCompatActivity {
     private UserViewModel userViewModel;
     private ActivityNewTripBinding newTripBinding;
 
-    private List<String> projectList;
-
     private String TAG = "NewTripActivity";
+
+    private String joinCode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,22 +55,69 @@ public class NewTripActivity extends AppCompatActivity {
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
+        List<String> members = project.getMembers();
+        List<String> projectList = userViewModel.getUserProject();
+        Log.i(TAG,"projectList 설마여기도? : "+projectList);
+        List<String> allProjectList = projectViewModel.getProjectList();
+        Log.i(TAG,"allProjectList 설마여기도? : "+allProjectList);
+
+        //join project
+        newTripBinding.btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                joinCode = newTripBinding.etxtJoinCode.getText().toString();
+                Log.i(TAG,"projectList 여긴왜 없지? : "+projectList);
+                Log.i(TAG,"allProjectList 여긴왜 없지? : "+allProjectList);
+
+                boolean key = false;
+                boolean key2 = true;
+
+                if(joinCode.length() > 0){
+                    joinCode.trim();
+                    Log.i("들어오자!", "1");
+                    if(allProjectList.contains(joinCode)){
+                        Log.i("들어오자!", "2");
+                        if(!projectList.contains(joinCode)){
+                            Log.i("들어오자!", "3");
+                            members.add(GlobalApplication.firebaseUser.getUid());
+                            projectList.add(joinCode);
+                            projectViewModel.addNonmember(joinCode,members);
+                            userViewModel.updateUserProjectList(projectList);
+                            key2 = false;
+                            finish();
+                        }
+                        key = true;
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(),"코드를 입력하세요!", Toast.LENGTH_SHORT).show();
+                    Log.i("Join project need code", "3");
+                }
+
+                if(key == false){
+                    Toast.makeText(getApplicationContext(),"존재하지 않는 코드입니다!", Toast.LENGTH_SHORT).show();
+                    Log.i("join code error", "-1");
+                } else if(key == true && key2 == true){
+                    Toast.makeText(getApplicationContext(),"이미 추가된된 코드입니다!", Toast.LENGTH_SHORT).show();
+                    Log.i("join code error", "0");
+                }
+
+            }
+        });
 
         //EditText 리스너 (입력시 반응)
         newTripBinding.etxtTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
             @Override
             public void afterTextChanged(Editable s) {
                 newTripBinding.txtCountLength.setText(15-s.length()+"글자");   //글자수 TextView에 보여주기.
             }
         });
+
 
         //calendar function
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");   //추가
@@ -126,19 +177,33 @@ public class NewTripActivity extends AppCompatActivity {
         newTripBinding.btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(project.getStartDate() != null){
-                    project.setTitle(newTripBinding.etxtTitle.getText().toString());
-                    project.setRegDate(new Date());
-                    projectViewModel.addUserProject(project);
+                joinCode = newTripBinding.etxtJoinCode.getText().toString();
+                Log.i(TAG+"글자수", joinCode+"??>>");
+                if(joinCode.length() == 0){
+                    if(project.getStartDate() != null){
+                        List<String> members = new ArrayList<>();
+                        Map<String, List<String>> userTags = new HashMap<>();
 
-//                    userViewModel.updateUserProjectList(projectList);
+                        members.add(GlobalApplication.firebaseUser.getUid());
+                        userTags.put(members.get(0), new ArrayList<>());
 
-                    Intent intent = new Intent(NewTripActivity.this, MainActivity.class);
-                    startActivity(intent);
+                        project.setTitle(newTripBinding.etxtTitle.getText().toString());
+                        project.setRegDate(new Date());
+                        project.setMembers(members);
+                        project.setUserTags(userTags);
+                        projectViewModel.addUserProject(project);
 
-                }else {
-                    Toast.makeText(getApplicationContext(),"날짜를 선택해주세요!", Toast.LENGTH_SHORT).show();
-                    Log.i("날짜를 선택해주세요!!!!!!!", "3");
+                        Intent intent = new Intent(NewTripActivity.this, MainActivity.class);
+                        startActivity(intent);
+
+                        finish();
+                    }else {
+                        Toast.makeText(getApplicationContext(),"날짜를 선택해주세요!", Toast.LENGTH_SHORT).show();
+                        Log.i("날짜를 선택해주세요!!!!!!!", "3");
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(),"여행기 참여하시려면\nJoin을 눌러주세요!", Toast.LENGTH_SHORT).show();
+                    Log.i("Join project", "3");
                 }
             }
         });
