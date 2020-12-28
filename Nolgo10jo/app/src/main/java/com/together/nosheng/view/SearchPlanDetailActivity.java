@@ -23,6 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.together.nosheng.databinding.LayoutSearchItemDetailBinding;
 import com.together.nosheng.model.plan.Plan;
+import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.PlanViewModel;
 import com.together.nosheng.viewmodel.UserViewModel;
@@ -44,28 +45,57 @@ public class SearchPlanDetailActivity extends AppCompatActivity {
     private UserViewModel userViewModel;
 
     private List<String> bookmarkID = new ArrayList<>();
+    private Map<String, Plan> planMap = new HashMap<>();
+    private Plan plan;
+    private User tempUser;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = LayoutSearchItemDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        String title = getIntent().getStringExtra("Title");
-        String theme = getIntent().getStringExtra("Theme");
-        int like = getIntent().getIntExtra("Like", 0);
         String key = getIntent().getStringExtra("Key");
 
-        binding.searchDetailTitle.setText(title);
-        binding.searchDetailTheme.setText(theme);
-        binding.searchDetailLike.setText(Integer.toString(like));
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel.setLiveUser();
+        userViewModel.getLiveUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                tempUser = user;
+            }
+        });
 
 
 
-        getUserBookmark();
+        planViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
+        planViewModel.setPlanRepository();
+        planViewModel.getPlans().observe(this, new Observer<Map<String, Plan>>() {
+                    @Override
+                    public void onChanged(Map<String, Plan> stringPlanMap) {
+                        planMap.putAll(stringPlanMap);
+                        plan= stringPlanMap.get(key);
+                        binding.searchDetailTitle.setText(plan.getPlanTitle());
+                        binding.searchDetailTheme.setText(plan.getPlanTheme());
+                        binding.searchDetailLike.setText(Integer.toString(plan.getPlanLike().size()));
+                    }
+                });
+
+        binding.searchDetailLikeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userLike(key);
+            }
+        });
+
+
+
+
         if (key != null) {
+
             binding.searchBookmark.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    getUserBookmark();
                     //addBookmark(key);
                     if (!(bookmarkID.contains(key))) {
                         bookmark(key);
@@ -99,16 +129,31 @@ public class SearchPlanDetailActivity extends AppCompatActivity {
 
         public void getUserBookmark() {
         bookmarkID.clear();
-        userViewModel= new ViewModelProvider(this).get(UserViewModel.class);
-        userViewModel.setBookmarkID();
-        userViewModel.getBookmarkID().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> plans) {
-                bookmarkID.addAll(plans);
-                for (String p: bookmarkID){
-                    Log.i("testing", p);
-                }
+        bookmarkID.addAll(tempUser.getBookmarkList());
+
+//        userViewModel.setBookmarkID();
+//        userViewModel.getBookmarkID().observe(this, new Observer<List<String>>() {
+//            @Override
+//            public void onChanged(List<String> plans) {
+//                bookmarkID.addAll(plans);
+//                for (String p: bookmarkID){
+//                    Log.i("testing", p);
+//                }
+//            }
+//        });
+        }
+
+        public void userLike (String key) {
+        List<String> planLike = new ArrayList<>();
+        for(String s : plan.getPlanLike()){
+        if (s.equals(GlobalApplication.firebaseUser.getUid())) {
+            Log.i("detailActivity", " 이미 좋아요 눌렀음");
+        }else {
+            if (key != null) {
+                planLike.addAll(planMap.get(key).getPlanLike());
+                planViewModel.userLiked(planLike, key);
             }
-        });
+        }
+        }
         }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.repository.PlanRepository;
 
+import java.util.List;
 import java.util.Map;
 
 public class PlanViewModel extends ViewModel {
@@ -26,6 +27,11 @@ public class PlanViewModel extends ViewModel {
 
     public LiveData<Map<String, Plan>> getPublicPlans (){return publicPlans;}
     public void setPublicPlans() {publicPlans = planRepository.getPublicPlans();}
+
+    public void userLiked (List<String> prevData, String s){
+        planRepository.planLiked(prevData, s);
+    }
+
 
 
 
