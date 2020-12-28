@@ -42,6 +42,15 @@ public class SearchFragmentActivity extends Fragment {
             }
         });
 
+        //공지사항2 가즈아
+        searchBinding.btnSearchGoBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BoardActivity2.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 }

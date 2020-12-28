@@ -9,20 +9,27 @@ import android.view.View;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.together.nosheng.databinding.ActivityBoardWriteBinding;
 import com.together.nosheng.model.board.Board;
+import com.together.nosheng.model.user.User;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BoardWriteActivity extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ActivityBoardWriteBinding binding;
+    private List<Board> docnum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +60,23 @@ public class BoardWriteActivity extends AppCompatActivity implements View.OnClic
         board.setTitle(binding.writeTitleEdit.getText().toString());
         board.setContents(binding.writeContentsEdit.getText().toString());
         board.setDate(new Date());
-        db.collection("AdminBoard").document().set(board, SetOptions.merge());
-        finish();
+
+//        List<Integer> docList = Collections.singletonList(board.getDocNumber());
+//        for (int docId : docList) {
+
+            CollectionReference collection = db.collection("AdminBoard");//<문서 아이디 숫자로 주려는 작업>
+
+            collection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            int count = queryDocumentSnapshots.toObjects(Board.class).size();
+                            collection.document(String.valueOf(count + 1)).set(board);
+                        }
+                    });
+//                    .document()
+//                    .set(board, SetOptions.merge());
+            finish();//</문서 아이디 숫자로 주려는 작업>
+//        }
 
 
 //        db.collection("AdminBoard").document().set(board, SetOptions.merge())//여기서 set board를 하기때문에 위에 5줄코드는 onSuccess안으로 안들어가도 댐.

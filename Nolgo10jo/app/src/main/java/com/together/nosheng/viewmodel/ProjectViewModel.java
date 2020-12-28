@@ -75,7 +75,11 @@ public class ProjectViewModel extends ViewModel {
         projectRepository.addUserTags(projectId, userTags);
     }
 
-    public List<String> getProjectList(){
+    public List<String> getProjectList() {
         return projectRepository.getProjectList();
+    }
+
+    public void updateDate(String projectId) {
+        projectRepository.updateDate(projectId);
     }
 }

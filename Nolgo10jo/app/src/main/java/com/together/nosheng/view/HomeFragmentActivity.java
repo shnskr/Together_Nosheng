@@ -47,8 +47,6 @@ public class HomeFragmentActivity extends Fragment {
         projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
         projectViewModel.setUserProjects();
 
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-
         projectViewModel.getUserProjects().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
             public void onChanged(Map<String, Project> userProject) {

@@ -92,7 +92,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.CustomView
 
         holder.plan_title.setText(plans.get(planId.get(position)).getPlanTitle());
         holder.plan_theme.setText(plans.get(planId.get(position)).getPlanTheme());
-        holder.plan_like.setText(Integer.toString(plans.get(planId.get(position)).getPlanLike()));
+        holder.plan_like.setText(Integer.toString(plans.get(planId.get(position)).getPlanLike().size()));
     }
 
     @Override

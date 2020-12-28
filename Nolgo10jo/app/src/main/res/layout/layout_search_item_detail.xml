@@ -40,6 +40,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Button" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/search_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:layout_weight="1"
+            android:text="북마크에 저-장!" />
     </LinearLayout>
 
 </LinearLayout>

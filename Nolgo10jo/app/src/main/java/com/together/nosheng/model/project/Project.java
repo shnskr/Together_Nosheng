@@ -23,7 +23,8 @@ public class Project {
     private List<String> tags = new ArrayList<>(); //테그 목록
     private Map<String, CheckList> checkLists = new HashMap<>(); // Key : 유저 ID,  Value : CheckList class(체크리스트 항목)
     private List<String> members = new ArrayList<>();
-    private List<Plan> plans = new ArrayList<>();
+    private List<String> plans = new ArrayList<>();
+
 
     public Project() {
         budgets.put("식비", new Budget());
@@ -118,11 +119,11 @@ public class Project {
         this.members = members;
     }
 
-    public List<Plan> getPlans() {
+    public List<String> getPlans() {
         return plans;
     }
 
-    public void setPlans(List<Plan> plans) {
+    public void setPlans(List<String> plans) {
         this.plans = plans;
     }
 

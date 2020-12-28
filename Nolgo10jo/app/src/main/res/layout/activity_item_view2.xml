@@ -8,7 +8,7 @@
     android:weightSum="100">
 
     <TextView
-        android:id="@+id/it_title"
+        android:id="@+id/it_title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -20,7 +20,7 @@
         tools:text="title"/>
 
     <TextView
-        android:id="@+id/it_id"
+        android:id="@+id/it_id2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
@@ -32,7 +32,7 @@
         tools:text="id"/>
 
     <TextView
-        android:id="@+id/it_contents"
+        android:id="@+id/it_contents2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -42,7 +42,7 @@
         tools:text="contents"/>
 
     <TextView
-        android:id="@+id/it_time"
+        android:id="@+id/it_time2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
@@ -52,18 +52,5 @@
         android:layout_marginBottom="300dp"
         tools:text="time"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="bottom|center">
-
-        <Button
-            android:id="@+id/edit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="수정" />
-
-    </LinearLayout>
 
 </LinearLayout>

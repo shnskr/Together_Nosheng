@@ -12,6 +12,15 @@ public class Pin {
     private List<String> theme = new ArrayList<>(); // 테마
     private String pinName = ""; // 이름
     private List<User> visitors = new ArrayList<>(); // 방문객 리스트
+    private String address = "";
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public double getLatitude() {
         return latitude;
@@ -51,5 +60,17 @@ public class Pin {
 
     public void setVisitors(List<User> visitors) {
         this.visitors = visitors;
+    }
+
+    @Override
+    public String toString() {
+        return "Pin{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", theme=" + theme +
+                ", pinName='" + pinName + '\'' +
+                ", visitors=" + visitors +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

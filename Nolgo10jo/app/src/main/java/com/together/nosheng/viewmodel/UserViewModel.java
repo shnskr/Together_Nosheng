@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.repository.UserRepository;
 import com.together.nosheng.util.GlobalApplication;
@@ -25,6 +26,11 @@ public class UserViewModel extends ViewModel {
 
     private LiveData<List<String>> friendNickNamelist;
     private LiveData<List<User>> userFriendList;
+
+    private LiveData<List<Plan>> bookmarkList;
+    private LiveData<List<String>> bookmarkID;
+
+
 
     String TAG = "User ViewModel : ";
 
@@ -51,33 +57,28 @@ public class UserViewModel extends ViewModel {
         liveUser = userRepository.getLiveUser();
     }
 
-    //정민님 코드
-//    public LiveData<ArrayList<String>> friendLiveData() {
-//        return friendNickName;
-//    }
-//    public void setFriend(ArrayList<String> lists) {
-//        userRepository.setFriend(lists);
-//    }
-//    public LiveData<ArrayList<String>> friendNameLiveData() {
-//        return friendNickName;
-//    }
-
-
-    public LiveData<List<String>> getFriendNickName() {
-        friendNickNamelist =userRepository.getFriendList();
-        return friendNickNamelist;
-    }
-
-    public void updateUserProjectList(List<String> projectList){
-        userRepository.updateUserProjectList(projectList);
-    }
-
     public LiveData<List<User>> getUserFriendList(){
         return userFriendList;
     }
 
     public void setUserFriendList(){
         userFriendList = userRepository.getUserFriendList();
+    }
+
+    public  LiveData<List<Plan>> getBookmarkList() {return bookmarkList;}
+
+    public void setBookmarkList() {bookmarkList = userRepository.getBookMarkList();}
+
+    public LiveData<List<String>> getBookmarkID() {return bookmarkID; }
+
+
+//    public LiveData<List<String>> getFriendNickName() {
+//        friendNickNamelist = userRepository.getFriendList();
+//        return friendNickNamelist;
+//    }
+
+    public void updateUserProjectList(List<String> projectList){
+        userRepository.updateUserProjectList(projectList);
     }
 
     public List<String> getUserProject(){

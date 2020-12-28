@@ -174,6 +174,7 @@ public class TripInfoFragmentActivity extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 projectViewModel.updateUserProject(project, projectId);
+                projectViewModel.updateDate(projectId);
                 Toast.makeText(getActivity(), "일정이 수정되었습니다.", Toast.LENGTH_SHORT).show();
                 Log.i("일정이 수정되었습니다.", "0");
             }
