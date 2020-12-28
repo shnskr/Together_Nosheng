@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/round"
-    android:padding="10dp">
+    android:layout_marginBottom="5dp">
 
     <ImageView
         android:id="@+id/iv_admin"
         android:layout_width="80dp"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        android:layout_marginLeft="9dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
