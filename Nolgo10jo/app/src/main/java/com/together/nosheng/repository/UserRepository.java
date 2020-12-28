@@ -9,12 +9,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 //<<<<<<< HEAD
 import com.together.nosheng.model.plan.Plan;
@@ -47,6 +49,10 @@ public class UserRepository {
 
     private MutableLiveData<List<String>> bookmarkID = new MutableLiveData<>();
     private List<String> bookmarkIDHolder = new ArrayList<>();
+
+//    private List<String> keyTemp;
+
+//    private MutableLiveData<Map<String, Plan>> bookmarkMap = new MutableLiveData<>();
 
 
 
@@ -206,6 +212,16 @@ public class UserRepository {
         return bookmarkID;
     }
 
+//    public Map<String, Plan> getBookMarkMap(){
+//        db.collection("Plan").addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//             Log.i("솔솔", "뭐가 되긴 함 ");
+//            }
+//        });
+//        return null;
+//    }
+
 
 //=======
     public void updateUserProjectList(List<String> projectList) {
@@ -224,4 +240,5 @@ public class UserRepository {
     }
 
 //>>>>>>> a18f415fd15f6ff928a4b55a78ff7fef23bf3dbf
+
 }

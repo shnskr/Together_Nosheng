@@ -71,7 +71,14 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<List<String>> getBookmarkID() {return bookmarkID; }
 
-    public void setBookmarkID() {bookmarkID = userRepository.getBookMarkID();}
+//    public void setBookmarkID() {bookmarkID = userRepository.getBookMarkID();}
+//
+//    public Map<String, Plan> getBookMarkMap(){
+//        Map<String,Plan> returnVal = userRepository.getBookMarkMap();
+//        return returnVal;
+//    }
+
+
 
 
 
