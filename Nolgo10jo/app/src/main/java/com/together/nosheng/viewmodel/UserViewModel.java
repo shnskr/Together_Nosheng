@@ -24,7 +24,7 @@ public class UserViewModel extends ViewModel {
     //친구 정보 관련
     private LiveData<ArrayList<String>> friendNickName;
 
-    //private LiveData<List<String>> friendNickNamelist;
+    private LiveData<List<String>> friendNickNamelist;
     private LiveData<List<User>> userFriendList;
 
     private LiveData<List<Plan>> bookmarkList;
@@ -71,28 +71,12 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<List<String>> getBookmarkID() {return bookmarkID; }
 
-//    public void setBookmarkID() {bookmarkID = userRepository.getBookMarkID();}
-//
-//    public Map<String, Plan> getBookMarkMap(){
-//        Map<String,Plan> returnVal = userRepository.getBookMarkMap();
-//        return returnVal;
-//    }
+    public void updateUserProjectList(List<String> projectList){
+        userRepository.updateUserProjectList(projectList);
+    }
 
-
-
-
-
+    public List<String> getUserProject(){
+        return userRepository.getUserProject();
+    }
 
 }
-
-//정민님 코드
-//    public LiveData<ArrayList<String>> friendLiveData() {
-//        return friendNickName;
-//    }
-//    public void setFriend(ArrayList<String> lists) {
-//        userRepository.setFriend(lists);
-//    }
-//    public LiveData<ArrayList<String>> friendNameLiveData() {
-//        return friendNickName;
-//    }
-

@@ -1,7 +1,6 @@
 package com.together.nosheng.repository;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,27 +8,19 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
-//<<<<<<< HEAD
 import com.together.nosheng.model.plan.Plan;
-//=======
-import com.together.nosheng.model.project.Project;
-//>>>>>>> a18f415fd15f6ff928a4b55a78ff7fef23bf3dbf
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class UserRepository {
     private String TAG = "UserRepository";
@@ -43,16 +34,14 @@ public class UserRepository {
 
     private MutableLiveData<List<User>> userFriendList = new MutableLiveData<>();
     private List<User> userFriendListHolder = new ArrayList<>();
+    private List<String> userProjectList = new ArrayList<>();
+
 
     private MutableLiveData<List<Plan>> bookmarkList = new MutableLiveData<>();
     private List<Plan> bookmarkListHolder = new ArrayList<>();
 
     private MutableLiveData<List<String>> bookmarkID = new MutableLiveData<>();
     private List<String> bookmarkIDHolder = new ArrayList<>();
-
-//    private List<String> keyTemp;
-
-//    private MutableLiveData<Map<String, Plan>> bookmarkMap = new MutableLiveData<>();
 
 
 
@@ -193,7 +182,6 @@ public class UserRepository {
         return bookmarkList;
     }
 
-//<<<<<<< HEAD
     public LiveData<List<String>> getBookMarkID () {
         bookmarkIDHolder.clear();
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -212,18 +200,6 @@ public class UserRepository {
         return bookmarkID;
     }
 
-//    public Map<String, Plan> getBookMarkMap(){
-//        db.collection("Plan").addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//             Log.i("솔솔", "뭐가 되긴 함 ");
-//            }
-//        });
-//        return null;
-//    }
-
-
-//=======
     public void updateUserProjectList(List<String> projectList) {
         db.collection("User").document(GlobalApplication.firebaseUser.getUid())
                 .update("projectList", projectList)
@@ -239,6 +215,20 @@ public class UserRepository {
                 });
     }
 
-//>>>>>>> a18f415fd15f6ff928a4b55a78ff7fef23bf3dbf
-
+    public List<String> getUserProject() {
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    List<String> temp = task.getResult().toObject(User.class).getProjectList();
+                    userProjectList.addAll(temp);
+                    Log.i(TAG+" 성공!",userProjectList.toString());
+                } else {
+                    Log.i(TAG, "Error getting user projectList");
+                }
+            }
+        });
+        return userProjectList;
+    }
 }

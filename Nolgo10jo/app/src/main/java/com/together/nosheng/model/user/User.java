@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class User {
 
-
     private String eMail = "";
     private String nickName = "";
     private Date regDate = new Date();
@@ -17,7 +16,6 @@ public class User {
     private List<String> friendList = new ArrayList<>();
     private List<String> projectList = new ArrayList<>();
     private List<String> bookmarkList; // docID, string
-
 
     public User(String eMail, String nickName, Date regDate, String thumbnail, ArrayList<String> friendList, ArrayList<String> bookmarkList) {
         this.eMail = eMail;

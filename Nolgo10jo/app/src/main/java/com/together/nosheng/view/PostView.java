@@ -3,32 +3,21 @@ package com.together.nosheng.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.together.nosheng.R;
-import com.together.nosheng.databinding.LayoutNoteListItemBinding;
 import com.together.nosheng.model.project.Post;
-import com.together.nosheng.model.user.User;
-import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 
 public class PostView extends LinearLayout {
@@ -78,8 +67,8 @@ public class PostView extends LinearLayout {
         }
     }
 
-    public void deleteNote(Context context, List<Post> posts, String projectId, int position, FragmentActivity fragment) {
-        projectViewModel = new ViewModelProvider(fragment).get(ProjectViewModel.class);
+    public void deleteNote(Context context, List<Post> posts, String projectId, int position, FragmentActivity fragmentActivity) {
+        projectViewModel = new ViewModelProvider(fragmentActivity).get(ProjectViewModel.class);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +88,7 @@ public class PostView extends LinearLayout {
                         Log.i("메모가 삭제되었습니다.", "0");
                     }
                 });
+
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

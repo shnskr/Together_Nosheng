@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.together.nosheng.model.pin.Pin;
@@ -184,7 +185,6 @@ public class ProjectRepository {
         });
     }
 
-
     public void addPost(String projectId, List<Post> posts) {
         db.collection("Project").document(projectId)
                 .update("posts",posts)
@@ -198,6 +198,84 @@ public class ProjectRepository {
                         }
                     }
                 });
+    }
+
+    public void addMember(String projectId, List<User> members) {
+        db.collection("Project").document(projectId)
+                .update("members",members)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Log.i(TAG, "");
+                        } else {
+                            Log.e(TAG, "add Member error !");
+                        }
+                    }
+                });
+    }
+
+    public void addNonmember(String projectId, List<String> nonmember) {
+        db.collection("Project").document(projectId)
+                .update("members",nonmember)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Log.i(TAG, "");
+                        } else {
+                            Log.e(TAG, "add Member error !");
+                        }
+                    }
+                });
+    }
+
+    public void addTag(String projectId, List<String> tags) {
+        db.collection("Project").document(projectId)
+                .update("tags",tags)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Log.i(TAG, "");
+                        } else {
+                            Log.e(TAG, "add tag error !");
+                        }
+                    }
+                });
+    }
+
+    public void addUserTags(String projectId, Map<String, List<String>> userTags) {
+        db.collection("Project").document(projectId)
+                .update("userTags",userTags)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Log.i(TAG, "");
+                        } else {
+                            Log.e(TAG, "add user tags error !");
+                        }
+                    }
+                });
+    }
+
+    public List<String> getProjectList() {
+        List<String> allProjectList = new ArrayList<>();
+        db.collection("Project").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                allProjectList.add(documentSnapshot.getId());
+                            }
+                        } else {
+                            Log.i(TAG, "Error getting projectList");
+                        }
+                    }
+                });
+        return allProjectList;
     }
 
     public void updateDate(String projectId) {

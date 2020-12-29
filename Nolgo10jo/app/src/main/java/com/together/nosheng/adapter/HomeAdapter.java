@@ -71,7 +71,7 @@ public class HomeAdapter extends BaseAdapter {
 
         if(project.getStartDate().after(today)){
             projectView.setTravelStatus("Planning");
-        } else if(today.before(project.getStartDate()) && today.after(project.getEndDate())){
+        } else if(today.after(project.getStartDate()) && today.before(project.getEndDate())){
             projectView.setTravelStatus("Carpe Diem");
         } else if(project.getEndDate().before(today)) {
             projectView.setTravelStatus("the End");

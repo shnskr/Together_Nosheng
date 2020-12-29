@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.together.nosheng.view.BoardFragmentActivity;
 import com.together.nosheng.view.BudgetFragmentActivity;
-import com.together.nosheng.view.MemeberFragmentActivity;
+import com.together.nosheng.view.MemberFragmentActivity;
 import com.together.nosheng.view.PlanFragmentActivity;
 import com.together.nosheng.view.TripInfoFragmentActivity;
 
@@ -25,7 +25,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
 
         switch (position){
             case 0 :
-                return new MemeberFragmentActivity();
+                return new MemberFragmentActivity();
             case 1 :
                 return new BudgetFragmentActivity();
             case 2 :
@@ -35,7 +35,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
             case 4 :
                 return new TripInfoFragmentActivity();
             default :
-                return new MemeberFragmentActivity();
+                return new MemberFragmentActivity();
         }
     }
 
