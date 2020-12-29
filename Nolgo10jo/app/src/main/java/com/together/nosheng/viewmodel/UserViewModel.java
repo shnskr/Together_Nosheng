@@ -71,12 +71,6 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<List<String>> getBookmarkID() {return bookmarkID; }
 
-
-//    public LiveData<List<String>> getFriendNickName() {
-//        friendNickNamelist = userRepository.getFriendList();
-//        return friendNickNamelist;
-//    }
-
     public void updateUserProjectList(List<String> projectList){
         userRepository.updateUserProjectList(projectList);
     }

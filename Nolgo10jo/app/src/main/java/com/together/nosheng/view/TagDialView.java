@@ -55,6 +55,11 @@ public class TagDialView extends LinearLayout {
         return check;
     }
 
+    public boolean setCheckBoks() {
+            checkBox.setChecked(true);
+        return check;
+    }
+
     public void setTagName(String tn) {
         tagName.setText(tn);
     }

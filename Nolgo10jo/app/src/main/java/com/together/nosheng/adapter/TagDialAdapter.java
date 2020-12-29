@@ -51,12 +51,11 @@ public class TagDialAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         TagDialView tagDialView = new TagDialView(parent.getContext());
 
-
+        if(utags.contains(tags.get(position))){
+            tagDialView.setCheckBoks();
+        }
 
         tagDialView.setTagName(tags.get(position));
-        Log.i(TAG, tags.toString()+"");
-        Log.i(TAG, position+"");
-
 
         tagDialView.setDeleteTag(tags, position, projectId, fragmentActivity);
         tagDialView.setOnClickListener(new View.OnClickListener() {

@@ -72,15 +72,6 @@ public class TagDial extends DialogFragment {
                 dialogTagBinding.lvTag.setAdapter(new TagDialAdapter(project.getTags(), projectId, requireActivity(), project.getUserTags().get(uid)));
                 Log.i(TAG, project.toString());
 
-                List<String> tags = project.getTags();
-                Log.i(TAG+"tags", tags.toString());
-                for(String tag : tags){
-                    if(utags.contains(tag)){
-                        int tagIdx = tags.indexOf(tag);
-                        Log.i(TAG+"index", tagIdx+"");
-                        dialogTagBinding.lvTag.setSelection(tagIdx);
-                    }
-                }
             }
         });
 
