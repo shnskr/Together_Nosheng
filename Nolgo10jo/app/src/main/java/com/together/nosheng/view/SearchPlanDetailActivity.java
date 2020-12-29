@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.together.nosheng.R;
 import com.together.nosheng.databinding.LayoutSearchItemDetailBinding;
 import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.model.user.User;
@@ -48,6 +49,8 @@ public class SearchPlanDetailActivity extends AppCompatActivity {
     private Map<String, Plan> planMap = new HashMap<>();
     private Plan plan;
     private User tempUser;
+
+    private int backgrnd =0;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,4 +159,15 @@ public class SearchPlanDetailActivity extends AppCompatActivity {
         }
         }
         }
+
+    public void userCheck(){
+        for (String s : plan.getPlanLike()){
+            if(s.equals(GlobalApplication.firebaseUser.getUid())){
+                binding.searchDetailLikeBtn.setBackgroundResource(R.drawable.ic_button_favorite_foreground);
+                backgrnd =1;
+            }else{
+                binding.searchDetailLikeBtn.setBackgroundResource(R.drawable.ic_button_favorite_border_foreground);
+            }
+        }
+    }
 }
