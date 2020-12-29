@@ -16,11 +16,13 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.tabs.TabLayout;
 import com.together.nosheng.adapter.TabAdapter;
 import com.together.nosheng.databinding.LayoutTabBinding;
+import com.together.nosheng.viewmodel.PlanViewModel;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 
 public class TabActivity extends AppCompatActivity {
 
     private ProjectViewModel projectViewModel;
+    private PlanViewModel planViewModel;
 
     private LayoutTabBinding tabBinding;
 
@@ -33,6 +35,7 @@ public class TabActivity extends AppCompatActivity {
         String projectId = getIntent().getStringExtra("projectId");
 
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+        planViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
 
         projectViewModel.setCurrentProject(projectId);
 
@@ -40,22 +43,22 @@ public class TabActivity extends AppCompatActivity {
         tabBinding.viewPager.setAdapter(viewPagerAdapter);
 
         tabBinding.layTab.setupWithViewPager(tabBinding.viewPager);
-        tabBinding.layTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                Log.i("daldal", "선택");
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                Log.i("daldal", "선택취소");
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                Log.i("daldal", "재선택");
-            }
-        });
+//        tabBinding.layTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                Log.i("daldal", "선택");
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//                Log.i("daldal", "선택취소");
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//                Log.i("daldal", "재선택");
+//            }
+//        });
     }
 
     //keyboard controller

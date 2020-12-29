@@ -1,6 +1,7 @@
 package com.together.nosheng.viewmodel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.together.nosheng.model.plan.Plan;
@@ -14,6 +15,8 @@ public class PlanViewModel extends ViewModel {
     private PlanRepository planRepository;
 
     private LiveData<Map<String,Plan>> publicPlans;
+
+    private LiveData<Plan> currentPlan;
 
     public PlanViewModel() {
         planRepository = new PlanRepository();
@@ -32,7 +35,11 @@ public class PlanViewModel extends ViewModel {
         planRepository.planLiked(prevData, s);
     }
 
+    public void setCurrentPlan(String planId) {
+        currentPlan = planRepository.getCurrentPlan(planId);
+    }
 
-
-
+    public LiveData<Plan> getCurrentPlan() {
+        return currentPlan;
+    }
 }

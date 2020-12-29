@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Plan {
-    private Date date = new Date(); // 날짜 ex) 1일차, 2일차
+    private Date planDate = new Date(); // 날짜 ex) 1일차, 2일차
     private boolean open; // 공개여부
     private String planTheme = ""; // 썸네일
 //    private Map<String, Pin> pins = new HashMap<>(); // Key : User id, Value : Pin class
@@ -37,10 +37,10 @@ public class Plan {
 
     public void setPlanLike(List<String> planLike) { this.planLike = planLike; }
 
-    public Date getPlanDate() { return date; }
+    public Date getPlanDate() { return planDate; }
 
-    public void setPlanDate(Date date) {
-        this.date = date;
+    public void setPlanDate(Date planDate) {
+        this.planDate = planDate;
     }
 
     public boolean isOpen() {
@@ -94,7 +94,7 @@ public class Plan {
     @Override
     public String toString() {
         return "Plan{" +
-                "date=" + date +
+                "planDate=" + planDate +
                 ", open=" + open +
                 ", planTheme='" + planTheme + '\'' +
                 ", pins=" + pins +

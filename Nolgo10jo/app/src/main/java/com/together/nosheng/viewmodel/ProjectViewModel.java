@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.together.nosheng.model.pin.Pin;
 import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.repository.ProjectRepository;
@@ -65,5 +66,9 @@ public class ProjectViewModel extends ViewModel {
 
     public void updateDate(String projectId) {
         projectRepository.updateDate(projectId);
+    }
+
+    public void updatePlanPinList(String projectId, int day, Pin pin) {
+        projectRepository.updatePlanPinList(projectId, day, pin);
     }
 }

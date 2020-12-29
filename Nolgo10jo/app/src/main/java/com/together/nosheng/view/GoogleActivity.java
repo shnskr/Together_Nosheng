@@ -58,6 +58,8 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
 
     private int page;
 
+    private Project currentProject;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,7 +72,6 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 page = result.getInt("position");
-                Log.i("daldal2", page + "");
             }
         });
 
@@ -79,7 +80,7 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
         projectViewModel.getCurrentProject().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
             public void onChanged(Map<String, Project> stringProjectMap) {
-
+                currentProject = stringProjectMap.get(projectId);
             }
         });
 
@@ -119,6 +120,9 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
                                 pin.setLongitude(place.getLatLng().longitude);
                                 pin.setAddress(place.getAddress());
                                 pin.setPinName(place.getName());
+
+                                projectViewModel.updatePlanPinList(projectId, page, pin);
+                                marker.remove();
 
                                 Log.i("pin정보", pin.toString());
                             }

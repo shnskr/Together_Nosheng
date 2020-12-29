@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.together.nosheng.model.pin.Pin;
 import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
@@ -38,16 +39,12 @@ public class ProjectRepository {
     private String TAG = "ProjectRepository";
 
     private MutableLiveData<Map<String, Project>> userProject = new MutableLiveData<>();
-    private MutableLiveData<Map<String, Project>> currentProject= new MutableLiveData<>();
 
     private Map<String, Project> userProjectMap;
-
 
     public ProjectRepository() {
         db = FirebaseFirestore.getInstance();
     }
-
-
 
     public void addUserProject(Project userProject) {
         db.collection("Project")
@@ -108,6 +105,7 @@ public class ProjectRepository {
     }
 
     public MutableLiveData<Map<String, Project>> getCurrentProject(String projectId) {
+        MutableLiveData<Map<String, Project>> currentProject= new MutableLiveData<>();
         db.collection("Project").document(projectId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -280,6 +278,24 @@ public class ProjectRepository {
         });
     }
 
+    public void updatePlanPinList(String projectId, int day, Pin pin) {
+        db.collection("Project").document(projectId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                 String planId = documentSnapshot.toObject(Project.class).getPlans().get(day);
+
+                 db.collection("Plan").document(planId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                     @Override
+                     public void onSuccess(DocumentSnapshot documentSnapshot) {
+                         List<Pin> pins = documentSnapshot.toObject(Plan.class).getPins();
+                         pins.add(pin);
+
+                         db.collection("Plan").document(planId).update("pins", pins);
+                     }
+                 });
+            }
+        });
+    }
 }   //end class
 
 

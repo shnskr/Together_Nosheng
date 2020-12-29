@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,6 +18,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.together.nosheng.model.plan.Plan;
+import com.together.nosheng.model.project.Project;
 import com.together.nosheng.util.GlobalApplication;
 
 import java.util.ArrayList;
@@ -90,5 +92,21 @@ public class PlanRepository {
     }
 
 
+    public MutableLiveData<Plan> getCurrentPlan(String planId) {
+        MutableLiveData<Plan> planLiveData = new MutableLiveData<>();
+            db.collection("Plan").document(planId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        Log.w(TAG, "Listen failed.", error);
+                    }
 
+                    if (value != null && value.exists()) {
+                        planLiveData.setValue(value.toObject(Plan.class));
+                    }
+                }
+            });
+
+        return planLiveData;
+    }
 }

@@ -33,7 +33,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/lv_container"
+        android:id="@+id/lv_pins"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

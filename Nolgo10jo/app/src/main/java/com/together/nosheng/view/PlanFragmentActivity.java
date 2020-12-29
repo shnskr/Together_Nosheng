@@ -25,8 +25,11 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.together.nosheng.R;
+import com.together.nosheng.adapter.PinListAdapter;
 import com.together.nosheng.databinding.ActivityFragmentPlanBinding;
+import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.model.project.Project;
+import com.together.nosheng.viewmodel.PlanViewModel;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +45,7 @@ public class PlanFragmentActivity extends Fragment {
     private ActivityFragmentPlanBinding binding;
 
     private ProjectViewModel projectViewModel;
+    private PlanViewModel planViewModel;
 
     private Project currentProject;
 
@@ -57,12 +61,78 @@ public class PlanFragmentActivity extends Fragment {
         String projectId = requireActivity().getIntent().getStringExtra("projectId");
 
         projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
+        planViewModel = new ViewModelProvider(requireActivity()).get(PlanViewModel.class);
 
         projectViewModel.getCurrentProject().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
             public void onChanged(Map<String, Project> stringProjectMap) {
                 currentProject = stringProjectMap.get(projectId);
-                updateUI();
+
+                long days = currentProject.getEndDate().getTime() - currentProject.getStartDate().getTime();
+                long diffDays = days / (1000 * 60 * 60 * 24);
+
+                List<String> spinnerList = new ArrayList<>();
+
+                for (int i = 0; i <= diffDays; i++) {
+                    spinnerList.add((i + 1) + " 일차");
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), R.layout.support_simple_spinner_dropdown_item, spinnerList);
+                binding.spDay.setAdapter(adapter);
+
+//                planViewModel.setCurrentPlan(currentProject.getPlans());
+//                planViewModel.getCurrentPlans().observe(getViewLifecycleOwner(), new Observer<List<Plan>>() {
+//                    @Override
+//                    public void onChanged(List<Plan> plans) {
+//                        Log.i("daldal after", "플랜 변화");
+//                        currentPlans = plans;
+//
+//                    }
+//                });
+//
+//                binding.spDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                        Bundle result = new Bundle();
+//                        result.putInt("position", position);
+//                        getChildFragmentManager().setFragmentResult("result", result);
+//
+//                        Log.i("daldal after", position + "");
+//                        Log.i("daldal after", binding.spDay.getSelectedItemPosition() + "");
+//
+//                        PinListAdapter adapter = new PinListAdapter(currentPlans.get(binding.spDay.getSelectedItemPosition()).getPins());
+//                        binding.lvPins.setAdapter(adapter);
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected(AdapterView<?> parent) {
+//
+//                    }
+//                });
+
+                binding.spDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Bundle result = new Bundle();
+                        result.putInt("position", position);
+                        getChildFragmentManager().setFragmentResult("result", result);
+
+                        planViewModel.setCurrentPlan(currentProject.getPlans().get(position));
+                        planViewModel.getCurrentPlan().observe(getViewLifecycleOwner(), new Observer<Plan>() {
+                            @Override
+                            public void onChanged(Plan plan) {
+                                binding.spDay.setSelection(position);
+                                PinListAdapter adapter = new PinListAdapter(plan.getPins());
+                                binding.lvPins.setAdapter(adapter);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
             }
         });
 
@@ -71,34 +141,5 @@ public class PlanFragmentActivity extends Fragment {
         getChildFragmentManager().beginTransaction().replace(binding.flContainer.getId(), googleActivity).commit();
 
         return view;
-    }
-
-    private void updateUI() {
-        long days = currentProject.getEndDate().getTime() - currentProject.getStartDate().getTime();
-        long diffDays = days / (1000 * 60 * 60 * 24);
-
-        List<String> spinnerList = new ArrayList<>();
-
-        for (int i = 0; i <= diffDays; i++) {
-            spinnerList.add((i+1) + " 일차");
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), R.layout.support_simple_spinner_dropdown_item, spinnerList);
-        binding.spDay.setAdapter(adapter);
-
-        binding.spDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("daldal1", position + "");
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", position);
-                getChildFragmentManager().setFragmentResult("result", bundle);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 }
