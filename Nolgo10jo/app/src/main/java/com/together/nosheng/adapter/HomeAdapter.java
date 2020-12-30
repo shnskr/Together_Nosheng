@@ -13,6 +13,8 @@ import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.view.ProjectView;
 import com.together.nosheng.view.TabActivity;
+import com.together.nosheng.viewmodel.ProjectViewModel;
+import com.together.nosheng.viewmodel.UserViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,14 +27,15 @@ public class HomeAdapter extends BaseAdapter {
     private List<String> userProjectId;
     private Map<String, Project> userProject;
     private Context context;
-    private FragmentActivity fragment;
     private List<String> projects;
-    private FragmentTransaction ft;
+    private ProjectViewModel projectViewModel;
+    private UserViewModel userViewModel;
 
-    public HomeAdapter(Map<String, Project> userProject, Context context, FragmentActivity fragment, List<String> projects) {
+    public HomeAdapter(Map<String, Project> userProject, Context context,UserViewModel userViewModel, ProjectViewModel projectViewModel, List<String> projects) {
         this.userProject = userProject;
         this.context = context;
-        this.fragment = fragment;
+        this.userViewModel = userViewModel;
+        this.projectViewModel = projectViewModel;
         this.projects = projects;
 
         userProjectId = new ArrayList<>(userProject.keySet());
@@ -77,7 +80,7 @@ public class HomeAdapter extends BaseAdapter {
             projectView.setTravelStatus("the End");
         }
 
-        projectView.deleteProject(context, position, fragment, userProjectId);
+        projectView.deleteProject(context, position, userViewModel, projectViewModel, userProjectId);
 
         projectView.setOnClickListener(new View.OnClickListener() {
             @Override

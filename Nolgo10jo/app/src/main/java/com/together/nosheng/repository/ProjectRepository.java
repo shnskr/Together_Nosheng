@@ -151,6 +151,21 @@ public class ProjectRepository {
                 .update("projectList",projects);
     }
 
+    public void deleteMemberProject(String projectId){
+        db.collection("Project").document(projectId)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Log.i(TAG, "delete proeject!");
+                        }else {
+                            Log.i(TAG, "delete project error!");
+                        }
+                    }
+                });
+    }
+
     public void deleteUserProject(String projectId) {
         db.collection("Project").document(projectId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -200,24 +215,24 @@ public class ProjectRepository {
                 });
     }
 
-    public void addMember(String projectId, List<User> members) {
+//    public void addMember(String projectId, List<User> members) {
+//        db.collection("Project").document(projectId)
+//                .update("members",members)
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()){
+//                            Log.i(TAG, "");
+//                        } else {
+//                            Log.e(TAG, "add Member error !");
+//                        }
+//                    }
+//                });
+//    }
+
+    public void addMember(String projectId, List<String> members) {
         db.collection("Project").document(projectId)
                 .update("members",members)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Log.i(TAG, "");
-                        } else {
-                            Log.e(TAG, "add Member error !");
-                        }
-                    }
-                });
-    }
-
-    public void addNonmember(String projectId, List<String> nonmember) {
-        db.collection("Project").document(projectId)
-                .update("members",nonmember)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -276,6 +291,43 @@ public class ProjectRepository {
                     }
                 });
         return allProjectList;
+    }
+
+
+    public List<String> getProjectMember(String projectId) {
+        List<String> projectMember = new ArrayList<>();
+        db.collection("Project").document(projectId)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    List<String> temp = task.getResult().toObject(Project.class).getMembers();
+                    projectMember.addAll(temp);
+                    Log.i(TAG+" getProjectMember::성공!",projectMember.toString());
+                } else {
+                    Log.i(TAG+" getProjectMember::ㄴㄴ!",projectMember.toString());
+                }
+            }
+        });
+        return projectMember;
+    }
+
+
+    public Map<String,List<String>> getUserTags(String projectId) {
+        Map<String,List<String>> userTags = new HashMap<>();
+        db.collection("Project").document(projectId)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    userTags.putAll(task.getResult().toObject(Project.class).getUserTags());
+                    Log.i(TAG+" getProjectMember::성공!",userTags.toString());
+                } else {
+                    Log.i(TAG+" getProjectMember::ㄴㄴ!",userTags.toString());
+                }
+            }
+        });
+        return userTags;
     }
 
     public void updateDate(String projectId) {

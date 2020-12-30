@@ -4,7 +4,7 @@
 
     <data>
         <variable
-            name="test"
+            name="project"
             type="com.together.nosheng.model.project.Project" />
 
         <variable
@@ -61,7 +61,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="여행 이름을 정해보세요!"
-                android:text="@{test.title}"
+                android:text="@{project.title}"
                 android:maxLines="1"
                 android:maxLength="15"/>
 

@@ -45,7 +45,8 @@ public class TripInfoFragmentActivity extends Fragment {
     private ProjectViewModel projectViewModel;
 
     private String projectId;
-    private ArrayList tripPeriod;
+    private List<Date> tripPeriod;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
 
     private ActivityFragmentTripinfoBinding tripinfoBinding;
 
@@ -58,14 +59,14 @@ public class TripInfoFragmentActivity extends Fragment {
         tripinfoBinding = ActivityFragmentTripinfoBinding.inflate(inflater, container, false);
         View view = tripinfoBinding.getRoot();
 
-        project = new Project();
         projectViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
 
+        project = new Project();
         projectId = getActivity().getIntent().getStringExtra("projectId");
         String title =  projectViewModel.getCurrentProject().getValue().get(projectId).getTitle();
         project.setTitle(title);
         tripinfoBinding.setProjectId(projectId);
-        tripinfoBinding.setTest(project);
+        tripinfoBinding.setProject(project);
 
         projectViewModel.getCurrentProject().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
@@ -109,7 +110,7 @@ public class TripInfoFragmentActivity extends Fragment {
         });
 
         //calendar function
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
 
         Calendar pastYear = Calendar.getInstance();
         pastYear.add(Calendar.YEAR, -1);
@@ -123,6 +124,11 @@ public class TripInfoFragmentActivity extends Fragment {
         tripinfoBinding.calendar.init(pastYear.getTime(), nextYear.getTime())
                 .inMode(CalendarPickerView.SelectionMode.RANGE)
                 .withSelectedDates(tripPeriod);
+
+        tripPeriod = tripinfoBinding.calendar.getSelectedDates();
+        tripinfoBinding.txtCountDate.setText((tripPeriod.size()-1) + " 박 " + tripPeriod.size() + " 일");
+        Log.i(TAG+"tripPeriod", tripPeriod.toString()+"?????????"+(tripPeriod.size()-1) + " 박 " + tripPeriod.size() + " 일");
+
 
         tripinfoBinding.calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
@@ -194,8 +200,14 @@ public class TripInfoFragmentActivity extends Fragment {
     public void initDate(){
         tripPeriod = new ArrayList<>();
 
-        tripPeriod.add(projectViewModel.getCurrentProject().getValue().get(projectId).getStartDate());
-        tripPeriod.add(projectViewModel.getCurrentProject().getValue().get(projectId).getEndDate());
+        Date start = projectViewModel.getCurrentProject().getValue().get(projectId).getStartDate();
+        Date end = projectViewModel.getCurrentProject().getValue().get(projectId).getEndDate();
+
+        tripPeriod.add(start);
+        tripPeriod.add(end);
+
+        tripinfoBinding.txtStartDate.setText(dateFormat.format(start));
+        tripinfoBinding.txtEndDate.setText(dateFormat.format(end));
 
         Log.i(TAG+"tripPeriod", tripPeriod.toString()+"3");
     }
