@@ -43,10 +43,8 @@ public class UserViewModel extends ViewModel {
     }
 
 
-    public void changeNickname(String value) {
-        User user = liveUser.getValue();
-        user.setNickName(value);
-        userRepository.changeNickname(user);
+    public void changeNickname(String nickName) {
+        userRepository.changeNickname(nickName);
     }
 
     public LiveData<User> getLiveUser() {

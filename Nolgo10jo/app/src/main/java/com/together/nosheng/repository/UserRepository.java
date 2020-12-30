@@ -102,8 +102,8 @@ public class UserRepository {
 
 
 
-    public void changeNickname(User user){
-        db.collection("User").document(GlobalApplication.firebaseUser.getUid()).set(user,SetOptions.merge());
+    public void changeNickname(String nickName){
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid()).update("nickName", nickName);
     }
 
     public LiveData<List<User>> getUserFriendList() {
