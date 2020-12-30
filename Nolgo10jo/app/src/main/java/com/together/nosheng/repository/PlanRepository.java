@@ -87,6 +87,7 @@ public class PlanRepository {
 
     public void planLiked (List<String> prevData, String s){
         prevData.add(GlobalApplication.firebaseUser.getUid());
+        Log.i("testing123", prevData.toString());
         Map<String, List<String>> temp = new HashMap<>();
         temp.put("planLike", prevData);
         db.collection("Plan").document(s).set(temp, SetOptions.merge());

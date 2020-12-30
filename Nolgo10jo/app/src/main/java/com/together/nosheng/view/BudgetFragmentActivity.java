@@ -1,5 +1,6 @@
 package com.together.nosheng.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -100,6 +101,15 @@ public class BudgetFragmentActivity extends Fragment {
                 budgets.put("기타", bEtc);
 
                 projectViewModel.updateBudgets(projectId, budgets);
+            }
+        });
+
+        //ocr 버튼!
+        binding.ocrScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), ScanOCR.class);
+                startActivity(intent);
             }
         });
 
