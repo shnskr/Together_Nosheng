@@ -236,5 +236,11 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/ocr_scan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="영수증 인식" />
+
 
 </LinearLayout>
