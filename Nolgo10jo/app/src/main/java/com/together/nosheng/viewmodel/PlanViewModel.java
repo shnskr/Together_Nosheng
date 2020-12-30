@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.together.nosheng.model.pin.Pin;
 import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.repository.PlanRepository;
 
@@ -41,5 +42,9 @@ public class PlanViewModel extends ViewModel {
 
     public LiveData<Plan> getCurrentPlan() {
         return currentPlan;
+    }
+
+    public void updatePins(String planId, List<Pin> pins) {
+        planRepository.updatePins(planId, pins);
     }
 }

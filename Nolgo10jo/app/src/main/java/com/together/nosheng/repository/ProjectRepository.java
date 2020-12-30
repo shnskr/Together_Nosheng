@@ -23,6 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.together.nosheng.model.pin.Pin;
 import com.together.nosheng.model.plan.Plan;
+import com.together.nosheng.model.project.Budget;
 import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
@@ -373,6 +374,10 @@ public class ProjectRepository {
                  });
             }
         });
+    }
+
+    public void updateBudgets(String projectId, Map<String, Budget> budgets) {
+        db.collection("Project").document(projectId).update("budgets", budgets);
     }
 }   //end class
 

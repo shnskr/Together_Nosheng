@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -29,8 +30,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Cap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.RoundCap;
+import com.google.android.gms.maps.model.SquareCap;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -38,27 +45,35 @@ import com.google.android.material.snackbar.Snackbar;
 import com.together.nosheng.R;
 import com.together.nosheng.databinding.LayoutGoogleBinding;
 import com.together.nosheng.model.pin.Pin;
+import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.model.project.Project;
+import com.together.nosheng.viewmodel.PlanViewModel;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class GoogleActivity extends Fragment implements OnMapReadyCallback {
 
+    private final String TAG = "GoogleActivity";
+
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     private LayoutGoogleBinding binding;
     private ProjectViewModel projectViewModel;
+    private PlanViewModel planViewModel;
 
     private GoogleMap mMap;
 
     private int page;
+    private String projectId;
 
     private Project currentProject;
+    private List<Marker> markers;
 
     @Nullable
     @Override
@@ -66,16 +81,50 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
         binding = LayoutGoogleBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        String projectId = requireActivity().getIntent().getStringExtra("projectId");
+        projectId = requireActivity().getIntent().getStringExtra("projectId");
+        markers = new ArrayList<>();
+
+        projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
+        planViewModel = new ViewModelProvider(requireActivity()).get(PlanViewModel.class);
 
         getParentFragmentManager().setFragmentResultListener("result", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 page = result.getInt("position");
+
+                planViewModel.setCurrentPlan(currentProject.getPlans().get(page));
+                planViewModel.getCurrentPlan().observe(getViewLifecycleOwner(), new Observer<Plan>() {
+                    @Override
+                    public void onChanged(Plan plan) {
+                        mMap.clear();
+                        markers.clear();
+                        List<Pin> pins = plan.getPins();
+                        LatLng[] latLngs = new LatLng[pins.size()];
+
+                        int position = 0;
+                        for (Pin pin : pins) {
+                            LatLng latLng = new LatLng(pin.getLatitude(), pin.getLongitude());
+                            latLngs[position] = latLng;
+                            position++;
+
+                            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(pin.getPinName()).snippet(pin.getAddress()));
+                            markers.add(marker);
+                        }
+                        mMap.addPolyline(new PolylineOptions().add(latLngs).color(Color.GREEN));
+
+                        getParentFragmentManager().setFragmentResultListener("marker", getViewLifecycleOwner(), new FragmentResultListener() {
+                            @Override
+                            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                                int index = result.getInt("pin");
+                                if (index > -1) {
+                                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markers.get(index).getPosition(), 15));
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
-
-        projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
 
         projectViewModel.getCurrentProject().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
@@ -89,6 +138,7 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
         // onMapReady() 호출
         mapFragment.getMapAsync(this);
 
+        // Google Places 초기화
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
@@ -98,14 +148,10 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
             @Override
             public void onPlaceSelected(@NotNull Place place) {
                 // TODO: Get info about the selected place.
-
-                MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions
-                        .position(place.getLatLng())
-                        .title(place.getName())
-                        .snippet(place.getAddress());
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 15));
-                mMap.addMarker(markerOptions);
+                mMap.addMarker(new MarkerOptions().position(place.getLatLng())
+                        .title(place.getName())
+                        .snippet(place.getAddress()));
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
@@ -123,8 +169,6 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
 
                                 projectViewModel.updatePlanPinList(projectId, page, pin);
                                 marker.remove();
-
-                                Log.i("pin정보", pin.toString());
                             }
                         });
                         dlg.setNegativeButton("지우기", new DialogInterface.OnClickListener() {
@@ -133,7 +177,9 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
                                 marker.remove();
                             }
                         });
-                        dlg.show();
+                        if (!markers.contains(marker)) {
+                            dlg.show();
+                        }
                         return false;
                     }
                 });
@@ -142,7 +188,7 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
             @Override
             public void onError(@NotNull Status status) {
                 // TODO: Handle the error.
-                Log.i("daldal", "An error occurred: " + status);
+                Log.i("TAG", "An error occurred: " + status);
             }
         });
 
@@ -152,11 +198,9 @@ public class GoogleActivity extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.i("daldal", "지도 load 완료");
         mMap = googleMap;
 
         updateUI();
-
     }
 
     private boolean isLocationPermissionGranted() {
