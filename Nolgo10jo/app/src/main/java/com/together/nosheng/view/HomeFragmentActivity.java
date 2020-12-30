@@ -22,6 +22,7 @@ import com.together.nosheng.adapter.HomeAdapter;
 import com.together.nosheng.databinding.ActivityFragmentHomeBinding;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.viewmodel.ProjectViewModel;
+import com.together.nosheng.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class HomeFragmentActivity extends Fragment {
     private ActivityFragmentHomeBinding homeBinding;
 
     private ProjectViewModel projectViewModel;
+    private UserViewModel userViewModel;
     private List<String> projectIds;
 
     @Nullable
@@ -45,12 +47,12 @@ public class HomeFragmentActivity extends Fragment {
 
 
         projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         projectViewModel.setUserProjects();
-
         projectViewModel.getUserProjects().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
             public void onChanged(Map<String, Project> userProject) {
-                homeBinding.lvProject.setAdapter(new HomeAdapter(userProject, getActivity(), requireActivity(), projectIds));
+                homeBinding.lvProject.setAdapter(new HomeAdapter(userProject, getActivity(),userViewModel, projectViewModel, projectIds));
             }
         });
 

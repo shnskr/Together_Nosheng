@@ -23,6 +23,7 @@ import com.together.nosheng.databinding.ActivityFragmentMemberBinding;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.viewmodel.ProjectViewModel;
+import com.together.nosheng.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +34,12 @@ public class MemberFragmentActivity extends Fragment{
 
     private ActivityFragmentMemberBinding memberBinding;
     private ProjectViewModel projectViewModel;
+    private UserViewModel userViewModel;
 
     private String TAG = "MemberFragmentActivity";
 
     private Project project;
 
-//    private List<User> members;
-//    private List<String> selectedItems;
 
     @Nullable
     @Override
@@ -50,6 +50,7 @@ public class MemberFragmentActivity extends Fragment{
 
         projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
         Log.i(TAG, "뷰모델 접근 완료");
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         String projectId = getActivity().getIntent().getStringExtra("projectId");
         Log.i(TAG, projectId);
@@ -58,10 +59,25 @@ public class MemberFragmentActivity extends Fragment{
             @Override
             public void onChanged(Map<String, Project> stringProjectMap) {
                 project = stringProjectMap.get(projectId);
-                memberBinding.lvMembers.setAdapter(new MemberAdapter(getContext(), projectId, project.getMembers()));
-                Log.i(TAG, stringProjectMap.get(projectId).toString());
+                List<String> members = project.getMembers();
+                Map<String,List<String>> userTags = project.getUserTags();
+
+                Log.i(TAG+"??", projectId);
+                Log.i(TAG+"퍄??", members.toString());
+
+                userViewModel.setUserNickName(members);
+                userViewModel.getUserNickNames().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+                    @Override
+                    public void onChanged(List<String> strings) {
+                        Log.i(TAG+"??strings", strings.toString());
+                        memberBinding.lvMembers.setAdapter(new MemberAdapter(getContext(), userViewModel, projectViewModel, projectId, members, userTags, strings));
+                    }
+                });
             }
         });
+
+
+
 
         Bundle args = new Bundle();
         memberBinding.lvMembers.setOnItemClickListener(new AdapterView.OnItemClickListener() {

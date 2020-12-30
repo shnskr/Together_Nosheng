@@ -7,5 +7,16 @@
     android:gravity="center"
     android:background="@color/design_default_color_secondary_variant">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+    <ListView
+        android:id="@+id/lv_post"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:divider="@null"
+        android:padding="5dp"
+        android:focusable="false"/>
 
 </LinearLayout>

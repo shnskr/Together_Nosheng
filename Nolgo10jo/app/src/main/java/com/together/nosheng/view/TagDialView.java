@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,7 +56,7 @@ public class TagDialView extends LinearLayout {
         return check;
     }
 
-    public boolean setCheckBoks() {
+    public boolean setCheckBoxs() {
             checkBox.setChecked(true);
         return check;
     }
@@ -71,10 +72,16 @@ public class TagDialView extends LinearLayout {
         deleteTag.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                //tag list에서 삭제
                 tags.remove(position);
                 Log.i(TAG, tags+"/"+position);
                 projectViewModel.addTag(projectId,tags);
+
+                //user가 보유한 tag list 에서 삭제
+
+
             }
         });
     }
+
 }

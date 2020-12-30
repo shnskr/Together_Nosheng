@@ -52,7 +52,7 @@ public class TagDialAdapter extends BaseAdapter {
         TagDialView tagDialView = new TagDialView(parent.getContext());
 
         if(utags.contains(tags.get(position))){
-            tagDialView.setCheckBoks();
+            tagDialView.setCheckBoxs();
         }
 
         tagDialView.setTagName(tags.get(position));
