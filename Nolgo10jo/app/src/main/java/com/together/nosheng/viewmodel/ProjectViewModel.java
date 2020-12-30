@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.together.nosheng.model.pin.Pin;
+import com.together.nosheng.model.project.Budget;
 import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
@@ -95,7 +96,10 @@ public class ProjectViewModel extends ViewModel {
         return projectRepository.getProjectMember(projectId);
     }
 
-    public Map<String, List<String>> getUserTags(String projectId){
+    public Map<String, List<String>> getUserTags(String projectId) {
         return projectRepository.getUserTags(projectId);
+    }
+    public void updateBudgets(String projectId, Map<String, Budget> budgets) {
+        projectRepository.updateBudgets(projectId, budgets);
     }
 }

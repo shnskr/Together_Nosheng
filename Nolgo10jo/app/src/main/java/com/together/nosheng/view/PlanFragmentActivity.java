@@ -3,6 +3,7 @@ package com.together.nosheng.view;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,6 +29,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.together.nosheng.R;
 import com.together.nosheng.adapter.PinListAdapter;
+import com.together.nosheng.adapter.PinRecyclerAdapter;
 import com.together.nosheng.databinding.ActivityFragmentPlanBinding;
 import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.model.project.Project;
@@ -80,36 +84,6 @@ public class PlanFragmentActivity extends Fragment {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), R.layout.support_simple_spinner_dropdown_item, spinnerList);
                 binding.spDay.setAdapter(adapter);
 
-//                planViewModel.setCurrentPlan(currentProject.getPlans());
-//                planViewModel.getCurrentPlans().observe(getViewLifecycleOwner(), new Observer<List<Plan>>() {
-//                    @Override
-//                    public void onChanged(List<Plan> plans) {
-//                        Log.i("daldal after", "플랜 변화");
-//                        currentPlans = plans;
-//
-//                    }
-//                });
-//
-//                binding.spDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                        Bundle result = new Bundle();
-//                        result.putInt("position", position);
-//                        getChildFragmentManager().setFragmentResult("result", result);
-//
-//                        Log.i("daldal after", position + "");
-//                        Log.i("daldal after", binding.spDay.getSelectedItemPosition() + "");
-//
-//                        PinListAdapter adapter = new PinListAdapter(currentPlans.get(binding.spDay.getSelectedItemPosition()).getPins());
-//                        binding.lvPins.setAdapter(adapter);
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent) {
-//
-//                    }
-//                });
-
                 binding.spDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -122,8 +96,32 @@ public class PlanFragmentActivity extends Fragment {
                             @Override
                             public void onChanged(Plan plan) {
                                 binding.spDay.setSelection(position);
-                                PinListAdapter adapter = new PinListAdapter(plan.getPins());
-                                binding.lvPins.setAdapter(adapter);
+                                binding.rvPins.setLayoutManager(new LinearLayoutManager(parent.getContext()));
+                                PinRecyclerAdapter adapter = new PinRecyclerAdapter(requireContext(), plan.getPins(), currentProject.getPlans().get(position), planViewModel);
+                                binding.rvPins.setAdapter(adapter);
+                                binding.rvPins.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                                    @Override
+                                    public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                                        View child = rv.findChildViewUnder(e.getX(), e.getY());
+                                        int pinPosition = rv.getChildAdapterPosition(child);
+
+                                        if (e.getAction() == MotionEvent.ACTION_UP) {
+                                            Bundle marker = new Bundle();
+                                            marker.putInt("pin", pinPosition);
+                                            getChildFragmentManager().setFragmentResult("marker", marker);
+                                        }
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                                    }
+
+                                    @Override
+                                    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+                                    }
+                                });
                             }
                         });
                     }
