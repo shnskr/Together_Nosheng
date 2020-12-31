@@ -154,12 +154,12 @@ public class ScanOCR extends AppCompatActivity {
                     OCRTextView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
-                            if (event.getAction()==MotionEvent.ACTION_BUTTON_PRESS){
+                            if (event.getAction()==MotionEvent.ACTION_DOWN){
                                 ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                                 ClipData clipData = ClipData.newPlainText("Id", OCRTextView.getText());
                                 clipboardManager.setPrimaryClip(clipData);
 
-                                Log.i("testin123", "정보저장 완료");
+                                Toast.makeText(ScanOCR.this, "클립 보드에 복사되었습니다.", Toast.LENGTH_SHORT).show();
                             }
                             return true;
                         }
@@ -171,9 +171,9 @@ public class ScanOCR extends AppCompatActivity {
                     ProgressFlag = false;
 
                     //처리 시간 관련 메세지
-                    m_end = System.currentTimeMillis();
-                    long time = (m_end - m_start)/1000;
-                    m_tvTime.setText("처리시간 : "+time+"초");
+//                    m_end = System.currentTimeMillis();
+//                    long time = (m_end - m_start)/1000;
+                    m_tvTime.setText("처리시간 : 안알랴줌");
                     Toast.makeText(mContext,getResources().getString(R.string.CompleteMessage),Toast.LENGTH_SHORT).show();
                     break;
             }
