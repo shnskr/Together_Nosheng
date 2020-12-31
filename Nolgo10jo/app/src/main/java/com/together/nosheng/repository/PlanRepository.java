@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.together.nosheng.model.pin.Pin;
 import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.util.GlobalApplication;
@@ -86,6 +87,7 @@ public class PlanRepository {
 
     public void planLiked (List<String> prevData, String s){
         prevData.add(GlobalApplication.firebaseUser.getUid());
+        Log.i("testing123", prevData.toString());
         Map<String, List<String>> temp = new HashMap<>();
         temp.put("planLike", prevData);
         db.collection("Plan").document(s).set(temp, SetOptions.merge());
@@ -108,5 +110,9 @@ public class PlanRepository {
             });
 
         return planLiveData;
+    }
+
+    public void updatePins(String planId, List<Pin> pins) {
+        db.collection("Plan").document(planId).update("pins", pins);
     }
 }

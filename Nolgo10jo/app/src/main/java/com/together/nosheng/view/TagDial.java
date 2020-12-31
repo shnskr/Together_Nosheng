@@ -72,6 +72,19 @@ public class TagDial extends DialogFragment {
                 dialogTagBinding.lvTag.setAdapter(new TagDialAdapter(project.getTags(), projectId, requireActivity(), project.getUserTags().get(uid)));
                 Log.i(TAG, project.toString());
 
+                List<String> members = project.getMembers();
+                List<String> tags = project.getTags();
+                for(String member : members) {
+                    Map<String, List<String>> userTags = project.getUserTags();
+                    List<String> utags = userTags.get(member);
+                    for(String utag : utags){
+                        if(!tags.contains(utag)){
+                            utags.remove(utag);
+                            userTags.put(member,utags);
+                            projectViewModel.addUserTags(projectId,userTags);
+                        }
+                    }
+                }
             }
         });
 
@@ -81,12 +94,19 @@ public class TagDial extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String tagName = dialogTagBinding.etxtTagname.getText().toString();
-                if(dialogTagBinding.etxtTagname != null || tagName != " " || tagName != ""){
-                    project.getTags().add(tagName);
-                    projectViewModel.addTag(projectId, project.getTags());
-                    dialogTagBinding.etxtTagname.setText(null);
-                    Log.i(TAG, project.getTags().toString());
-                    Log.i(TAG, "tag name add!");
+                tagName.trim();
+                if(dialogTagBinding.etxtTagname != null || tagName != ""){
+                    List<String> tags = project.getTags();
+                    if(!tags.contains(tagName)){
+                        tags.add(tagName);
+                        projectViewModel.addTag(projectId, tags);
+                        dialogTagBinding.etxtTagname.setText(null);
+                        Log.i(TAG, tags.toString());
+                        Log.i(TAG, "tag name add!");
+                    } else{
+                        Toast.makeText(getContext(), "이미 존재합니다.", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "tag name add denied!");
+                    }
                 } else {
                     Toast.makeText(getContext(), "tag를 입력해주세요!", Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "tag name failed!");

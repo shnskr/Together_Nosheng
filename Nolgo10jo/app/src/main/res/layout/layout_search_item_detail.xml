@@ -45,8 +45,8 @@
 
         <Button
             android:id="@+id/search_detail_like_btn"
-            android:layout_width="174dp"
-            android:layout_height="wrap_content"
+            android:layout_width="66dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:text="Button"
             android:fontFamily="@font/hy_gung_seu"

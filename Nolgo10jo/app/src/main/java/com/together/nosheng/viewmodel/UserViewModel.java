@@ -30,7 +30,7 @@ public class UserViewModel extends ViewModel {
     private LiveData<List<Plan>> bookmarkList;
     private LiveData<List<String>> bookmarkID;
 
-
+    private LiveData<List<String>> userNicknames;
 
     String TAG = "User ViewModel : ";
 
@@ -43,10 +43,8 @@ public class UserViewModel extends ViewModel {
     }
 
 
-    public void changeNickname(String value) {
-        User user = liveUser.getValue();
-        user.setNickName(value);
-        userRepository.changeNickname(user);
+    public void changeNickname(String nickName) {
+        userRepository.changeNickname(nickName);
     }
 
     public LiveData<User> getLiveUser() {
@@ -71,12 +69,32 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<List<String>> getBookmarkID() {return bookmarkID; }
 
-    public void updateUserProjectList(List<String> projectList){
-        userRepository.updateUserProjectList(projectList);
+    public void updateUserProjectList(String uid,List<String> projectList){
+        userRepository.updateUserProjectList(uid, projectList);
     }
 
-    public List<String> getUserProject(){
-        return userRepository.getUserProject();
+//    public List<String> getUserProject(){
+//        return userRepository.getUserProject();
+//    }
+
+    public List<String> getMemberProject(String member){
+        return userRepository.getMemberProject(member);
+    }
+
+//    public MutableLiveData<List<String>> getMemberProject(String member){
+//        return userRepository.getMemberProject(member);
+//    }
+
+//    public List<String> getAllUid(){
+//        return userRepository.getAllUid();
+//    }
+
+    public void setUserNickName(List<String> members){
+        userNicknames = userRepository.getUserNickName(members);
+    }
+
+    public LiveData<List<String>> getUserNickNames(){
+        return userNicknames;
     }
 
 }

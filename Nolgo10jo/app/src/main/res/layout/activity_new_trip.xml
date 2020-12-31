@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:hint="참여할 여행기 코드를 입력하세요!"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:maxLength="25"/>
 
         <Button
             android:id="@+id/btn_join"

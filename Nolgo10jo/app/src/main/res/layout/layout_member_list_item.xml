@@ -47,12 +47,12 @@
                 android:layout_marginBottom="3dp">
 
                 <ImageView
-                    android:id="@+id/mark_uid"
+                    android:id="@+id/mark_star"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:src="@drawable/ic_baseline_star_24"
-                    android:visibility="visible"/>
+                    android:visibility="invisible"/>
 
                 <TextView
                     android:id="@+id/txt_nickname"

@@ -58,7 +58,7 @@ public class AddNonmemberDial extends DialogFragment {
                 nonmember.add(nickName);
                 project.setMembers(nonmember);
                 newUserTags.put(nickName,new ArrayList<>());
-                projectViewModel.addNonmember(projectId, nonmember);
+                projectViewModel.addMember(projectId, nonmember);
                 projectViewModel.addUserTags(projectId, newUserTags);
 
                 dismiss();

@@ -76,8 +76,5 @@ public class PostAdapter extends BaseAdapter {
 
         return postView;
     }
-
-
-
 }
 

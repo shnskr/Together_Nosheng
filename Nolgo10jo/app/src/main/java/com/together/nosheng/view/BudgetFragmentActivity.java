@@ -1,8 +1,10 @@
 package com.together.nosheng.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import com.together.nosheng.model.project.Project;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BudgetFragmentActivity extends Fragment {
@@ -28,6 +31,8 @@ public class BudgetFragmentActivity extends Fragment {
 
     private ProjectViewModel projectViewModel;
 
+    private String projectId;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class BudgetFragmentActivity extends Fragment {
         binding = ActivityFragmentBudgetBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        String projectId = requireActivity().getIntent().getStringExtra("projectId");
+        projectId = requireActivity().getIntent().getStringExtra("projectId");
 
         projectViewModel = new ViewModelProvider(requireActivity()).get(ProjectViewModel.class);
 
@@ -68,6 +73,46 @@ public class BudgetFragmentActivity extends Fragment {
             }
         });
 
+        binding.btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int food = Integer.parseInt(binding.etxtFood.getText().toString().replaceAll(",", ""));
+                int room = Integer.parseInt(binding.etxtRoom.getText().toString().replaceAll(",", ""));
+                int transportation = Integer.parseInt(binding.etxtTransportation.getText().toString().replaceAll(",", ""));
+                int emergency = Integer.parseInt(binding.etxtEmergency.getText().toString().replaceAll(",", ""));
+                int etc = Integer.parseInt(binding.etxtEtc.getText().toString().replaceAll(",", ""));
+
+                Map<String, Budget> budgets = new HashMap<>();
+                Budget bFood = new Budget();
+                bFood.setTotal(food);
+                Budget bRoom = new Budget();
+                bRoom.setTotal(room);
+                Budget bTransportation = new Budget();
+                bTransportation.setTotal(transportation);
+                Budget bEmergency = new Budget();
+                bEmergency.setTotal(emergency);
+                Budget bEtc = new Budget();
+                bEtc.setTotal(etc);
+
+                budgets.put("식비", bFood);
+                budgets.put("숙박비", bRoom);
+                budgets.put("교통비", bTransportation);
+                budgets.put("비상금", bEmergency);
+                budgets.put("기타", bEtc);
+
+                projectViewModel.updateBudgets(projectId, budgets);
+            }
+        });
+
+        //ocr 버튼!
+        binding.ocrScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), ScanOCR.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 
@@ -75,7 +120,6 @@ public class BudgetFragmentActivity extends Fragment {
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override

@@ -56,7 +56,7 @@ public class NewTripActivity extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         List<String> members = project.getMembers();
-        List<String> projectList = userViewModel.getUserProject();
+        List<String> projectList = userViewModel.getMemberProject(GlobalApplication.firebaseUser.getUid());
         List<String> allProjectList = projectViewModel.getProjectList();
 
         //join project
@@ -74,8 +74,8 @@ public class NewTripActivity extends AppCompatActivity {
                         if(!projectList.contains(joinCode)){
                             members.add(GlobalApplication.firebaseUser.getUid());
                             projectList.add(joinCode);
-                            projectViewModel.addNonmember(joinCode,members);
-                            userViewModel.updateUserProjectList(projectList);
+                            projectViewModel.addMember(joinCode,members);
+                            userViewModel.updateUserProjectList(GlobalApplication.firebaseUser.getUid(),projectList);
                             key2 = false;
                             finish();
                         }
