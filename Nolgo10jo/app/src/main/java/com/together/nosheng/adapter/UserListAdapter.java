@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.together.nosheng.model.user.User;
@@ -34,6 +35,8 @@ public class UserListAdapter extends BaseAdapter {
 //    LayoutInflater inflater;
     Context context;
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    User user = new User();
 
     public UserListAdapter(Context context) {
         this.context = context;
@@ -75,16 +78,31 @@ public class UserListAdapter extends BaseAdapter {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        storageRef.child("/user/UID/iv_test.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                //이미지 로드 성공시
-                if (uri != null) {
-                    //view.setImageView(uri);
-                    view.setImageView(parent.getContext(), uri);
+
+
+
+        if (user.getThumbnail().equals("")){//썸네일이 null일때 기본이미지 출력
+            storageRef.child("/user/iv_test.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    if (uri != null){
+                        view.setImageView(parent.getContext(), uri);
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {//유저 설정 썸네일 출력                              // AdminUserActivity / onComplete 함수안에서 document.getId를 했기때문에 바로 user.getThumbnail해도 댐.
+            storageRef.child("/user/" + ids.get(position) + "/" + user.getThumbnail()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    //이미지 로드 성공시
+                    if (uri != null) {
+                        view.setImageView(parent.getContext(), uri);
+                    }
+                }
+            });
+        }
+
 
         view.setOnClickListener(new View.OnClickListener() {//회원리스트 아이템 클릭해서 프로젝트 리스트로 이동
             @Override

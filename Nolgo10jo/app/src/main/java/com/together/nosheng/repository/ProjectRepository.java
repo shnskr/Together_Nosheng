@@ -84,6 +84,7 @@ public class ProjectRepository {
                     for (String projectId : projectList) {
                         db.collection("Project").document(projectId).get()
                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         DocumentSnapshot document = task.getResult();
