@@ -2,6 +2,7 @@ package com.together.nosheng.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
@@ -23,6 +24,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.together.nosheng.R;
 import com.together.nosheng.databinding.SettingFragmentProBinding;
 import com.together.nosheng.model.user.User;
@@ -37,7 +42,6 @@ public class SettingFragmentPro extends Fragment {
     }
 
     private SettingFragmentProBinding binding;
-    private View view;
 
     @Nullable
     @Override
@@ -53,6 +57,37 @@ public class SettingFragmentPro extends Fragment {
             public void onChanged(User user) {
                 binding.txtUsername.setText(user.getNickName());
                 binding.txtUseremail.setText(user.geteMail());
+
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
+
+
+
+                if (user.getThumbnail().equals("")){//썸네일이 null일때 기본이미지 출력
+                    storageRef.child("/user/iv_test.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            if (uri != null){
+                                Glide.with(requireContext())
+                                        .load(uri)
+                                        .into(binding.ivAdmi);
+                            }
+                        }
+                    });
+                }
+                else {//유저 설정 썸네일 출력                              // AdminUserActivity / onComplete 함수안에서 document.getId를 했기때문에 바로 user.getThumbnail해도 댐.
+                    storageRef.child("/user/" + GlobalApplication.firebaseUser.getUid() + "/" + user.getThumbnail()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            //이미지 로드 성공시
+                            if (uri != null) {
+                                Glide.with(requireContext())
+                                        .load(uri)
+                                        .into(binding.ivAdmi);
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -82,10 +117,7 @@ public class SettingFragmentPro extends Fragment {
                 }
             });
         }
-
         return root;
-
-
     }
 
     private void changenickName() {
