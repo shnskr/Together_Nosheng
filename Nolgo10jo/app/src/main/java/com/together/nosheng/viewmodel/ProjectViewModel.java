@@ -102,4 +102,8 @@ public class ProjectViewModel extends ViewModel {
     public void updateBudgets(String projectId, Map<String, Budget> budgets) {
         projectRepository.updateBudgets(projectId, budgets);
     }
+
+    public void updateCheckList(String projectId, Map<String, Boolean> checkLists) {
+        projectRepository.updateCheckList(projectId, checkLists);
+    }
 }

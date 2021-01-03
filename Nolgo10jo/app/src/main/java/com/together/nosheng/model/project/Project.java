@@ -15,7 +15,7 @@ public class Project {
     private Map<String, List<String>> userTags = new HashMap<>(); // Key : 유저 id, Value : Tag name List
     private List<Post> posts = new ArrayList<>(); // 게시글 목록
     private List<String> tags = new ArrayList<>(); //테그 목록
-    private Map<String, CheckList> checkLists = new HashMap<>(); // Key : 유저 ID,  Value : CheckList class(체크리스트 항목)
+    private Map<String, Map<String, Boolean>> checkLists = new HashMap<>(); // Key : 유저 ID,  Value : CheckList class(체크리스트 항목)
     private List<String> members = new ArrayList<>();
     private List<String> plans = new ArrayList<>();
 
@@ -96,11 +96,11 @@ public class Project {
         this.tags = tags;
     }
 
-    public Map<String, CheckList> getCheckLists() {
+    public Map<String, Map<String, Boolean>> getCheckLists() {
         return checkLists;
     }
 
-    public void setCheckLists(Map<String, CheckList> checkLists) {
+    public void setCheckLists(Map<String, Map<String, Boolean>> checkLists) {
         this.checkLists = checkLists;
     }
 

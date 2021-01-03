@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -101,6 +102,8 @@ public class BudgetFragmentActivity extends Fragment {
                 budgets.put("기타", bEtc);
 
                 projectViewModel.updateBudgets(projectId, budgets);
+
+                Toast.makeText(requireContext(), "저장 완료", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -28,7 +28,6 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.together.nosheng.R;
-import com.together.nosheng.adapter.PinListAdapter;
 import com.together.nosheng.adapter.PinRecyclerAdapter;
 import com.together.nosheng.databinding.ActivityFragmentPlanBinding;
 import com.together.nosheng.model.plan.Plan;

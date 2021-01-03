@@ -432,6 +432,19 @@ public class ProjectRepository {
     public void updateBudgets(String projectId, Map<String, Budget> budgets) {
         db.collection("Project").document(projectId).update("budgets", budgets);
     }
+
+    public void updateCheckList(String projectId, Map<String, Boolean> checkLists) {
+        db.collection("Project").document(projectId).update("checkLists."+GlobalApplication.firebaseUser.getUid(), checkLists);
+//        db.collection("Project").document(projectId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                Map<String, Map<String, Boolean>> temp = (Map<String, Map<String, Boolean>>) documentSnapshot.get("checkLists");
+//                temp.put(GlobalApplication.firebaseUser.getUid(), checkLists);
+//
+//                db.collection("Project").document(projectId).update("checkLists", temp);
+//            }
+//        });
+    }
 }   //end class
 
 
