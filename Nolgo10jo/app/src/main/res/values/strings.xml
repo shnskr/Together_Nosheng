@@ -5,4 +5,8 @@
     <string name="FirstMessage">인식할 문자를 찍어주세요.</string>
     <string name="LoadingMessage">잠시만 기다려주세요.결과가 여기에 나타납니다.</string>
     <string name="CompleteMessage">문자인식이 완료되었습니다.</string>
+
+    <!-- Ted Permission -->
+    <string name="permission_1">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
+    <string name="permission_2">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
 </resources>

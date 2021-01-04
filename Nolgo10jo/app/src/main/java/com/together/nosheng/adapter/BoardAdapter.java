@@ -62,7 +62,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
         Log.i("힝구", data.toString());
 //#################Hid 가 문제인가???##################################
         //holder는 아이템 1개 씩인거에요
-        holder.Hid.setText(data.getDocId());
+//        holder.Hid.setText(data.getDocId());@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //        holder.Hdate.setText(data.getDate()); //심플포맷 달형이 어제알려준거쓰자
         holder.Hdate.setText(format.format(date)); //심플포맷 달형이 어제알려준거쓰자
         holder.Hcontents.setText(data.getContents());
@@ -82,7 +82,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
                 intent.putExtra("title", data.getTitle());
                 intent.putExtra("contents", data.getContents());
                 intent.putExtra("date", format.format(data.getDate()));
-                intent.putExtra("docId", data.getDocId());
+//                intent.putExtra("docId", data.getDocId());@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 intent.putExtra("documentId", data.getDocumentId());
                 context.startActivity(intent);
             }
@@ -114,7 +114,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
         private TextView Htitle;
         private TextView Hcontents;
         private TextView Hdate;
-        private TextView Hid;
+//        private TextView Hid;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         //생성자
         public BoardViewHolder(@NonNull View itemView) {
@@ -126,7 +126,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
 //            Hid = itemView.findViewById(R.id.it_id);
             Htitle = itemView.findViewById(R.id.item_board_title);//board_item_one################################이거일수도 있어
             Hcontents = itemView.findViewById(R.id.item_board_contents);
-            Hid = itemView.findViewById(R.id.item_board_id);
+//            Hid = itemView.findViewById(R.id.item_board_id);@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             Hdate = itemView.findViewById(R.id.item_board_date);
             itemView.setOnClickListener(this);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////remove 버튼

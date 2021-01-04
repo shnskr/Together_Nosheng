@@ -85,7 +85,7 @@ public class BoardActivity2 extends AppCompatActivity {
                 intent.putExtra("title",mDatas.get(position).getTitle());
                 intent.putExtra("contents",mDatas.get(position).getContents());
                 intent.putExtra("time",mDatas.get(position).getDate());
-                intent.putExtra("writer",mDatas.get(position).getDocId());
+//                intent.putExtra("writer",mDatas.get(position).getDocId());
 
                 startActivity(intent);
             }

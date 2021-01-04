@@ -5,6 +5,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
     <application
         android:name=".util.GlobalApplication"
         android:allowBackup="true"
@@ -13,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nolgo10jo">
-        <activity android:name=".view.ItemViewActivity2"></activity>
+        <activity android:name=".view.ItemViewActivity2"/>
         <activity android:name=".view.BoardActivity2" />
         <activity android:name=".view.AuserProjectListActivity" />
         <activity android:name=".view.BoardEditActivity" />
