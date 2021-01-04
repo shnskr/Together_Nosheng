@@ -65,32 +65,8 @@ public class NewTripActivity extends AppCompatActivity {
             public void onClick(View v) {
                 joinCode = newTripBinding.etxtJoinCode.getText().toString();
 
-                boolean key = false;
-                boolean key2 = true;
-
-                if(joinCode.length() > 0){
-                    joinCode.trim();
-                    if(allProjectList.contains(joinCode)){
-                        if(!projectList.contains(joinCode)){
-                            members.add(GlobalApplication.firebaseUser.getUid());
-                            projectList.add(joinCode);
-                            projectViewModel.addMember(joinCode,members);
-                            userViewModel.updateUserProjectList(GlobalApplication.firebaseUser.getUid(),projectList);
-                            key2 = false;
-                            finish();
-                        }
-                        key = true;
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(),"코드를 입력하세요!", Toast.LENGTH_SHORT).show();
-                }
-
-                if(key == false){
-                    Toast.makeText(getApplicationContext(),"존재하지 않는 코드입니다!", Toast.LENGTH_SHORT).show();
-                } else if(key == true && key2 == true){
-                    Toast.makeText(getApplicationContext(),"이미 추가된된 코드입니다!", Toast.LENGTH_SHORT).show();
-                }
-
+                projectViewModel.searchProject(getBaseContext(), joinCode);
+                finish();
             }
         });
 

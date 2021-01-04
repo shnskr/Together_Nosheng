@@ -54,4 +54,8 @@ public class PlanViewModel extends ViewModel {
     public LiveData<Map<String, Plan>> getUserBookmark() {
         return userBookmarkList;
     }
+
+    public void updatePlan(String planId, Plan plan) {
+        planRepository.updatePlan(planId, plan);
+    }
 }
