@@ -2,7 +2,7 @@ package com.together.nosheng.view;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -59,11 +60,15 @@ public class SettingFragmentPro extends Fragment {
 
     private SettingFragmentProBinding binding;
 
+    private Context context;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.setting_fragment_pro, container, false);
         View root = binding.getRoot();
+
+        context = requireContext();
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         userViewModel.setLiveUser();
@@ -85,34 +90,31 @@ public class SettingFragmentPro extends Fragment {
                             Toast.makeText(v.getContext(), getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
 
                         tedPermission();
-//                        Intent intent = new Intent(Intent.ACTION_PICK);
-//                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-//                        startActivityForResult(intent,1);
                     }
                 });
 
                 storage = FirebaseStorage.getInstance();
                 storageRef = storage.getReference();
 
-
                 if (user.getThumbnail().equals("")) {//썸네일이 null일때 기본이미지 출력
                     storageRef.child("/user/iv_test.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             if (uri != null) {
-                                Glide.with(requireContext())
+                                Glide.with(context)
                                         .load(uri)
                                         .into(binding.ivAdmi);
                             }
                         }
                     });
-                } else {//유저 설정 썸네일 출력                              // AdminUserActivity / onComplete 함수안에서 document.getId를 했기때문에 바로 user.getThumbnail해도 댐.
+                } else {//유저 설정 썸네일 출력
+                    // AdminUserActivity / onComplete 함수안에서 document.getId를 했기때문에 바로 user.getThumbnail해도 댐.
                     storageRef.child("/user/" + GlobalApplication.firebaseUser.getUid() + "/" + user.getThumbnail()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             //이미지 로드 성공시
                             if (uri != null) {
-                                Glide.with(requireContext())
+                                Glide.with(context)
                                         .load(uri)
                                         .into(binding.ivAdmi);
                             }
@@ -133,7 +135,7 @@ public class SettingFragmentPro extends Fragment {
             @Override
             public void onClick(View v) {
                 GlobalApplication.logout();
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                startActivity(new Intent(context, LoginActivity.class));
                 requireActivity().finish();
             }
         });
@@ -155,70 +157,12 @@ public class SettingFragmentPro extends Fragment {
     }
 
 
-//    //카메라관련 메서드
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode != Activity.RESULT_OK) {
-//            Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
-//
-//            if (tempFile != null) {
-//                if (tempFile.exists()) {
-//                    if (tempFile.delete()) {
-//                        Log.e(TAG, tempFile.getAbsolutePath() + " 삭제 성공");
-//                        tempFile = null;
-//                    }
-//                }
-//            }
-//
-//            return;
-//        }
-//
-//        if (requestCode == 1) {
-//
-//
-//            Uri photoUri = data.getData();
-//            Log.d(TAG, "PICK_FROM_ALBUM photoUri : " + photoUri);
-//
-//            Cursor cursor = null;
-//
-//            try {
-//
-//                /*
-//                 *  Uri 스키마를
-//                 *  content:/// 에서 file:/// 로  변경한다.
-//                 */
-//                String[] proj = {MediaStore.Images.Media.DATA};
-//
-//                assert photoUri != null;
-//                cursor = getContentResolver().query(photoUri, proj, null, null, null);
-//
-//                assert cursor != null;
-//                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//
-//                cursor.moveToFirst();
-//
-//                tempFile = new File(cursor.getString(column_index));
-//
-//                Log.d(TAG, "tempFile Uri : " + Uri.fromFile(tempFile));
-//
-//            } finally {
-//                if (cursor != null) {
-//                    cursor.close();
-//                }
-//            }
-//
-//            setImage();
-//
-//        }
-//    }
-
-
     private void changenickName() {
-        EditText et = new EditText(requireContext());
+        EditText et = new EditText(context);
         et.setLines(1);
         et.setHint("닉네임을 입력 해주세요.");
         et.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        et.setSingleLine();
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -229,10 +173,8 @@ public class SettingFragmentPro extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 et.removeTextChangedListener(this);
 
-                if (s.length() > 8) {
-                    et.setText(s.subSequence(0, 8));
-                } else {
-                    et.setText(s.toString().replaceAll(" ", ""));
+                if (s.length() > 6) {
+                    et.setText(s.subSequence(0, 6));
                 }
                 et.setSelection(et.length());
 
@@ -245,16 +187,17 @@ public class SettingFragmentPro extends Fragment {
             }
         });
 
-        AlertDialog.Builder dlg = new AlertDialog.Builder(requireContext());
+        AlertDialog.Builder dlg = new AlertDialog.Builder(context);
+
         dlg.setTitle("닉네임 변경");
-        dlg.setMessage("최대 8글자까지 가능합니다.");
+        dlg.setMessage("최대 6글자까지 가능합니다.");
         dlg.setView(et);
         dlg.setPositiveButton("변경", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String nickName = et.getText().toString();
                 if (nickName.length() < 1) {
-                    Toast.makeText(requireContext(), "닉네임을 입력 해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "닉네임을 입력 해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
                     userViewModel.changeNickname(nickName);
                 }
@@ -276,62 +219,35 @@ public class SettingFragmentPro extends Fragment {
         startActivityForResult(intent, 1);
 
 
-        Cursor cursor = null;
-        if (intent.getData() != null) {
-            Log.i("testing", "당금");
+    }
 
-            try {
-                Log.i("testing", "당금");
-                Uri photoUri = intent.getData();
-                binding.ivAdmi.setImageURI(photoUri);
-            } catch (Exception e) {
-                Log.i("testing", "시금치...");
-                e.printStackTrace();
+
+    private void tedPermission() {
+
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                // 권한 요청 성공
+                isPermission = true;
+
             }
 
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                // 권한 요청 실패
+                isPermission = false;
 
-            Log.i("testing", "당금ㅁㅁ///");
+            }
+        };
 
-            Bundle result = new Bundle();
-            result.putString("intent", intent.getData().toString());
-            result.putInt("requestCode", 1);
-            result.putInt("resultCode", Activity.RESULT_OK);
-//        result.putInt("position", position);
-            getParentFragmentManager().setFragmentResult("result", result);
-        }
-        else{
-            Log.i("testing", "시금치/.///");
-        }
-    }
-
-
-        private void tedPermission () {
-
-            PermissionListener permissionListener = new PermissionListener() {
-                @Override
-                public void onPermissionGranted() {
-                    // 권한 요청 성공
-                    isPermission = true;
-
-                }
-
-                @Override
-                public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                    // 권한 요청 실패
-                    isPermission = false;
-
-                }
-            };
-
-            TedPermission.with(requireActivity())
-                    .setPermissionListener(permissionListener)
-                    .setRationaleMessage(getResources().getString(R.string.permission_2))
-                    .setDeniedMessage(getResources().getString(R.string.permission_1))
-                    .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                    .check();
-
-        }
-
+        TedPermission.with(requireActivity())
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage(getResources().getString(R.string.permission_2))
+                .setDeniedMessage(getResources().getString(R.string.permission_1))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
 
     }
+
+}
 

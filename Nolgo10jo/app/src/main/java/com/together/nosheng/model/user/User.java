@@ -15,22 +15,9 @@ public class User {
     private String thumbnail = "";
     private List<String> friendList = new ArrayList<>();
     private List<String> projectList = new ArrayList<>();
-    private List<String> bookmarkList; // docID, string
+    private List<String> bookmarkList = new ArrayList<>(); // docID, string
 
-    public User(String eMail, String nickName, Date regDate, String thumbnail, ArrayList<String> friendList, ArrayList<String> bookmarkList) {
-        this.eMail = eMail;
-        this.nickName = nickName;
-        this.regDate = regDate;
-        this.thumbnail = thumbnail;
-        this.friendList = friendList;
-        this.bookmarkList = bookmarkList;
-    }
-
-    public User (String nickName){
-        this.nickName = nickName;
-    }
     public User() {
-
     }
 
     public List<String> getFriendList() {

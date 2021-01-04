@@ -12,16 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 public class PlanViewModel extends ViewModel {
-    private LiveData<Map<String, Plan>> userProjects;
     private PlanRepository planRepository;
-
+    private LiveData<Map<String, Plan>> userProjects;
     private LiveData<Map<String,Plan>> publicPlans;
+    private LiveData<Map<String, Plan>> userBookmarkList;
 
     private LiveData<Plan> currentPlan;
 
     public PlanViewModel() {
         planRepository = new PlanRepository();
-        //userProjects = planRepository.getPlans();
     }
     public LiveData<Map<String, Plan>> getPlans() {return userProjects;}
 
@@ -46,5 +45,13 @@ public class PlanViewModel extends ViewModel {
 
     public void updatePins(String planId, List<Pin> pins) {
         planRepository.updatePins(planId, pins);
+    }
+
+    public void setUserBookmark() {
+        userBookmarkList = planRepository.getUserBookmark();
+    }
+
+    public LiveData<Map<String, Plan>> getUserBookmark() {
+        return userBookmarkList;
     }
 }

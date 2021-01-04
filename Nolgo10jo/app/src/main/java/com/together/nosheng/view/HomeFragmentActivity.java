@@ -36,7 +36,6 @@ public class HomeFragmentActivity extends Fragment {
 
     private ProjectViewModel projectViewModel;
     private UserViewModel userViewModel;
-    private List<String> projectIds;
 
     @Nullable
     @Override
@@ -52,7 +51,7 @@ public class HomeFragmentActivity extends Fragment {
         projectViewModel.getUserProjects().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
             public void onChanged(Map<String, Project> userProject) {
-                homeBinding.lvProject.setAdapter(new HomeAdapter(userProject, getActivity(),userViewModel, projectViewModel, projectIds));
+                homeBinding.lvProject.setAdapter(new HomeAdapter(userProject, getActivity(),userViewModel, projectViewModel));
             }
         });
 

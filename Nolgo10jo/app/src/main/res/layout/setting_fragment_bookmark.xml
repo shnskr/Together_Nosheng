@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="305dp"
         android:layout_height="650dp"
-        android:background="@color/maincolor"
-
-        >
+        android:background="@color/maincolor">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/setting_listView_bookmark"
+            android:id="@+id/rv_bookmark"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbarFadeDuration="0"
@@ -21,12 +18,17 @@
             android:scrollbars="vertical"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="bookmark"
-            android:textSize="50dp"
-            android:gravity="center"
-            />
+            android:id="@+id/tv_bookmark_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="북마크가 없어요 T^ T"
+            android:textSize="30sp"
+            android:visibility="invisible"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_bookmark"
+            app:layout_constraintEnd_toEndOf="@+id/rv_bookmark"
+            app:layout_constraintStart_toStartOf="@+id/rv_bookmark"
+            app:layout_constraintTop_toTopOf="@+id/rv_bookmark" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
