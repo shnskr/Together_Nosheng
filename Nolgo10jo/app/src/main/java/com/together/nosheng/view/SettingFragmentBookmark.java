@@ -42,91 +42,37 @@ import java.util.Map;
 
 public class SettingFragmentBookmark extends Fragment {
     private SettingFragmentBookmarkBinding binding;
-    private RecyclerView mRecyclerView;
-    private UserViewModel userViewModel;
-    private BookmarkAdapter bookmarkAdapter;
-    private List<String> planId = new ArrayList<>();
-
-    private List<Plan> bookmarkList = new ArrayList<>();
+    private PlanViewModel planViewModel;
 
     public static SettingFragmentBookmark newInstance() {
         return new SettingFragmentBookmark();
     }
 
-//    private List<String> s = new ArrayList<>();
-
-    private HashBiMap<String, Plan> biMap;//키 검색용 해쉬맵
-    private BiMap<Plan, String> biMap2;//키 검색용 해쉬맵
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.setting_fragment_bookmark, container, false);
+        binding = SettingFragmentBookmarkBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        Context context = view.getContext();
 
-        mRecyclerView = view.findViewById(R.id.setting_listView_bookmark);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(view.getContext());
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                mLinearLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        planViewModel = new ViewModelProvider(requireActivity()).get(PlanViewModel.class);
+        planViewModel.setUserBookmark();
 
-        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        binding.rvBookmark.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        PlanViewModel planViewModel = new ViewModelProvider(requireActivity()).get(PlanViewModel.class);
-        planViewModel.setPlanRepository();
-
-        userViewModel.setBookmarkList();
-        userViewModel.getBookmarkList().observe(getViewLifecycleOwner(), new Observer<List<Plan>>() {
+        planViewModel.getUserBookmark().observe(getViewLifecycleOwner(), new Observer<Map<String, Plan>>() {
             @Override
-            public void onChanged(List<Plan> plans) {
-                if (plans == null) {
-                    Toast.makeText(context, "북마크 없어!", Toast.LENGTH_LONG).show();
+            public void onChanged(Map<String, Plan> stringPlanMap) {
+                if (stringPlanMap.size() == 0) {
+                    binding.tvBookmarkMessage.setVisibility(View.VISIBLE);
                 } else {
-                    bookmarkList.addAll(plans);
-                    bookmarkAdapter = new BookmarkAdapter(plans, context);
-                    binding.settingListViewBookmark.setAdapter(bookmarkAdapter);
-                    bookmarkAdapter.setOnItemClickListener(new BookmarkAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View v, int position) {
-                            String testing = plans.get(position).getPlanTitle();
-                            Log.i("뭐지 이게", testing);
-
-                            planViewModel.getPlans().observe(getViewLifecycleOwner(), new Observer<Map<String, Plan>>() {
-                                @Override
-                                public void onChanged(Map<String, Plan> stringPlanMap) {
-                                    List<Plan> keyList = new ArrayList<>();
-                                    keyList.addAll(stringPlanMap.values());
-                                    Log.i("onChanged",Integer.toString(keyList.size()));
-                                    String key = null;
-                                    
-                                    for (int x =0; x< keyList.size(); x++){
-                                        if(keyList.get(x).getPlanTitle().equals(plans.get(position).getPlanTitle())){
-
-                                            biMap = HashBiMap.create(stringPlanMap);
-                                            biMap2 = biMap.inverse();
-
-                                            key= biMap2.get(keyList.get(x)); //선택된 플랜의 키 값 보내주기
-                                        }
-                                    }
-                                    Intent intent = new Intent(context, SearchPlanDetailActivity.class);
-                                    intent.putExtra("Key", key);
-
-                                    //plan 정보 다 보내주기
-                                    startActivity(intent);
-                                    }
-                                }
-                            );
-
-                            
-                        }
-                    });
-
+                    binding.tvBookmarkMessage.setVisibility(View.INVISIBLE);
                 }
+                binding.rvBookmark.setAdapter(new BookmarkAdapter(stringPlanMap, requireContext()));
             }
         });
+
         return view;
     }
 
-    }
+}

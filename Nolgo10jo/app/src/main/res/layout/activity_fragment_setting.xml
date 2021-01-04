@@ -48,29 +48,6 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_mark"
         android:textColor="#FFFFFF"
         android:textSize="12sp"/>
-    <Button
-        android:id="@+id/btn_common"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="25dp"
-        android:text="일반"
-        app:layout_constraintEnd_toEndOf="@+id/btn_fre"
-        app:layout_constraintStart_toStartOf="@+id/btn_fre"
-        app:layout_constraintTop_toBottomOf="@+id/btn_fre"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"/>
-
-    <Button
-        android:id="@+id/btn_info"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="25dp"
-        android:text="정보"
-        app:layout_constraintEnd_toEndOf="@+id/btn_common"
-        app:layout_constraintStart_toStartOf="@+id/btn_common"
-        app:layout_constraintTop_toBottomOf="@+id/btn_common"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"/>
 
     <FrameLayout
         android:id="@+id/framelaout2"

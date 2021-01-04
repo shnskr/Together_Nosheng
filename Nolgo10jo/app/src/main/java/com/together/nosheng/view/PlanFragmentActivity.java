@@ -1,6 +1,9 @@
 package com.together.nosheng.view;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -8,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -54,12 +59,16 @@ public class PlanFragmentActivity extends Fragment {
 
     private Fragment googleActivity;
 
+    private Context context;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityFragmentPlanBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
+        context = requireContext();
 
         String projectId = requireActivity().getIntent().getStringExtra("projectId");
 
@@ -90,10 +99,19 @@ public class PlanFragmentActivity extends Fragment {
                         result.putInt("position", position);
                         getChildFragmentManager().setFragmentResult("result", result);
 
-                        planViewModel.setCurrentPlan(currentProject.getPlans().get(position));
+                        String planId = currentProject.getPlans().get(position);
+
+                        planViewModel.setCurrentPlan(planId);
                         planViewModel.getCurrentPlan().observe(getViewLifecycleOwner(), new Observer<Plan>() {
                             @Override
                             public void onChanged(Plan plan) {
+
+                                if (plan.isOpen()) {
+                                    binding.btnOpen.setText("공개");
+                                } else {
+                                    binding.btnOpen.setText("비공개");
+                                }
+
                                 binding.spDay.setSelection(position);
                                 binding.rvPins.setLayoutManager(new LinearLayoutManager(parent.getContext()));
                                 PinRecyclerAdapter adapter = new PinRecyclerAdapter(requireContext(), plan.getPins(), currentProject.getPlans().get(position), planViewModel);
@@ -138,5 +156,33 @@ public class PlanFragmentActivity extends Fragment {
         getChildFragmentManager().beginTransaction().replace(binding.flContainer.getId(), googleActivity).commit();
 
         return view;
+    }
+
+    private void setEditText(EditText et) {
+        et.setSingleLine();
+
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et.removeTextChangedListener(this);
+
+                if (s.length() > 10) {
+                    et.setText(s.subSequence(0, 10));
+                }
+                et.setSelection(et.length());
+
+                et.addTextChangedListener(this);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }

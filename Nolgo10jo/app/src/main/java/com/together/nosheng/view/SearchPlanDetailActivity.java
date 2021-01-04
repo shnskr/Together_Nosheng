@@ -47,6 +47,7 @@ import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.PlanViewModel;
 import com.together.nosheng.viewmodel.UserViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,8 +101,11 @@ public class SearchPlanDetailActivity extends AppCompatActivity {
                 binding.searchDetailTitle.setText(plan.getPlanTitle());
                 binding.searchDetailTheme.setText(plan.getPlanTheme());
                 binding.searchDetailLike.setText(Integer.toString(plan.getPlanLike().size()));
+
+                SimpleDateFormat format = new SimpleDateFormat("yy.MM.dd");
+
+                binding.searchDetailDate.setText(format.format(plan.getPlanDate()));
                 userCheck();
-                Log.i("testing12312", "유저가 좋아요 눌렀는지 확ㅇ인");
             }
         });
 

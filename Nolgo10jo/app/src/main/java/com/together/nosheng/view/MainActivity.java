@@ -33,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private UserViewModel userViewModel;
     private ProjectViewModel projectViewModel;
 
-    private HomeAdapter homeAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +69,6 @@ public class MainActivity extends AppCompatActivity {
         System.exit(1);
     }
 
-    public void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.framelaout2, fragment).commit();
-    }
-
     private BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -91,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new SearchFragmentActivity();
                             break;
                         case R.id.nav_setting:
-                            selectedFragment = SettingFragment.newInstance();
-                            //selectedFragment = new SettingFragmentActivity();
+                            selectedFragment = new SettingFragment();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();

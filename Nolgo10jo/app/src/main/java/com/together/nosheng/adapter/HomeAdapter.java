@@ -2,6 +2,7 @@ package com.together.nosheng.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -27,16 +28,14 @@ public class HomeAdapter extends BaseAdapter {
     private List<String> userProjectId;
     private Map<String, Project> userProject;
     private Context context;
-    private List<String> projects;
     private ProjectViewModel projectViewModel;
     private UserViewModel userViewModel;
 
-    public HomeAdapter(Map<String, Project> userProject, Context context,UserViewModel userViewModel, ProjectViewModel projectViewModel, List<String> projects) {
+    public HomeAdapter(Map<String, Project> userProject, Context context,UserViewModel userViewModel, ProjectViewModel projectViewModel) {
         this.userProject = userProject;
         this.context = context;
         this.userViewModel = userViewModel;
         this.projectViewModel = projectViewModel;
-        this.projects = projects;
 
         userProjectId = new ArrayList<>(userProject.keySet());
     }

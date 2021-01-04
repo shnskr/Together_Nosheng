@@ -1,5 +1,6 @@
 package com.together.nosheng.view;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -43,11 +45,15 @@ public class SettingFragmentPro extends Fragment {
 
     private SettingFragmentProBinding binding;
 
+    private Context context;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.setting_fragment_pro,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.setting_fragment_pro, container, false);
         View root = binding.getRoot();
+
+        context = requireContext();
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         userViewModel.setLiveUser();
@@ -62,26 +68,24 @@ public class SettingFragmentPro extends Fragment {
                 StorageReference storageRef = storage.getReference();
 
 
-
-                if (user.getThumbnail().equals("")){//썸네일이 null일때 기본이미지 출력
+                if (user.getThumbnail().equals("")) {//썸네일이 null일때 기본이미지 출력
                     storageRef.child("/user/iv_test.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            if (uri != null){
-                                Glide.with(requireContext())
+                            if (uri != null) {
+                                Glide.with(context)
                                         .load(uri)
                                         .into(binding.ivAdmi);
                             }
                         }
                     });
-                }
-                else {//유저 설정 썸네일 출력                              // AdminUserActivity / onComplete 함수안에서 document.getId를 했기때문에 바로 user.getThumbnail해도 댐.
+                } else {//유저 설정 썸네일 출력                              // AdminUserActivity / onComplete 함수안에서 document.getId를 했기때문에 바로 user.getThumbnail해도 댐.
                     storageRef.child("/user/" + GlobalApplication.firebaseUser.getUid() + "/" + user.getThumbnail()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             //이미지 로드 성공시
                             if (uri != null) {
-                                Glide.with(requireContext())
+                                Glide.with(context)
                                         .load(uri)
                                         .into(binding.ivAdmi);
                             }
@@ -102,7 +106,7 @@ public class SettingFragmentPro extends Fragment {
             @Override
             public void onClick(View v) {
                 GlobalApplication.logout();
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                startActivity(new Intent(context, LoginActivity.class));
                 requireActivity().finish();
             }
         });
@@ -121,10 +125,11 @@ public class SettingFragmentPro extends Fragment {
     }
 
     private void changenickName() {
-        EditText et = new EditText(requireContext());
+        EditText et = new EditText(context);
         et.setLines(1);
         et.setHint("닉네임을 입력 해주세요.");
         et.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        et.setSingleLine();
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -135,10 +140,8 @@ public class SettingFragmentPro extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 et.removeTextChangedListener(this);
 
-                if (s.length() > 8) {
-                    et.setText(s.subSequence(0, 8));
-                } else {
-                    et.setText(s.toString().replaceAll(" ", ""));
+                if (s.length() > 6) {
+                    et.setText(s.subSequence(0, 6));
                 }
                 et.setSelection(et.length());
 
@@ -151,18 +154,19 @@ public class SettingFragmentPro extends Fragment {
             }
         });
 
-        AlertDialog.Builder dlg = new AlertDialog.Builder(requireContext());
+        AlertDialog.Builder dlg = new AlertDialog.Builder(context);
+
         dlg.setTitle("닉네임 변경");
-        dlg.setMessage("최대 8글자까지 가능합니다.");
+        dlg.setMessage("최대 6글자까지 가능합니다.");
         dlg.setView(et);
         dlg.setPositiveButton("변경", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String nickName = et.getText().toString();
                 if (nickName.length() < 1) {
-                    Toast.makeText(requireContext(), "닉네임을 입력 해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "닉네임을 입력 해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
-                    userViewModel.changeNickname(nickName);
+                userViewModel.changeNickname(nickName);
                 }
             }
         });

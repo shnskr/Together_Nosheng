@@ -34,6 +34,8 @@ public class BudgetFragmentActivity extends Fragment {
 
     private String projectId;
 
+    private Project currentProject;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,7 +50,8 @@ public class BudgetFragmentActivity extends Fragment {
         projectViewModel.getCurrentProject().observe(getViewLifecycleOwner(), new Observer<Map<String, Project>>() {
             @Override
             public void onChanged(Map<String, Project> stringProjectMap) {
-                Map<String, Budget> budgets = stringProjectMap.get(projectId).getBudgets();
+                currentProject = stringProjectMap.get(projectId);
+                Map<String, Budget> budgets = currentProject.getBudgets();
 
                 Budget food = budgets.get("식비");
                 Budget room = budgets.get("숙박비");
@@ -56,15 +59,24 @@ public class BudgetFragmentActivity extends Fragment {
                 Budget emergency = budgets.get("비상금");
                 Budget etc = budgets.get("기타");
 
+                int foodTotal = food.getTotal();
+                int roomTotal = room.getTotal();
+                int transportationTotal = transportation.getTotal();
+                int emergencyTotal = emergency.getTotal();
+                int etcTotal = etc.getTotal();
+
+                int total = foodTotal + roomTotal + transportationTotal + emergencyTotal + etcTotal;
+
                 DecimalFormat format = new DecimalFormat("#,###");
 
-                binding.etxtFood.setText(format.format(food.getTotal()));
-                binding.etxtRoom.setText(format.format(room.getTotal()));
-                binding.etxtTransportation.setText(format.format(transportation.getTotal()));
-                binding.etxtEmergency.setText(format.format(emergency.getTotal()));
-                binding.etxtEtc.setText(format.format(etc.getTotal()));
+                binding.etxtFood.setText(format.format(foodTotal));
+                binding.etxtRoom.setText(format.format(roomTotal));
+                binding.etxtTransportation.setText(format.format(transportationTotal));
+                binding.etxtEmergency.setText(format.format(emergencyTotal));
+                binding.etxtEtc.setText(format.format(etcTotal));
 
-                binding.etxtTotal.setText(format.format(food.getTotal() + room.getTotal() + transportation.getTotal() + emergency.getTotal() + emergency.getTotal()));
+                binding.etxtTotal.setText(format.format(total));
+                binding.etxtDivide.setText(format.format(total / currentProject.getMembers().size()));
 
                 addTextChangedListener(binding.etxtFood);
                 addTextChangedListener(binding.etxtRoom);
@@ -150,7 +162,12 @@ public class BudgetFragmentActivity extends Fragment {
                 int emergency = Integer.parseInt(binding.etxtEmergency.getText().toString().replaceAll(",", ""));
                 int etc = Integer.parseInt(binding.etxtEtc.getText().toString().replaceAll(",", ""));
 
-                binding.etxtTotal.setText(String.valueOf(food + room + transportation + emergency + etc));
+                int total = food + room + transportation + emergency + etc;
+
+                DecimalFormat format = new DecimalFormat("#,###");
+
+                binding.etxtTotal.setText(format.format(total));
+                binding.etxtDivide.setText(format.format(total / currentProject.getMembers().size()));
             }
         });
     }

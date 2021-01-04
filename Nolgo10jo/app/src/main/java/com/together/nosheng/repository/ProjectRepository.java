@@ -41,10 +41,6 @@ public class ProjectRepository {
     private FirebaseFirestore db;
     private String TAG = "ProjectRepository";
 
-    private MutableLiveData<Map<String, Project>> userProject = new MutableLiveData<>();
-
-    private Map<String, Project> userProjectMap;
-
     public ProjectRepository() {
         db = FirebaseFirestore.getInstance();
     }
@@ -71,6 +67,9 @@ public class ProjectRepository {
     }
 
     public MutableLiveData<Map<String, Project>> getUserProject() {
+        MutableLiveData<Map<String, Project>> userProject = new MutableLiveData<>();
+        Map<String, Project> userProjectMap = new HashMap<>();
+
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -79,21 +78,20 @@ public class ProjectRepository {
                     return;
                 }
                 if (value != null) {
-                    userProjectMap = new HashMap<>();
-                    Log.i("여기있다!", "왔나?0");
                     List<String> projectList = value.toObject(User.class).getProjectList();
+                    userProjectMap.clear();
+                    userProject.setValue(userProjectMap);
 
                     for (String projectId : projectList) {
                         db.collection("Project").document(projectId).get()
                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         DocumentSnapshot document = task.getResult();
                                         if (task.isSuccessful()) {
                                             if (document.exists()) {
                                                 Log.i(TAG, projectId);
-                                                userProjectMap.put(projectId, document.toObject(Project.class));
+                                                userProjectMap.put(document.getId(), document.toObject(Project.class));
                                                 userProject.setValue(userProjectMap);
                                             }
                                         } else {

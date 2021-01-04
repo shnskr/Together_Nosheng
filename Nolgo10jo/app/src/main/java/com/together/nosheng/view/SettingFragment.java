@@ -18,12 +18,7 @@ import com.together.nosheng.viewmodel.UserViewModel;
 
 public class SettingFragment extends Fragment {
 
-    public static SettingFragment newInstance() {
-        return new SettingFragment();
-    }
-
     private ActivityFragmentSettingBinding binding;
-    private FragmentTransaction transaction;
 
     @Nullable
     @Override
@@ -31,54 +26,29 @@ public class SettingFragment extends Fragment {
         binding = ActivityFragmentSettingBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelaout2,SettingFragmentPro.newInstance()).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.framelaout2, SettingFragmentPro.newInstance()).commit();
 
         binding.btnPro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ((MainActivity)getActivity()).replaceFragment(SettingFragmentPro.newInstance());
-
+                getChildFragmentManager().beginTransaction().replace(R.id.framelaout2, SettingFragmentPro.newInstance()).commit();
             }
         });
 
         binding.btnMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ((MainActivity)getActivity()).replaceFragment(SettingFragmentBookmark.newInstance());
-
+                getChildFragmentManager().beginTransaction().replace(R.id.framelaout2, SettingFragmentBookmark.newInstance()).commit();
             }
         });
 
         binding.btnFre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ((MainActivity)getActivity()).replaceFragment(SettingFragmentFriend.newInstance());
-
-
-            }
-        });
-        binding.btnCommon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ((MainActivity)getActivity()).replaceFragment(SettingFragmentCommon.newInstance());
-
-
+                getChildFragmentManager().beginTransaction().replace(R.id.framelaout2, SettingFragmentFriend.newInstance()).commit();
             }
         });
 
-        binding.btnInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ((MainActivity)getActivity()).replaceFragment(SettingFragmentInfo.newInstance());
-
-            }
-        });
         return view;
     }
 }

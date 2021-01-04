@@ -33,9 +33,6 @@ public class UserRepository {
     private ArrayList<String> userNickName = new ArrayList<>();
     private MutableLiveData<ArrayList<String>> liveUserNickName = new MutableLiveData<ArrayList<String>>();
 
-    private MutableLiveData<List<User>> userFriendList = new MutableLiveData<>();
-    private List<User> userFriendListHolder = new ArrayList<>();
-
     private MutableLiveData<List<Plan>> bookmarkList = new MutableLiveData<>();
     private List<Plan> bookmarkListHolder = new ArrayList<>();
 
@@ -60,7 +57,7 @@ public class UserRepository {
 
     public void setFriend(ArrayList<String> lists) {
         int count = lists.size();
-        Log.d(TAG,"ListSize : " +lists.size());
+        Log.d(TAG, "ListSize : " + lists.size());
 
 
         for (String id : lists) {
@@ -73,12 +70,11 @@ public class UserRepository {
                     User user = value.toObject(User.class);
                     userNickName.add(user.getNickName());
                     liveUserNickName.setValue(userNickName);
-                    Log.d(TAG,"Override In" + liveUserNickName.getValue());
+                    Log.d(TAG, "Override In" + liveUserNickName.getValue());
                 }
             });
         }
     }
-
 
 
     public LiveData<User> getLiveUser() {
@@ -101,39 +97,36 @@ public class UserRepository {
     }
 
 
-
-    public void changeNickname(String nickName){
+    public void changeNickname(String nickName) {
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).update("nickName", nickName);
     }
 
-    public LiveData<List<User>> getUserFriendList() {
-        //데이터 처리 작업
-        userFriendListHolder.clear();
+    public MutableLiveData<List<User>> getUserFriendList() {
+        MutableLiveData<List<User>> userFriendList = new MutableLiveData<>();
+        List<User> friendList = new ArrayList<>();
 
         //유저 아이디를 통해서 유저 친구 목록 받아오기
-            db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
                     Log.w(TAG, "addShapshotListener failed", error);
                     return;
                 }
-                if(value != null){
-                    List<String> friendList = value.toObject(User.class).getFriendList();
-                    for(String userId : friendList){
+                if (value != null) {
+                    friendList.clear();
+                    userFriendList.setValue(friendList);
+                    List<String> friendListId = value.toObject(User.class).getFriendList();
+                    for (String userId : friendListId) {
                         db.collection("User").document(userId).get()
                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         DocumentSnapshot document = task.getResult();
-                                        if(task.isSuccessful()){
-                                            if(document.exists()){
-                                                userFriendListHolder.add(document.toObject(User.class));
-                                                Log.i(TAG, "성공! : "+userId);
-                                                userFriendList.setValue(userFriendListHolder);
-                                            }
-                                        }else {
-                                            //친구가 없는 경우
+                                        if (task.isSuccessful() && document.exists()) {
+                                            Log.i(TAG, "성공! : " + userId);
+                                            friendList.add(document.toObject(User.class));
+                                            userFriendList.setValue(friendList);
                                         }
                                     }
                                 });
@@ -141,11 +134,10 @@ public class UserRepository {
                 }
             }
         });
-
         return userFriendList;
     }
 
-    public LiveData<List<Plan>> getBookMarkList () {
+    public LiveData<List<Plan>> getBookMarkList() {
         bookmarkListHolder.clear();
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
 
@@ -155,9 +147,9 @@ public class UserRepository {
                     Log.w(TAG, "addShapshotListener failed", error);
                     return;
                 }
-                if(value != null){
+                if (value != null) {
                     List<String> bookmarkList1 = value.toObject(User.class).getBookmarkList(); //북마크리스트 가져오기
-                    for(String bookMark : bookmarkList1){
+                    for (String bookMark : bookmarkList1) {
                         Log.i("Testing", bookMark);
                         db.collection("Plan").document(bookMark).get() //플랜 아이디로 플랜 가져오기
                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -165,14 +157,15 @@ public class UserRepository {
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         DocumentSnapshot document = task.getResult();
 
-                                        if(task.isSuccessful()){
-                                            if(document.exists()){
+                                        if (task.isSuccessful()) {
+                                            if (document.exists()) {
                                                 bookmarkListHolder.add(document.toObject(Plan.class));
-                                                Log.i(TAG, "성공! : "+bookMark);
+                                                Log.i(TAG, "성공! : " + bookMark);
                                                 bookmarkList.setValue(bookmarkListHolder);
                                             }
+                                        }
                                     }
-                                }});
+                                });
                     }
 
                 }
@@ -182,7 +175,7 @@ public class UserRepository {
         return bookmarkList;
     }
 
-    public LiveData<List<String>> getBookMarkID () {
+    public LiveData<List<String>> getBookMarkID() {
         bookmarkIDHolder.clear();
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -221,7 +214,7 @@ public class UserRepository {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Log.i(TAG, "updateUserProjectList is successfull");
                         } else {
                             Log.i(TAG, "update user project list error");
@@ -249,18 +242,18 @@ public class UserRepository {
 
     public List<String> getMemberProject(String member) {
         List<String> userProjectList = new ArrayList<>();
-        Log.i(TAG+" getMemberProject:::성공!",member);
+        Log.i(TAG + " getMemberProject:::성공!", member);
         db.collection("User").document(member)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    if(task.getResult().exists()){
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()) {
                         List<String> temp = task.getResult().toObject(User.class).getProjectList();
                         userProjectList.addAll(temp);
-                        Log.i(TAG+" getMemberProject::성공!",userProjectList.toString());
+                        Log.i(TAG + " getMemberProject::성공!", userProjectList.toString());
                     } else {
-                        Log.i(TAG+" 비회원!",userProjectList.toString());
+                        Log.i(TAG + " 비회원!", userProjectList.toString());
                     }
                 } else {
                     Log.i(TAG, "Error getting user projectList");
@@ -319,26 +312,26 @@ public class UserRepository {
     public MutableLiveData<List<String>> getUserNickName(List<String> members) {
         MutableLiveData<List<String>> mutableLiveData = new MutableLiveData<>();
         List<String> userNickNames = new ArrayList<>();
-        Log.i(TAG+" 성공0"," members : "+members);
-        for(String member : members){
+        Log.i(TAG + " 성공0", " members : " + members);
+        for (String member : members) {
             db.collection("User").document(member)
                     .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                         @Override
                         public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                            if(error != null){
+                            if (error != null) {
                                 Log.w(TAG, "addShapshotListener failed", error);
                             }
-                            if(value != null){
-                                Log.i(TAG+" value"," value : "+value);
+                            if (value != null) {
+                                Log.i(TAG + " value", " value : " + value);
                                 User user = value.toObject(User.class);
-                                Log.i(TAG+" 성공2"," userNickNames : "+user);
-                                if(user != null){
+                                Log.i(TAG + " 성공2", " userNickNames : " + user);
+                                if (user != null) {
                                     userNickNames.add(user.getNickName());
-                                }else {
+                                } else {
                                     userNickNames.add(member);
-                                    Log.i(TAG+" 성공3"," userNickNames : "+userNickNames);
+                                    Log.i(TAG + " 성공3", " userNickNames : " + userNickNames);
                                 }
-                                Log.i(TAG+" 성공4"," userNickNames : "+user);
+                                Log.i(TAG + " 성공4", " userNickNames : " + user);
                                 mutableLiveData.setValue(userNickNames);
                             }
                         }
