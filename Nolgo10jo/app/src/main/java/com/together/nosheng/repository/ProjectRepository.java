@@ -58,7 +58,7 @@ public class ProjectRepository {
 
                         updateDate(documentReference.getId());
 
-                        updateProjectList(documentReference);
+                        updateProjectList(documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -134,7 +134,7 @@ public class ProjectRepository {
                 .set(userProject, SetOptions.merge());
     }
 
-    public void updateProjectList(DocumentReference documentReference) {
+    public void updateProjectList(String projectId) {
         DocumentReference doc = db.collection("User").document(GlobalApplication.firebaseUser.getUid());
         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -142,7 +142,7 @@ public class ProjectRepository {
                 User user = task.getResult().toObject(User.class);
                 if (task.isSuccessful() && task.getResult().exists()) {
                     List<String> projects = user.getProjectList();
-                    projects.add(documentReference.getId());
+                    projects.add(projectId);
 
                     doc.update("projectList", projects);
                 }
