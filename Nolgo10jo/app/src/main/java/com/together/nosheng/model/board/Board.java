@@ -10,7 +10,7 @@ public class Board {
     private String docId;
     private String title;
     private String contents;
-    private String writer;
+//    private String writer;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     private int docNumber;//문서아이디 숫자로 해볼려고 잠시,,
 
@@ -20,23 +20,23 @@ public class Board {
     public Board() {
     }
 
-    public Board(String documentId,String docId, String title, String contents, String writer, Date date, int docNumber) {
+    public Board(String documentId,String docId, String title, String contents, Date date, int docNumber) {
         this.documentId = documentId;
         this.docId = docId;
         this.title = title;
         this.contents = contents;
-        this.writer = writer;
+//        this.writer = writer;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         this.date = date;
         this.docNumber = docNumber;
     }
-
-    public int getDocNumber() {
-        return docNumber;
-    }
-
-    public void setDocNumber(int docNumber) {
-        this.docNumber = docNumber;
-    }
+//
+//    public int getDocNumber() {
+//        return docNumber;
+//    }
+//
+//    public void setDocNumber(int docNumber) {
+//        this.docNumber = docNumber;
+//    }
 
     public String getDocumentId() {
         return documentId;

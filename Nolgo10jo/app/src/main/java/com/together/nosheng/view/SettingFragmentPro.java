@@ -1,11 +1,16 @@
 package com.together.nosheng.view;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -30,14 +35,24 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.together.nosheng.R;
 import com.together.nosheng.databinding.SettingFragmentProBinding;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.UserViewModel;
 
+import java.util.ArrayList;
+
 public class SettingFragmentPro extends Fragment {
     private UserViewModel userViewModel;
+
+    private Boolean isPermission = true;
+
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+
 
     public static SettingFragmentPro newInstance() {
         return new SettingFragmentPro();
@@ -64,9 +79,22 @@ public class SettingFragmentPro extends Fragment {
                 binding.txtUsername.setText(user.getNickName());
                 binding.txtUseremail.setText(user.geteMail());
 
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReference();
 
+                binding.ivAdmi.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        if (isPermission) goToAlbum();
+                        else
+                            Toast.makeText(v.getContext(), getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
+
+                        tedPermission();
+                    }
+                });
+
+                storage = FirebaseStorage.getInstance();
+                storageRef = storage.getReference();
 
                 if (user.getThumbnail().equals("")) {//썸네일이 null일때 기본이미지 출력
                     storageRef.child("/user/iv_test.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -79,7 +107,8 @@ public class SettingFragmentPro extends Fragment {
                             }
                         }
                     });
-                } else {//유저 설정 썸네일 출력                              // AdminUserActivity / onComplete 함수안에서 document.getId를 했기때문에 바로 user.getThumbnail해도 댐.
+                } else {//유저 설정 썸네일 출력
+                    // AdminUserActivity / onComplete 함수안에서 document.getId를 했기때문에 바로 user.getThumbnail해도 댐.
                     storageRef.child("/user/" + GlobalApplication.firebaseUser.getUid() + "/" + user.getThumbnail()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
@@ -121,8 +150,12 @@ public class SettingFragmentPro extends Fragment {
                 }
             });
         }
+
+
         return root;
+
     }
+
 
     private void changenickName() {
         EditText et = new EditText(context);
@@ -166,7 +199,7 @@ public class SettingFragmentPro extends Fragment {
                 if (nickName.length() < 1) {
                     Toast.makeText(context, "닉네임을 입력 해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
-                userViewModel.changeNickname(nickName);
+                    userViewModel.changeNickname(nickName);
                 }
             }
         });
@@ -179,5 +212,42 @@ public class SettingFragmentPro extends Fragment {
         dlg.show();
     }
 
+    private void goToAlbum() {
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, 1);
+
+
+    }
+
+
+    private void tedPermission() {
+
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                // 권한 요청 성공
+                isPermission = true;
+
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                // 권한 요청 실패
+                isPermission = false;
+
+            }
+        };
+
+        TedPermission.with(requireActivity())
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage(getResources().getString(R.string.permission_2))
+                .setDeniedMessage(getResources().getString(R.string.permission_1))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
+
+    }
 
 }
+

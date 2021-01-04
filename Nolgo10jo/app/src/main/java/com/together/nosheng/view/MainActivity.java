@@ -1,6 +1,7 @@
 package com.together.nosheng.view;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -8,14 +9,26 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.content.Intent;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.together.nosheng.R;
 import com.together.nosheng.adapter.HomeAdapter;
 import com.together.nosheng.databinding.ActivityMainBinding;
@@ -24,6 +37,7 @@ import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.ProjectViewModel;
 import com.together.nosheng.viewmodel.UserViewModel;
 
+import java.io.File;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
     private UserViewModel userViewModel;
     private ProjectViewModel projectViewModel;
+
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigationView.setOnNavigationItemSelectedListener(navigationListener);
 
             bottomNavigationView.setSelectedItemId(R.id.nav_home);
+
+            storage = FirebaseStorage.getInstance();
+            storageRef = storage.getReference();
 
             binding.bottomNavigation.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,4 +111,21 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            Uri uri = data.getData();
+
+            String userId = GlobalApplication.firebaseUser.getUid();
+
+            storageRef.child("user/" + userId + "/" + userId + ".png").putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                }
+            });
+        }
+    }
 }
