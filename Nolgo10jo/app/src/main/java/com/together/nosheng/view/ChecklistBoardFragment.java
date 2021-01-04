@@ -84,6 +84,8 @@ public class ChecklistBoardFragment extends Fragment {
                 checkList.setCheck(check);
 
                 projectViewModel.updateCheckList(projectId, checkList);
+
+                Toast.makeText(requireContext(), "저장 완료", Toast.LENGTH_SHORT).show();
             }
         });
 
