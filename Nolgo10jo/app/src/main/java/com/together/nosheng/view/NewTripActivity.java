@@ -65,7 +65,7 @@ public class NewTripActivity extends AppCompatActivity {
             public void onClick(View v) {
                 joinCode = newTripBinding.etxtJoinCode.getText().toString();
 
-                projectViewModel.searchProject(getBaseContext(), joinCode);
+                projectViewModel.searchProject(NewTripActivity.this, joinCode);
                 finish();
             }
         });
