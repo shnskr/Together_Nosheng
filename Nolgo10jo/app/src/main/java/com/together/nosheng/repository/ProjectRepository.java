@@ -24,6 +24,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.together.nosheng.model.pin.Pin;
 import com.together.nosheng.model.plan.Plan;
 import com.together.nosheng.model.project.Budget;
+import com.together.nosheng.model.project.CheckList;
 import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
@@ -91,8 +92,8 @@ public class ProjectRepository {
                                         DocumentSnapshot document = task.getResult();
                                         if (task.isSuccessful()) {
                                             if (document.exists()) {
-                                                userProjectMap.put(projectId, document.toObject(Project.class));
                                                 Log.i(TAG, projectId);
+                                                userProjectMap.put(projectId, document.toObject(Project.class));
                                                 userProject.setValue(userProjectMap);
                                             }
                                         } else {
@@ -433,7 +434,7 @@ public class ProjectRepository {
         db.collection("Project").document(projectId).update("budgets", budgets);
     }
 
-    public void updateCheckList(String projectId, Map<String, Boolean> checkLists) {
+    public void updateCheckList(String projectId, CheckList checkLists) {
         db.collection("Project").document(projectId).update("checkLists."+GlobalApplication.firebaseUser.getUid(), checkLists);
 //        db.collection("Project").document(projectId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 //            @Override

@@ -9,9 +9,7 @@ import java.util.Map;
 public class Pin {
     private double latitude; // 위도
     private double longitude; // 경도
-    private List<String> theme = new ArrayList<>(); // 테마
     private String pinName = ""; // 이름
-    private List<User> visitors = new ArrayList<>(); // 방문객 리스트
     private String address = "";
 
     public String getAddress() {
@@ -38,14 +36,6 @@ public class Pin {
         this.longitude = longitude;
     }
 
-    public List<String> getTheme() {
-        return theme;
-    }
-
-    public void setTheme(List<String> theme) {
-        this.theme = theme;
-    }
-
     public String getPinName() {
         return pinName;
     }
@@ -54,22 +44,12 @@ public class Pin {
         this.pinName = pinName;
     }
 
-    public List<User> getVisitors() {
-        return visitors;
-    }
-
-    public void setVisitors(List<User> visitors) {
-        this.visitors = visitors;
-    }
-
     @Override
     public String toString() {
         return "Pin{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", theme=" + theme +
                 ", pinName='" + pinName + '\'' +
-                ", visitors=" + visitors +
                 ", address='" + address + '\'' +
                 '}';
     }

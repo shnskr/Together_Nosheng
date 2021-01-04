@@ -87,7 +87,9 @@ public class BoardFragmentActivity extends Fragment implements View.OnClickListe
                 if(fragment instanceof BoardListFragment){
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.board_container, new NewPostFragment()).commit();
                 }else {
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.board_container, new ChecklistBoardFragment()).commit();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("click", true);
+                    getParentFragmentManager().setFragmentResult("bundle", bundle);
                 }
                 toggleFab();
                 break;

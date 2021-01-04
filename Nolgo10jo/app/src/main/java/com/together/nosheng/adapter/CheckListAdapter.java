@@ -1,17 +1,20 @@
 package com.together.nosheng.adapter;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.together.nosheng.R;
+import com.together.nosheng.model.project.CheckList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +22,12 @@ import java.util.Map;
 
 public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.ViewHolder> {
 
-    private Map<String, Boolean> checkLists;
-    private List<String> checkKey;
+    private List<String> item;
+    private List<Boolean> check;
 
-    public CheckListAdapter(Map<String, Boolean> checkLists) {
-        this.checkLists = checkLists;
-        this.checkKey = new ArrayList<>(checkLists.keySet());
+    public CheckListAdapter(CheckList checkList) {
+        this.item = checkList.getItem();
+        this.check = checkList.getCheck();
     }
 
     @NonNull
@@ -35,73 +38,60 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String key = checkKey.get(position);
 
-        if (key.equals(" ")) {
-            holder.etName.setText("");
-        } else {
-            holder.etName.setText(key);
-        }
-
-        if (checkLists.get(key)) {
-            holder.cbCheck.setChecked(true);
-        }
+        holder.etName.setText(item.get(position));
+        holder.cbCheck.setChecked(check.get(position));
 
         holder.etName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String newKey = holder.etName.getText().toString();
-
-                    checkKey.add(position, newKey);
-                    checkKey.remove(position+1);
-
-                    checkLists.put(newKey, holder.cbCheck.isChecked());
-                    if (key.equals(" ")) {
-                        checkLists.remove(" ");
-                    } else if (!key.equals(newKey)){
-                        checkLists.remove(key);
-                    }
-
-                    Log.i("daldal", checkLists.toString());
-                    Log.i("daldal", checkKey.toString());
-                }
+                if (!hasFocus)
+                item.set(position, holder.etName.getText().toString());
             }
         });
 
         holder.cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                holder.etName.clearFocus();
-                String newKey = holder.etName.getText().toString();
+                check.set(position, isChecked);
+            }
+        });
 
-                if (newKey.equals("")) {
-                    checkLists.put(" ", isChecked);
-                } else {
-                    checkLists.put(newKey, isChecked);
-                }
-
-                Log.i("daldal", checkLists.toString());
-                Log.i("daldal", checkKey.toString());
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item.remove(position);
+                check.remove(position);
+                notifyDataSetChanged();
             }
         });
     }
 
+    public List<String> getItem() {
+        return item;
+    }
+
+    public List<Boolean> getCheck() {
+        return check;
+    }
+
     @Override
     public int getItemCount() {
-        return checkKey.size();
+        return item.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private EditText etName;
         private CheckBox cbCheck;
+        private ImageButton btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             etName = itemView.findViewById(R.id.et_name);
             cbCheck = itemView.findViewById(R.id.cb_check);
+            btnDelete = itemView.findViewById(R.id.btn_delete);
         }
     }
 }

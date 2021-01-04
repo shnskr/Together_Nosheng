@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.together.nosheng.model.pin.Pin;
 import com.together.nosheng.model.project.Budget;
+import com.together.nosheng.model.project.CheckList;
 import com.together.nosheng.model.project.Post;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
@@ -103,7 +104,7 @@ public class ProjectViewModel extends ViewModel {
         projectRepository.updateBudgets(projectId, budgets);
     }
 
-    public void updateCheckList(String projectId, Map<String, Boolean> checkLists) {
+    public void updateCheckList(String projectId, CheckList checkLists) {
         projectRepository.updateCheckList(projectId, checkLists);
     }
 }

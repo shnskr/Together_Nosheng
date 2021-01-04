@@ -13,7 +13,6 @@ public class Plan {
     private boolean open; // 공개여부
     private String planTheme = ""; // 썸네일
     private List<Pin> pins = new ArrayList<>();
-//    private Map<String, Location> locations = new HashMap<>(); // Key : 위치 이름, Value : Location class
     private String projectId = ""; // 프로젝트 id
     private Map<String, List<Pin>> route = new HashMap<>(); // Key : 기획인지 최종경로인지, Value : Pin class
     private String planTitle = ""; // 플랜 제목
@@ -56,14 +55,6 @@ public class Plan {
     public void setPlanTheme(String planTheme) {
         this.planTheme = planTheme;
     }
-
-//    public Map<String, Location> getLocations() {
-//        return locations;
-//    }
-//
-//    public void setLocations(Map<String, Location> locations) {
-//        this.locations = locations;
-//    }
 
     public String getProjectId() {
         return projectId;
