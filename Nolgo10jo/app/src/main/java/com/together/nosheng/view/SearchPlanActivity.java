@@ -80,37 +80,57 @@ public class SearchPlanActivity  extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                editText.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        //Enter key Action
-                        if ((event.getAction() == KeyEvent.ACTION_DOWN) || (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                            search(s.toString());
-                            adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+                search(s.toString());
+                adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int position) {
                                     Intent intent = new Intent(getApplicationContext(), SearchPlanDetailActivity.class);
-                                    String key = biMap2.get(planSearchList.get(position)); //DocID 보내주기
-
+                                    String key = biMap2.get(planSearchList.get(position)); //DocID 보내주
                                     Log.i("TESING AT 2AM", "실행됨");
 
 
                                     intent.putExtra("Title", planSearchList.get(position).getPlanTitle());
                                     intent.putExtra("Theme", planSearchList.get(position).getPlanTheme());
                                     intent.putExtra("Like", planSearchList.get(position).getPlanLike().size());
-                                    intent.putExtra("Key", key);
+                                    intent.putExtra("planId", key);
 
 
                                     //plan 정보 다 보내주기
                                     //intent.putExtra("Date", planSearchList.get(position).getPlanDate());
                                     startActivity(intent);
-                                }
-                            });
-                            return true;
-                        }
-                        return false;
-                    }
-                });
+                                }});
+
+                //                editText.setOnKeyListener(new View.OnKeyListener() {
+//                    @Override
+//                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                        //Enter key Action
+//                        if ((event.getAction() == KeyEvent.ACTION_DOWN) || (keyCode == KeyEvent.KEYCODE_ENTER)) {
+//                            search(s.toString());
+//                            adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+//                                @Override
+//                                public void onItemClick(View v, int position) {
+//                                    Intent intent = new Intent(getApplicationContext(), SearchPlanDetailActivity.class);
+//                                    String key = biMap2.get(planSearchList.get(position)); //DocID 보내주기
+//
+//                                    Log.i("TESING AT 2AM", "실행됨");
+//
+//
+//                                    intent.putExtra("Title", planSearchList.get(position).getPlanTitle());
+//                                    intent.putExtra("Theme", planSearchList.get(position).getPlanTheme());
+//                                    intent.putExtra("Like", planSearchList.get(position).getPlanLike().size());
+//                                    intent.putExtra("Key", key);
+//
+//
+//                                    //plan 정보 다 보내주기
+//                                    //intent.putExtra("Date", planSearchList.get(position).getPlanDate());
+//                                    startActivity(intent);
+//                                }
+//                            });
+//                            return true;
+//                        }
+//                        return false;
+//                    }
+//                });
             }
 
             @Override
