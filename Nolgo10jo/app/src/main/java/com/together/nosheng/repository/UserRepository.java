@@ -28,7 +28,6 @@ public class UserRepository {
     private String TAG = "UserRepository";
 
     private FirebaseFirestore db;
-    private MutableLiveData<User> liveUser = new MutableLiveData<>();
 
     private ArrayList<String> userNickName = new ArrayList<>();
     private MutableLiveData<ArrayList<String>> liveUserNickName = new MutableLiveData<ArrayList<String>>();
@@ -45,11 +44,6 @@ public class UserRepository {
     public UserRepository() {
         db = FirebaseFirestore.getInstance();
     }
-
-    public LiveData<User> findAll() {
-        return liveUser;
-    }
-
 
     public MutableLiveData<ArrayList<String>> findFriend() {
         return liveUserNickName;
@@ -78,6 +72,7 @@ public class UserRepository {
 
 
     public LiveData<User> getLiveUser() {
+        MutableLiveData<User> liveUser = new MutableLiveData<>();
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -340,4 +335,13 @@ public class UserRepository {
         return mutableLiveData;
     }
 
+    public void updateUserBookmarList(String planId, List<String> bookmarkList) {
+        if (bookmarkList.contains(planId)) {
+            bookmarkList.remove(planId);
+        } else {
+            bookmarkList.add(planId);
+        }
+
+        db.collection("User").document(GlobalApplication.firebaseUser.getUid()).update("bookmarkList", bookmarkList);
+    }
 }

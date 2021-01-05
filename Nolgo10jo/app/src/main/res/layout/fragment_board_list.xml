@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#73C2FB">
+    android:background="@color/purpleBackgroud">
 
         <View
             android:layout_width="match_parent"

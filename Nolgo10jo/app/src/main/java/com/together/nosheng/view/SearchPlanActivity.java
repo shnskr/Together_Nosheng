@@ -133,12 +133,12 @@ public class SearchPlanActivity  extends AppCompatActivity {
                     @Override
                     public void onItemClick(View v, int position) {
                         Intent intent = new Intent(getApplicationContext(), SearchPlanDetailActivity.class);
-                        String key = biMap2.get(planSearchList.get(position)); //DocID 보내주기
+                        String planId = biMap2.get(planSearchList.get(position)); //DocID 보내주기
 
                         intent.putExtra("Title", planSearchList.get(position).getPlanTitle());
                         intent.putExtra("Theme", planSearchList.get(position).getPlanTheme());
                         intent.putExtra("Like", planSearchList.get(position).getPlanLike().size());
-                        intent.putExtra("Key", key);
+                        intent.putExtra("planId", planId);
 
                         startActivity(intent);
                     }

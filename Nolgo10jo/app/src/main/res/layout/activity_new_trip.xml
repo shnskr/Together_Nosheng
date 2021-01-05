@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="5dp"
     android:gravity="center"
-    android:background="#FFB6B9"
+    android:background="@color/lightBlue"
     android:id="@+id/tripinfo_fragment"
     android:isScrollContainer="true">
 
@@ -108,14 +108,14 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:id="@+id/txt_countDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="19박 20일"
             android:textAlignment="center"
             android:textSize="20sp"/>
 
@@ -125,8 +125,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="today"
-            android:background="@drawable/selector_button"
-            android:theme="@style/BlueRipple"/>
+            android:theme="@style/BlueRipple"
+            android:background="@drawable/backgroud_deepdarkblue_stroke"/>
+
 
     </LinearLayout>
 
@@ -141,7 +142,7 @@
             android:id="@+id/calendar"
             android:layout_width="350dp"
             android:layout_height="320dp"
-            android:background="@color/material_on_background_emphasis_medium"
+            android:background="@color/deepDarkPurpleBlue"
             app:tsquare_titleTextColor="#FFF"
             app:tsquare_headerTextColor="#FFF" />
 
@@ -151,9 +152,10 @@
             android:layout_height="60dp"
             android:text="여행 시작하기!"
             android:textSize="18sp"
-            android:layout_marginTop="15dp"
             android:background="@drawable/selector_button"
-            android:theme="@style/BlueRipple"/>
+            android:theme="@style/BlueRipple"
+            android:layout_marginTop="5dp" />
+
 
     </LinearLayout>
 

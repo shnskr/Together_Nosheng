@@ -1,6 +1,9 @@
 package com.together.nosheng.repository;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
@@ -55,7 +58,7 @@ public class ProjectRepository {
 
                         updateDate(documentReference.getId());
 
-                        updateProjectList(documentReference);
+                        updateProjectList(documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -131,7 +134,7 @@ public class ProjectRepository {
                 .set(userProject, SetOptions.merge());
     }
 
-    public void updateProjectList(DocumentReference documentReference) {
+    public void updateProjectList(String projectId) {
         DocumentReference doc = db.collection("User").document(GlobalApplication.firebaseUser.getUid());
         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -139,7 +142,7 @@ public class ProjectRepository {
                 User user = task.getResult().toObject(User.class);
                 if (task.isSuccessful() && task.getResult().exists()) {
                     List<String> projects = user.getProjectList();
-                    projects.add(documentReference.getId());
+                    projects.add(projectId);
 
                     doc.update("projectList", projects);
                 }
@@ -443,6 +446,50 @@ public class ProjectRepository {
 //                db.collection("Project").document(projectId).update("checkLists", temp);
 //            }
 //        });
+    }
+
+    public void searchProject(Context context, String joinCode) {
+        db.collection("Project").document(joinCode).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot documentSnapshot = task.getResult();
+                if (task.isSuccessful() && documentSnapshot.exists()) {
+                    String uid = GlobalApplication.firebaseUser.getUid();
+                    Project project = documentSnapshot.toObject(Project.class);
+
+                    List<String> members = project.getMembers();
+
+                    if (!members.contains(uid)) {
+                        members.add(uid);
+
+                        Map<String, CheckList> checkList = project.getCheckLists();
+                        checkList.put(uid, new CheckList());
+
+                        db.collection("Project").document(joinCode).set(project, SetOptions.merge());
+
+                        db.collection("User").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                User user = documentSnapshot.toObject(User.class);
+                                List<String> projectList = user.getProjectList();
+
+                                if (projectList.contains(joinCode)) {
+                                    Toast.makeText(context, "이미 가지고 있는 여행기입니다.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    projectList.add(joinCode);
+
+                                    db.collection("User").document(uid).set(user, SetOptions.merge());
+
+                                    Toast.makeText(context, "추가 완료", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    Toast.makeText(context, "존재 하지 않는 여행기 입니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }   //end class
 

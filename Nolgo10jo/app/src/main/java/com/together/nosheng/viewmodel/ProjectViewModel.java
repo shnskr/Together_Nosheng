@@ -1,5 +1,7 @@
 package com.together.nosheng.viewmodel;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -106,5 +108,9 @@ public class ProjectViewModel extends ViewModel {
 
     public void updateCheckList(String projectId, CheckList checkLists) {
         projectRepository.updateCheckList(projectId, checkLists);
+    }
+
+    public void searchProject(Context context, String joinCode) {
+        projectRepository.searchProject(context, joinCode);
     }
 }

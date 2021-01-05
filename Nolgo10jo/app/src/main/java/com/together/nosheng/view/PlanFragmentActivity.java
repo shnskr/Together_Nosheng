@@ -112,6 +112,14 @@ public class PlanFragmentActivity extends Fragment {
                                     binding.btnOpen.setText("비공개");
                                 }
 
+                                binding.btnOpen.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        CustomDialog customDialog = new CustomDialog(requireContext(), plan, planViewModel, planId);
+                                        customDialog.init();
+                                    }
+                                });
+
                                 binding.spDay.setSelection(position);
                                 binding.rvPins.setLayoutManager(new LinearLayoutManager(parent.getContext()));
                                 PinRecyclerAdapter adapter = new PinRecyclerAdapter(requireContext(), plan.getPins(), currentProject.getPlans().get(position), planViewModel);

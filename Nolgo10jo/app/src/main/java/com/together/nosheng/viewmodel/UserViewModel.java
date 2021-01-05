@@ -97,4 +97,7 @@ public class UserViewModel extends ViewModel {
         return userNicknames;
     }
 
+    public void updateUserBookmarList(String planId, List<String> bookmarkList) {
+        userRepository.updateUserBookmarList(planId, bookmarkList);
+    }
 }

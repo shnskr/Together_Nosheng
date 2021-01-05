@@ -82,14 +82,13 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("daldal", position + "");
                     Intent intent = new Intent(context, SearchPlanDetailActivity.class);
-                    String key = bookmarkIds.get(position); //DocID 보내주기
+                    String planId = bookmarkIds.get(position); //DocID 보내주기
 
-                    intent.putExtra("Title", userBookmark.get(key).getPlanTitle());
-                    intent.putExtra("Theme", userBookmark.get(key).getPlanTheme());
-                    intent.putExtra("Like", userBookmark.get(key).getPlanLike().size());
-                    intent.putExtra("Key", key);
+                    intent.putExtra("Title", userBookmark.get(planId).getPlanTitle());
+                    intent.putExtra("Theme", userBookmark.get(planId).getPlanTheme());
+                    intent.putExtra("Like", userBookmark.get(planId).getPlanLike().size());
+                    intent.putExtra("planId", planId);
 
                     context.startActivity(intent);
                 }

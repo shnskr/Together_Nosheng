@@ -16,7 +16,8 @@
         android:text="비회원 맴버 추가"
         android:textStyle="bold"
         android:textSize="18sp"
-        android:background="#F9A602"
+        android:textColor="@color/white"
+        android:background="@color/Grapefruit"
         android:clickable="false"/>
 
     <EditText
@@ -39,7 +40,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="cancel"
-            android:textColor="#C83200" />
+            android:textColor="@color/googleRed" />
 
         <Button
             android:id="@+id/btn_ok"
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="OK"
-            android:textColor="#000080"
+            android:textColor="@color/facebookBlue"
             android:textStyle="bold"/>
 
     </LinearLayout>

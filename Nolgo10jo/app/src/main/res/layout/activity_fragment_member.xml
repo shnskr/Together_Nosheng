@@ -6,47 +6,20 @@
     android:orientation="vertical"
     android:padding="5dp"
     android:gravity="center"
-    android:background="#0080FF">
+    android:background="@color/Grapefruit_inside2">
 
     <Button
         android:id="@+id/btn_add_nonmember"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/backgroud_grapefruit"
         android:text="비회원 맴버 추가"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:padding="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/selector_button"
         android:theme="@style/BlueRipple"/>
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/lay_delete"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:weightSum="10"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginBottom="20dp"-->
-<!--        android:visibility="gone">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txt_selectedCount"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="7"-->
-<!--            android:text="개 선택"-->
-<!--            android:textSize="20sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textAlignment="center"/>-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/btn_delete"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="3"-->
-<!--            android:src="@drawable/ic_delete" -->
-<!--            android:background="@null"/>-->
-<!--        -->
-<!--    </LinearLayout>-->
 
     <ListView
         android:id="@+id/lv_members"

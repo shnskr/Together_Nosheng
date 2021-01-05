@@ -151,4 +151,8 @@ public class PlanRepository {
 
         return userBookmarkList;
     }
+
+    public void updatePlan(String planId, Plan plan) {
+        db.collection("Plan").document(planId).set(plan, SetOptions.merge());
+    }
 }

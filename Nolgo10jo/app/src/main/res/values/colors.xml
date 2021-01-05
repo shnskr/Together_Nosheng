@@ -11,5 +11,60 @@
     <color name = "jinBlack">#242424</color>
     <color name="softBlack">#7E7E7E</color>
     <color name="hite">#FFFFFF</color>
+
+    <color name="facebookBlue">#0192C9</color>
+    <color name="googleRed">#D0422A</color>
+
+    <color name="wholeBackgroud">#DEEBEB</color>
+
+<!--    grapefruit series-->
+    <color name="pinkBackgroud">#EDB495</color>
+    <color name="pinkBackgroud2">#EDA8B5</color>
+    <color name="pinkBackgroud3">#F3A8B4</color>
+    <color name="Grapefruit_inside2">#F7C3C0</color>
+    <color name="Grapefruit_inside">#EE8482</color>
+    <color name="Grapefruit">#F07168</color>
     <color name="hotpink">#E91E63</color>
+
+<!--    blue series-->
+    <color name="purpleBackgroud3">#E6DDF7</color>
+    <color name="purpleBackgroud">#BDC8D9</color>
+    <color name="purpleBackgroud2">#B1CBF0</color>
+    <color name="lightSteelBlue">#B2D3DC</color>
+    <color name="lightSteelBlue2">#84CAF4</color>
+    <color name="lightBlue">#77CFEA</color>
+    <color name="lightBlueBackgroud">#7AC4DF</color>
+    <color name="lightBlue2">#6CC0E8</color>
+    <color name="btnBlue">#0192C9</color>
+    <color name="highlight">#018DC3</color>
+    <color name="deepDarkBlue">#264D6F</color>
+    <color name="deepDarkPurpleBlue">#3C5E96</color>
+    <color name="blackBlue">#2B364D</color>
+
+<!--    green series-->
+    <color name="beige">#F9F9EA</color>
+    <color name="silber">#C0C1B5</color>
+    <color name="greenBackgroud">#D9F7EB</color>
+    <color name="greenBackgroud2">#D0DBD3</color>
+    <color name="greenBackgroud3">#A0C7BE</color>
+    <color name="greenBackgroud4">#BEDDE1</color>
+    <color name="brightgreen">#75D3CC</color>
+    <color name="paleGolenrod">#E9E5B8</color>
+    <color name="darkSeaGreen">#97A78A</color>
+    <color name="cadetBlue">#698561</color>
+    <color name="blueGreen">#448B97</color>
+    <color name="deepBlueGreen">#2C6166</color>
+
+<!--    yellow series-->
+    <color name="supterLightPinkBackgroud">#EFE2E2</color>
+    <color name="supterLightYellowBackgroud">#F2E9D8</color>
+    <color name="yellowBackgroud">#FFFCCE</color>
+    <color name="yellowText">#FF9912</color>
+    <color name="deepYello">#FFB330</color>
+
+
+
+
+
+
 </resources>

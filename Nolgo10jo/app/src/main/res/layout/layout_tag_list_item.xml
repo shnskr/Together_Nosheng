@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:weightSum="100"
-    android:background="@drawable/layout_note_item"
+    android:background="@drawable/backgroud_tag"
     android:gravity="center_vertical"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"

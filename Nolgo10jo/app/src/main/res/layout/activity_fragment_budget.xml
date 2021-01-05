@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="5dp"
     android:gravity="center"
-    android:background="#6593F5">
+    android:background="@color/greenBackgroud3">
 
     <LinearLayout
         android:layout_width="350dp"
@@ -242,18 +242,27 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:theme="@style/BlueRipple"
+        android:background="@drawable/backgroud_deepbluegreen"
         android:text="저장"
-        android:background="@drawable/selector_button"
-        android:theme="@style/BlueRipple"/>
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
 
 
     <Button
         android:id="@+id/ocr_scan"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:text="영수증 인식"
-        android:background="@drawable/selector_button"
-        android:theme="@style/BlueRipple"/>
+        android:theme="@style/BlueRipple"
+        android:layout_marginTop="15sp"
+        android:background="@drawable/backgroud_deepbluegreen_stroke"
+        android:textSize="18sp"
+        android:textColor="@color/blueGreen"
+        android:textStyle="bold"/>
+
 
 
 </LinearLayout>
