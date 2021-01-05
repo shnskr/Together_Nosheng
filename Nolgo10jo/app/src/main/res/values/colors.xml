@@ -32,6 +32,7 @@
     <color name="purpleBackgroud2">#B1CBF0</color>
     <color name="lightSteelBlue">#B2D3DC</color>
     <color name="lightSteelBlue2">#84CAF4</color>
+    <color name="lightSteelBlue3">#BADEE6</color>
     <color name="lightBlue">#77CFEA</color>
     <color name="lightBlueBackgroud">#7AC4DF</color>
     <color name="lightBlue2">#6CC0E8</color>
@@ -56,8 +57,8 @@
     <color name="deepBlueGreen">#2C6166</color>
 
 <!--    yellow series-->
-    <color name="supterLightPinkBackgroud">#EFE2E2</color>
-    <color name="supterLightYellowBackgroud">#F2E9D8</color>
+    <color name="superLightPinkBackgroud">#EFE2E2</color>
+    <color name="superLightYellowBackgroud">#F2E9D8</color>
     <color name="yellowBackgroud">#FFFCCE</color>
     <color name="yellowText">#FF9912</color>
     <color name="deepYello">#FFB330</color>

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:weightSum="100"
-    android:layout_marginBottom="20dp"
+    android:weightSum="10"
+    android:layout_marginBottom="10dp"
     android:background="@drawable/backgroud_white"
     android:gravity="center_vertical">
 
@@ -13,37 +13,58 @@
     <!--여행기 타이틀-->
     <TextView
         android:id="@+id/plan_title"
-        android:layout_width="227dp"
+        android:layout_width="0dp"
         android:layout_height="80dp"
+        android:layout_weight="6"
         android:gravity="left|center_vertical"
         android:text="여행일지"
-        android:textColor="#000000"
-        android:textSize="20dp"
+        android:textColor="@color/deepDarkPurpleBlue"
+        android:textSize="20sp"
         android:layout_marginLeft="15dp"
-        android:fontFamily="@font/hy_gung_seu"/>
+        android:textStyle="bold"/>
 
     <LinearLayout
-        android:layout_width="99dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="3"
         android:layout_marginLeft="10dp"
         android:orientation="vertical">
         <!--여행기 테마 불러오기 -->
         <TextView
             android:id="@+id/plan_theme"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="Theme"
-            android:textColor="#000000"
+            android:textColor="@color/deepDarkBlue"
             android:textSize="20dp"
-            android:fontFamily="@font/hy_gung_seu"/>
-        <!--여행기 좋아요 수 -->
-        <TextView
-            android:id="@+id/plan_like"
-            android:layout_width="121dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:fontFamily="@font/hy_gung_seu"/>
+            android:textStyle="bold"
+            android:textAlignment="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="5"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/ic_baseline_favorite_24"
+                android:background="@null"/>
+            <!--여행기 좋아요 수 -->
+            <TextView
+                android:id="@+id/plan_like"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="number"
+                android:textAlignment="center"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/hy_gung_seu"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
