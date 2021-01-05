@@ -59,60 +59,7 @@ public class ProjectView extends LinearLayout {
         travelStatus.setText(ts);
     }
 
-    public void deleteProject(Context context, int position, UserViewModel userViewModel, ProjectViewModel projectViewModel, List<String> projects){
-        String projectId = projects.get(position);
-        String uid = GlobalApplication.firebaseUser.getUid();
-        List<String> userProjectList = userViewModel.getMemberProject(uid);
-        List<String> members = projectViewModel.getProjectMember(projectId);
-        Map<String,List<String>> userTags = projectViewModel.getUserTags(projectId);
-
-        Log.i("오나?", "0"+members);
-
-        delete.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("여행기 삭제!")
-                        .setMessage("삭제하신 여행기는 복구 할 수 없습니다.\n삭제하시겠습니까?")
-                        .setIcon(R.drawable.ic_baseline_announcement_24);
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.i("오나?", "111"+members);
-                        if(members.size() > 1 ){
-                            //projectID 에 해당한.. members usertags에서도 삭제해야함..
-                            members.remove(uid);
-                            projectViewModel.addMember(projectId,members);
-
-                            userTags.remove(uid);
-                            projectViewModel.addUserTags(projectId,userTags);
-                            Log.i("오나?", "0");
-
-                        }else if(members.size() == 1){
-//                            userProjectList.remove(projectId);
-//                            userViewModel.updateUserProjectList(uid,userProjectList);
-                            projectViewModel.deleteMemberProject(projectId);
-                            Log.i("오나?", "1");
-                        }
-                        userProjectList.remove(projectId);
-                        userViewModel.updateUserProjectList(uid,userProjectList);
-                        Log.i("오나?", "2");
-
-                        Toast.makeText(context, "여행기가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                        Log.i("여행기가 삭제되었습니다.", "0");
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.i("여행기 삭제 요청이 취소되었습니다.", "1");
-                    }
-                });
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
+    public ImageButton getDelete() {
+        return delete;
     }
 }

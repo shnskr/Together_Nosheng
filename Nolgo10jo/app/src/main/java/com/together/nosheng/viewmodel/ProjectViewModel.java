@@ -113,4 +113,8 @@ public class ProjectViewModel extends ViewModel {
     public void searchProject(Context context, String joinCode) {
         projectRepository.searchProject(context, joinCode);
     }
+
+    public void deleteMember(String projectId) {
+        projectRepository.deleteMember(projectId);
+    }
 }

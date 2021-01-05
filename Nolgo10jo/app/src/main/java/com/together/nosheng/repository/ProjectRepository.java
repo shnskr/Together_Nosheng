@@ -491,6 +491,38 @@ public class ProjectRepository {
             }
         });
     }
+
+    public void deleteMember(String projectId) {
+        DocumentReference documentReference = db.collection("Project").document(projectId);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot doc = task.getResult();
+                if (task.isSuccessful() && doc.exists()) {
+                    Project project = doc.toObject(Project.class);
+                    Map<String, CheckList> checkLists = project.getCheckLists();
+                    String uid = GlobalApplication.firebaseUser.getUid();
+                    checkLists.remove(uid);
+
+                    if (checkLists.size() > 0) {
+                        List<String> members = project.getMembers();
+                        members.remove(uid);
+
+                        documentReference.update("members", members);
+                        documentReference.update("checkLists", checkLists);
+                    } else {
+                        List<String> plans = project.getPlans();
+
+                        for (String planId : plans) {
+                            db.collection("Plan").document(planId).delete();
+                        }
+
+                        documentReference.delete();
+                    }
+                }
+            }
+        });
+    }
 }   //end class
 
 

@@ -344,4 +344,21 @@ public class UserRepository {
 
         db.collection("User").document(GlobalApplication.firebaseUser.getUid()).update("bookmarkList", bookmarkList);
     }
+
+    public void deleteProject(String projectId) {
+        DocumentReference documentReference = db.collection("User").document(GlobalApplication.firebaseUser.getUid());
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot doc = task.getResult();
+                if (task.isSuccessful() && doc.exists()) {
+                    List<String> projectList = doc.toObject(User.class).getProjectList();
+
+                    projectList.remove(projectId);
+
+                    documentReference.update("projectList", projectList);
+                }
+            }
+        });
+    }
 }

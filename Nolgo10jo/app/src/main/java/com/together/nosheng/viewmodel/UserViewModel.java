@@ -100,4 +100,8 @@ public class UserViewModel extends ViewModel {
     public void updateUserBookmarList(String planId, List<String> bookmarkList) {
         userRepository.updateUserBookmarList(planId, bookmarkList);
     }
+
+    public void deleteProject(String projectId) {
+        userRepository.deleteProject(projectId);
+    }
 }
