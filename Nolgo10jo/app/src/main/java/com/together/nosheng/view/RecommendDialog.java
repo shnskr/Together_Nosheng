@@ -2,6 +2,7 @@ package com.together.nosheng.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.together.nosheng.R;
@@ -110,11 +112,20 @@ public class RecommendDialog {
                     int month = spMonth.getSelectedItemPosition() + 1;
                     svm = new SvmModel();
                     ArrayList<Integer> userRecommendation = new ArrayList<>(Arrays.asList(gender,age,member,month));
-                    svm.Search(userRecommendation);
                     String place = svm.Search(userRecommendation);
-                    Log.w("TTTEEESSSTTT",place);
 
                     dlg.dismiss();
+
+                    AlertDialog.Builder dlg2 = new AlertDialog.Builder(context);
+                    dlg2.setTitle("여행지 추천");
+                    dlg2.setMessage(place);
+                    dlg2.setNeutralButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    dlg2.show();
                 }
             }
         });
