@@ -13,8 +13,7 @@ import java.util.Map;
 
 public class PlanViewModel extends ViewModel {
     private PlanRepository planRepository;
-    private LiveData<Map<String, Plan>> userProjects;
-    private LiveData<Map<String,Plan>> publicPlans;
+    private LiveData<Map<String, Plan>> publicPlans;
     private LiveData<Map<String, Plan>> userBookmarkList;
 
     private LiveData<Plan> currentPlan;
@@ -22,17 +21,13 @@ public class PlanViewModel extends ViewModel {
     public PlanViewModel() {
         planRepository = new PlanRepository();
     }
-    public LiveData<Map<String, Plan>> getPlans() {return userProjects;}
 
-    public void setPlanRepository() {
-        userProjects =planRepository.getPlans();
+    public LiveData<Map<String, Plan>> getPublicPlans() {
+        return publicPlans;
     }
 
-    public LiveData<Map<String, Plan>> getPublicPlans (){return publicPlans;}
-    public void setPublicPlans() {publicPlans = planRepository.getPublicPlans();}
-
-    public void userLiked (List<String> prevData, String s){
-        planRepository.planLiked(prevData, s);
+    public void setPublicPlans() {
+        publicPlans = planRepository.getPublicPlans();
     }
 
     public void setCurrentPlan(String planId) {

@@ -59,8 +59,6 @@ public class RegisterActivity extends AppCompatActivity {
                                     User user = new User();
                                     user.seteMail(email);
                                     user.setNickName(nickName);
-                                    user.setProjectList(new ArrayList<>());
-                                    user.setFriendList(new ArrayList<>());
                                     user.setRegDate(new Date());
 
                                     addUser(task.getResult().getUser().getUid(), user);

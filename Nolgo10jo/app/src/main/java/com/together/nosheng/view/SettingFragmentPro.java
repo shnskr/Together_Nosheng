@@ -218,7 +218,6 @@ public class SettingFragmentPro extends Fragment {
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, 1);
 
-
     }
 
 
