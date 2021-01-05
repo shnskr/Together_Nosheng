@@ -2,6 +2,7 @@ package com.together.nosheng.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,15 +14,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.together.nosheng.R;
+import com.together.nosheng.databinding.ActivityFragmentPlanBinding;
+import com.together.nosheng.util.SvmModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RecommendDialog {
 
     private Context context;
-
+    private SvmModel svm;
     private TextView tvGender, tvMan, tvWoman , tvMember, tvAge, tvMonth;
     private RadioGroup rgRadio;
     private RadioButton rbMan, rbWoman;
@@ -92,14 +98,22 @@ public class RecommendDialog {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int gender = rbMan.isChecked() ? 1 : 2;
-                int member = Math.min(Integer.parseInt(etMember.getText().toString()), 8);
-                int age = spAge.getSelectedItemPosition() + 1;
-                int month = spMonth.getSelectedItemPosition() + 1;
+
+                int member = Integer.parseInt(etMember.getText().toString());
 
                 if (etMember.length() < 1 || member < 1) {
                     Toast.makeText(context, "빈칸이 존재합니다.", Toast.LENGTH_SHORT).show();
                 } else {
+                    int gender = rbMan.isChecked() ? 1 : 2;
+                    member = Math.min(member, 8);
+                    int age = spAge.getSelectedItemPosition() + 1;
+                    int month = spMonth.getSelectedItemPosition() + 1;
+                    svm = new SvmModel();
+                    ArrayList<Integer> userRecommendation = new ArrayList<>(Arrays.asList(gender,age,member,month));
+                    svm.Search(userRecommendation);
+                    String place = svm.Search(userRecommendation);
+                    Log.w("TTTEEESSSTTT",place);
+
                     dlg.dismiss();
                 }
             }

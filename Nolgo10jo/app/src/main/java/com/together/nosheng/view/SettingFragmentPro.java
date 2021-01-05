@@ -71,11 +71,6 @@ public class SettingFragmentPro extends Fragment {
         View root = binding.getRoot();
 
         context = requireContext();
-        ArrayList<Integer> test = new ArrayList<>(Arrays.asList(1,2,8,5));
-        String a = svm.Search(test);
-        Log.w("확인",a);
-        binding.sample.setText(a);
-
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         userViewModel.setLiveUser();
 

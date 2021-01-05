@@ -24,8 +24,6 @@ public class SvmModel {
                 for(int y = 1;y<9;y++ ) {
                     for(int z = 1; z < 8; z++) {
                         ArrayList<Integer> a = new ArrayList<>(Arrays.asList(x,z,y,i));
-                        Log.w("리스트가만들어진다",a.toString());
-                        Log.w("같이 만들어진다",ResultCode.get(count).toString());
                         ResultMap.put(a,ResultCode.get(count));
                         count ++;
                     }
@@ -302,7 +300,6 @@ public class SvmModel {
     public String Search(ArrayList<Integer> lists) {
         int a = ResultMap.get(lists);
         String key = ResulttoName.get(a);
-        Log.w("SSSVVVMMM",key);
         return key;
     }
 }
