@@ -24,9 +24,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.together.nosheng.databinding.ActivityLoginBinding;
+import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
 import com.together.nosheng.viewmodel.UserViewModel;
+
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -145,9 +151,28 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) { // 로그인 성공 시
                             Toast.makeText(LoginActivity.this, "구글 로그인 성공", Toast.LENGTH_SHORT).show();
-                            GlobalApplication.setFirebaseUser();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
+                            FirebaseUser firebaseUser = task.getResult().getUser();
+
+                            DocumentReference documentReference = FirebaseFirestore.getInstance().collection("User").document(firebaseUser.getUid());
+
+                            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    DocumentSnapshot doc = task.getResult();
+                                    if (!doc.exists()) {
+                                        User user = new User();
+                                        user.seteMail(account.getEmail());
+                                        user.setNickName(account.getDisplayName());
+                                        user.setRegDate(new Date());
+
+                                        documentReference.set(user);
+                                    }
+
+                                    GlobalApplication.setFirebaseUser();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
                         } else { // 로그인 실패 시
                             Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
