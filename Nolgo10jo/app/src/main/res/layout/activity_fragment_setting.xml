@@ -34,8 +34,7 @@
         app:layout_constraintStart_toStartOf="@+id/btn_pro"
         app:layout_constraintTop_toBottomOf="@+id/btn_pro"
         android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        />
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/btn_fre"
@@ -47,7 +46,7 @@
         app:layout_constraintStart_toStartOf="@+id/btn_mark"
         app:layout_constraintTop_toBottomOf="@+id/btn_mark"
         android:textColor="#FFFFFF"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
     <FrameLayout
         android:id="@+id/framelaout2"

@@ -45,7 +45,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_weight="1"
-                android:text="dup" />
+                android:text="dup"
+                android:background="@drawable/selector_button"
+                android:theme="@style/BlueRipple"/>
 
         </LinearLayout>
 
@@ -165,7 +167,9 @@
                 android:layout_height="60dp"
                 android:text="여행 일정 수정"
                 android:textSize="18sp"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:background="@drawable/selector_button"
+                android:theme="@style/BlueRipple"/>
 
         </LinearLayout>
 

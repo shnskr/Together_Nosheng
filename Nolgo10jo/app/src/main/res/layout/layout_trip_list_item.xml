@@ -76,7 +76,7 @@
             android:focusable="false"
             android:clickable="false"
             android:focusableInTouchMode="false"
-            android:contextClickable="false"/>
+            android:contextClickable="false" />
 
     </LinearLayout>
 

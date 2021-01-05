@@ -50,7 +50,9 @@
         android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="회원가입" />
+        android:text="회원가입"
+        android:background="@drawable/selector_button"
+        android:theme="@style/BlueRipple"/>
 
     <!-- ProgressBar for loading time -->
     <ProgressBar

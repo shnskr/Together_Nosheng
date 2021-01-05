@@ -20,6 +20,12 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:background">@android:color/transparent</item>
+
+    </style>
+
+    <style name="BlueRipple">
+        <item name="colorControlHighlight">#0A22BA</item>
+
     </style>
 
 

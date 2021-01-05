@@ -25,6 +25,8 @@
         android:text="저장"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/selector_button"
+        android:theme="@style/BlueRipple"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

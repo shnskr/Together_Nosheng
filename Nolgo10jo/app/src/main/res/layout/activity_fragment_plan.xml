@@ -28,14 +28,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="비공개"/>
+            android:text="비공개"
+            android:background="@drawable/selector_button"
+            android:theme="@style/BlueRipple"/>
 
         <Button
             android:id="@+id/btn_recommend"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="추천"/>
+            android:text="추천"
+            android:background="@drawable/selector_button"
+            android:theme="@style/BlueRipple"/>
 
     </LinearLayout>
 

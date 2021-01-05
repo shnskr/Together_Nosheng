@@ -70,13 +70,17 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="5"
-            android:text="북마크에 저-장!" />
+            android:text="북마크에 저-장!"
+            android:background="@drawable/selector_button"
+            android:theme="@style/BlueRipple"/>
 
         <Button
             android:id="@+id/search_detail_like_btn"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/selector_button"
+            android:theme="@style/BlueRipple"/>
 
     </LinearLayout>
 

@@ -14,7 +14,9 @@
         android:layout_height="wrap_content"
         android:text="비회원 맴버 추가"
         android:padding="20dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_button"
+        android:theme="@style/BlueRipple"/>
 
 <!--    <LinearLayout-->
 <!--        android:id="@+id/lay_delete"-->
