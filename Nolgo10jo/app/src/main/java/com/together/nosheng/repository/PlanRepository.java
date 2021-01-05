@@ -31,39 +31,16 @@ import java.util.Map;
 
 public class PlanRepository {
     private FirebaseFirestore db;
-    private MutableLiveData<Map<String, Plan>> plans = new MutableLiveData<>();
-    private MutableLiveData<Map<String, Plan>> publicPlans = new MutableLiveData<>();
+
     private final String TAG = "PlanRepostiory";
-    private String planId;
 
     public PlanRepository() {
         db = FirebaseFirestore.getInstance();
     }
 
-    public MutableLiveData<Map<String, Plan>> getPlans() {
-        db.collection("Plan").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.w(TAG, "Listen failed.", error);
-                    return;
-                }
-                if (value != null) {
-                    Map<String, Plan> temp = new HashMap<>();
-                    List<DocumentSnapshot> docs = value.getDocuments();
-                    for (DocumentSnapshot doc : docs) {
-                        temp.put(doc.getId(), doc.toObject(Plan.class));
-                    }
-                    plans.setValue(temp);
-                } else {
-                    Log.d(TAG, "Current data:null");
-                }
-            }
-        });
-        return plans;
-    }
-
     public MutableLiveData<Map<String, Plan>> getPublicPlans() {
+        MutableLiveData<Map<String, Plan>> publicPlans = new MutableLiveData<>();
+
         db.collection("Plan").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -87,15 +64,6 @@ public class PlanRepository {
         });
         return publicPlans;
     }
-
-    public void planLiked(List<String> prevData, String s) {
-        prevData.add(GlobalApplication.firebaseUser.getUid());
-        Log.i("testing123", prevData.toString());
-        Map<String, List<String>> temp = new HashMap<>();
-        temp.put("planLike", prevData);
-        db.collection("Plan").document(s).set(temp, SetOptions.merge());
-    }
-
 
     public MutableLiveData<Plan> getCurrentPlan(String planId) {
         MutableLiveData<Plan> planLiveData = new MutableLiveData<>();

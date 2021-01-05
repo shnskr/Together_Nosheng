@@ -56,35 +56,16 @@ public class ProjectViewModel extends ViewModel {
         projectRepository.addPost(projectId, posts);
     }
 
-    public void deleteMemberProject(String projectId){
-        projectRepository.deleteMemberProject(projectId);
-    }
-    public void deleteUserProject(String projectId){
-        projectRepository.deleteUserProject(projectId);
-    }
-
-    public void updateUserProjectList(List<String> projects) {
-        projectRepository.updateUserProjectList(projects);
-    }
-
-//    public void addMember(String projectId, List<User> members){
-//        projectRepository.addMember(projectId, members);
-//    }
-
-    public void addMember(String projectId, List<String> members){
+    public void addMember(String projectId, List<String> members) {
         projectRepository.addMember(projectId, members);
     }
 
-    public void addTag(String projectId, List<String> tags){
+    public void addTag(String projectId, List<String> tags) {
         projectRepository.addTag(projectId, tags);
     }
 
-    public void addUserTags(String projectId, Map<String, List<String>> userTags){
+    public void addUserTags(String projectId, Map<String, List<String>> userTags) {
         projectRepository.addUserTags(projectId, userTags);
-    }
-
-    public List<String> getProjectList() {
-        return projectRepository.getProjectList();
     }
 
     public void updateDate(String projectId) {
@@ -95,13 +76,6 @@ public class ProjectViewModel extends ViewModel {
         projectRepository.updatePlanPinList(projectId, day, pin);
     }
 
-    public List<String> getProjectMember(String projectId){
-        return projectRepository.getProjectMember(projectId);
-    }
-
-    public Map<String, List<String>> getUserTags(String projectId) {
-        return projectRepository.getUserTags(projectId);
-    }
     public void updateBudgets(String projectId, Map<String, Budget> budgets) {
         projectRepository.updateBudgets(projectId, budgets);
     }
