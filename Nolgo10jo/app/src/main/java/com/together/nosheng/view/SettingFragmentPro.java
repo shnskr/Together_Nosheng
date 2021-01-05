@@ -41,9 +41,11 @@ import com.together.nosheng.R;
 import com.together.nosheng.databinding.SettingFragmentProBinding;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.util.GlobalApplication;
+import com.together.nosheng.util.SvmModel;
 import com.together.nosheng.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SettingFragmentPro extends Fragment {
     private UserViewModel userViewModel;
@@ -53,7 +55,7 @@ public class SettingFragmentPro extends Fragment {
     private FirebaseStorage storage;
     private StorageReference storageRef;
 
-
+    private SvmModel svm = new SvmModel();
     public static SettingFragmentPro newInstance() {
         return new SettingFragmentPro();
     }
@@ -69,6 +71,10 @@ public class SettingFragmentPro extends Fragment {
         View root = binding.getRoot();
 
         context = requireContext();
+        ArrayList<Integer> test = new ArrayList<>(Arrays.asList(1,2,8,5));
+        String a = svm.Search(test);
+        Log.w("확인",a);
+        binding.sample.setText(a);
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         userViewModel.setLiveUser();

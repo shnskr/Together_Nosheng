@@ -43,7 +43,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:text="저장"
-        />
+        android:background="@drawable/selector_button"
+        android:theme="@style/BlueRipple"/>
 
 
 </LinearLayout>

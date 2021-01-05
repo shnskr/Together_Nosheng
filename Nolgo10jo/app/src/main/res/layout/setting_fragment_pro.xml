@@ -93,7 +93,9 @@
         android:layout_marginBottom="80dp"
         android:text="로그아웃"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/selector_button"
+        android:theme="@style/BlueRipple"/>
 
     <Button
         android:id="@+id/btn_goadmin"
@@ -104,7 +106,20 @@
         android:text="관리자 페이지"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:background="@drawable/selector_button"
+        android:theme="@style/BlueRipple"/>
+
+    <TextView
+        android:id="@+id/sample"
+        android:layout_width="137dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginBottom="100dp"
+
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
