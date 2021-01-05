@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:weightSum="100"
     android:layout_marginBottom="20dp"
-    android:background="@drawable/layout_list_item"
+    android:background="@drawable/backgroud_white"
     android:gravity="center_vertical">
 
 
