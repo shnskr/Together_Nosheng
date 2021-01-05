@@ -22,21 +22,29 @@
             android:id="@+id/btn_search_go_board"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="공지사항"/>
+            android:text="공지사항"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/selector_button"
+            android:theme="@style/BlueRipple"/>
 
         <Button
             android:id="@+id/btn_search_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Title" />
+            android:text="Title"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/selector_button"
+            android:theme="@style/BlueRipple"/>
 
         <Button
             android:id="@+id/btn_search_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Theme" />
+            android:text="Theme"
+            android:background="@drawable/selector_button"
+            android:theme="@style/BlueRipple"/>
 
 
 

@@ -242,6 +242,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:theme="@style/BlueRipple"
         android:background="@drawable/backgroud_deepbluegreen"
         android:text="저장"
         android:textSize="18sp"
@@ -249,16 +250,19 @@
         android:textStyle="bold" />
 
 
+
     <Button
         android:id="@+id/ocr_scan"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:text="영수증 인식"
+        android:theme="@style/BlueRipple"
         android:layout_marginTop="15sp"
         android:background="@drawable/backgroud_deepbluegreen_stroke"
-        android:text="영수증 인식"
         android:textSize="18sp"
         android:textColor="@color/blueGreen"
         android:textStyle="bold"/>
+
 
 
 </LinearLayout>

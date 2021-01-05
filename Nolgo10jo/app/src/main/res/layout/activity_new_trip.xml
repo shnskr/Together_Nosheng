@@ -37,7 +37,9 @@
             android:layout_marginLeft="10dp"
             android:text="Join"
             android:textAlignment="center"
-            android:textColor="#0080FF"/>
+            android:textColor="#0080FF"
+            android:background="@drawable/selector_button"
+            android:theme="@style/BlueRipple"/>
 
     </LinearLayout>
 
@@ -123,7 +125,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="today"
+            android:theme="@style/BlueRipple"
             android:background="@drawable/backgroud_deepdarkblue_stroke"/>
+
 
     </LinearLayout>
 
@@ -148,7 +152,10 @@
             android:layout_height="60dp"
             android:text="여행 시작하기!"
             android:textSize="18sp"
+            android:background="@drawable/selector_button"
+            android:theme="@style/BlueRipple"
             android:layout_marginTop="5dp" />
+
 
     </LinearLayout>
 

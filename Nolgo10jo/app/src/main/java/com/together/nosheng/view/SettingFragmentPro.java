@@ -103,7 +103,7 @@ public class SettingFragmentPro extends Fragment {
                 storageRef = storage.getReference();
 
                 if (user.getThumbnail().equals("")) {//썸네일이 null일때 기본이미지 출력
-                    storageRef.child("/user/iv_test.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    storageRef.child("/user/iv_test.png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             if (uri != null) {
@@ -223,7 +223,6 @@ public class SettingFragmentPro extends Fragment {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, 1);
-
 
     }
 

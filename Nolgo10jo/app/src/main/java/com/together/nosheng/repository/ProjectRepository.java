@@ -150,60 +150,6 @@ public class ProjectRepository {
         });
     }
 
-    public void updateUserProjectList(List<String> projects) {
-        db.collection("User").document(GlobalApplication.firebaseUser.getUid())
-                .update("projectList",projects);
-    }
-
-    public void deleteMemberProject(String projectId){
-        db.collection("Project").document(projectId)
-                .delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Log.i(TAG, "delete proeject!");
-                        }else {
-                            Log.i(TAG, "delete project error!");
-                        }
-                    }
-                });
-    }
-
-    public void deleteUserProject(String projectId) {
-        db.collection("Project").document(projectId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                List<String> plans = documentSnapshot.toObject(Project.class).getPlans();
-                Log.i("dddal", plans.toString());
-
-                for (int i = 0; i < plans.size(); i++) {
-                    if (i == plans.size()-1) {
-                        db.collection("Plan").document(plans.get(i)).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                db.collection("Project").document(projectId)
-                                        .delete()
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    Log.i(TAG, "delete project!");
-                                                } else {
-                                                    Log.i(TAG, "delete project error");
-                                                }
-                                            }
-                                        });
-                            }
-                        });
-                    } else {
-                        db.collection("Plan").document(plans.get(i)).delete();
-                    }
-                }
-            }
-        });
-    }
-
     public void addPost(String projectId, List<Post> posts) {
         db.collection("Project").document(projectId)
                 .update("posts",posts)
@@ -218,21 +164,6 @@ public class ProjectRepository {
                     }
                 });
     }
-
-//    public void addMember(String projectId, List<User> members) {
-//        db.collection("Project").document(projectId)
-//                .update("members",members)
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()){
-//                            Log.i(TAG, "");
-//                        } else {
-//                            Log.e(TAG, "add Member error !");
-//                        }
-//                    }
-//                });
-//    }
 
     public void addMember(String projectId, List<String> members) {
         db.collection("Project").document(projectId)
@@ -277,61 +208,6 @@ public class ProjectRepository {
                         }
                     }
                 });
-    }
-
-    public List<String> getProjectList() {
-        List<String> allProjectList = new ArrayList<>();
-        db.collection("Project").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                allProjectList.add(documentSnapshot.getId());
-                            }
-                        } else {
-                            Log.i(TAG, "Error getting projectList");
-                        }
-                    }
-                });
-        return allProjectList;
-    }
-
-
-    public List<String> getProjectMember(String projectId) {
-        List<String> projectMember = new ArrayList<>();
-        db.collection("Project").document(projectId)
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    List<String> temp = task.getResult().toObject(Project.class).getMembers();
-                    projectMember.addAll(temp);
-                    Log.i(TAG+" getProjectMember::성공!",projectMember.toString());
-                } else {
-                    Log.i(TAG+" getProjectMember::ㄴㄴ!",projectMember.toString());
-                }
-            }
-        });
-        return projectMember;
-    }
-
-
-    public Map<String,List<String>> getUserTags(String projectId) {
-        Map<String,List<String>> userTags = new HashMap<>();
-        db.collection("Project").document(projectId)
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    userTags.putAll(task.getResult().toObject(Project.class).getUserTags());
-                    Log.i(TAG+" getProjectMember::성공!",userTags.toString());
-                } else {
-                    Log.i(TAG+" getProjectMember::ㄴㄴ!",userTags.toString());
-                }
-            }
-        });
-        return userTags;
     }
 
     public void updateDate(String projectId) {
@@ -465,6 +341,9 @@ public class ProjectRepository {
                         Map<String, CheckList> checkList = project.getCheckLists();
                         checkList.put(uid, new CheckList());
 
+                        Map<String, List<String>> userTags = project.getUserTags();
+                        userTags.put(uid, new ArrayList<>());
+
                         db.collection("Project").document(joinCode).set(project, SetOptions.merge());
 
                         db.collection("User").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -491,57 +370,41 @@ public class ProjectRepository {
             }
         });
     }
-}   //end class
 
+    public void deleteMember(String projectId) {
+        DocumentReference documentReference = db.collection("Project").document(projectId);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot doc = task.getResult();
+                if (task.isSuccessful() && doc.exists()) {
+                    Project project = doc.toObject(Project.class);
+                    Map<String, CheckList> checkLists = project.getCheckLists();
+                    String uid = GlobalApplication.firebaseUser.getUid();
+                    checkLists.remove(uid);
 
+                    if (checkLists.size() > 0) {
+                        List<String> members = project.getMembers();
+                        members.remove(uid);
 
+                        Map<String, List<String>> userTags = project.getUserTags();
+                        userTags.remove(uid);
 
+                        documentReference.update("checkLists", checkLists);
+                        documentReference.update("members", members);
+                        documentReference.update("userTags", userTags);
+                    } else {
+                        List<String> plans = project.getPlans();
 
-//이하 안쓰는 코드 빼놨습니다.
+                        for (String planId : plans) {
+                            db.collection("Plan").document(planId).delete();
+                        }
 
+                        documentReference.delete();
+                    }
+                }
+            }
+        });
+    }
+}
 
-
-
-
-//    public MutableLiveData<Map<String, Project>> getDatepicker(String projectId) {
-//        DocumentReference docRef = db.collection("Project").document(projectId);
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                        Map<String, Project> test = new HashMap<>();
-//                        test.put(projectId, document.toObject(Project.class));
-//                        currentProject.setValue(test);
-//                    } else {
-//                        Log.d(TAG, "No such document");
-//                    }
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
-//        return currentProject;
-//    }
-
-
-
-//    public void datepickerUpdate(){
-//        db.collection("Project").addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                if (error != null) {
-//                    Log.w("TAG", "addShapshotListener failed", error);
-//                    return;
-//                }
-//
-//                if(value != null) {
-//                    Log.w(TAG, "여기가 되나안되나 함 봅시다 : "+ value.getDocuments());
-//                    value.toObjects(Project.class);
-////                    liveProject.setValue(document.add);
-//                }
-//            }
-//        });
-//    }

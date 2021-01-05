@@ -1,15 +1,19 @@
 package com.together.nosheng.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.together.nosheng.R;
 import com.together.nosheng.model.project.Project;
 import com.together.nosheng.model.user.User;
 import com.together.nosheng.view.ProjectView;
@@ -79,7 +83,37 @@ public class HomeAdapter extends BaseAdapter {
             projectView.setTravelStatus("the End");
         }
 
-        projectView.deleteProject(context, position, userViewModel, projectViewModel, userProjectId);
+        projectView.getDelete().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("여행기 삭제!")
+                        .setMessage("삭제하신 여행기는 복구 할 수 없습니다.\n삭제하시겠습니까?")
+                        .setIcon(R.drawable.ic_baseline_announcement_24);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String projectId = userProjectId.get(position);
+                        userViewModel.deleteProject(projectId);
+                        projectViewModel.deleteMember(projectId);
+
+                        Toast.makeText(context, "여행기가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("여행기 삭제 요청이 취소되었습니다.", "1");
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+            }
+        });
 
         projectView.setOnClickListener(new View.OnClickListener() {
             @Override

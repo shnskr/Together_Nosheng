@@ -159,38 +159,18 @@ public class PlanFragmentActivity extends Fragment {
             }
         });
 
+        binding.btnRecommend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RecommendDialog recommendDialog = new RecommendDialog(requireContext());
+                recommendDialog.init();
+            }
+        });
+
         googleActivity = new GoogleActivity();
 
         getChildFragmentManager().beginTransaction().replace(binding.flContainer.getId(), googleActivity).commit();
 
         return view;
-    }
-
-    private void setEditText(EditText et) {
-        et.setSingleLine();
-
-        et.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                et.removeTextChangedListener(this);
-
-                if (s.length() > 10) {
-                    et.setText(s.subSequence(0, 10));
-                }
-                et.setSelection(et.length());
-
-                et.addTextChangedListener(this);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
     }
 }

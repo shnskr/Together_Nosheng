@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/supterLightPinkBackgroud">
+    android:background="@color/superLightPinkBackgroud">
 
     <ListView
         android:id="@+id/lv_tag"
@@ -65,6 +65,7 @@
             android:text="@string/btn_ok"
             android:textColor="@color/facebookBlue"
             android:textStyle="bold"/>
+
 
     </LinearLayout>
 

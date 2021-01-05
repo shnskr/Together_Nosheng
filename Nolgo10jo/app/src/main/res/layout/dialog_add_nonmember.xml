@@ -26,7 +26,9 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:hint="Nick Name" />
+        android:hint="Nick Name"
+        android:maxLength="12"
+        android:maxLines="1" />
 
     <LinearLayout
         android:layout_width="match_parent"

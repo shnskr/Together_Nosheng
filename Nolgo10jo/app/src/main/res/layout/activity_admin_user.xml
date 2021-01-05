@@ -12,7 +12,9 @@
         android:id="@+id/btn_goboard"
         android:layout_width="match_parent"
         android:text="게시판 이동"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_button"
+        android:theme="@style/BlueRipple"/>
 
     <ListView
         android:id="@+id/lv_user"

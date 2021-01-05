@@ -50,6 +50,8 @@
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:onClick="onSelectImageClick"
-        android:text="Start Activity" />
+        android:text="Start Activity"
+        android:background="@drawable/selector_button"
+        android:theme="@style/BlueRipple"/>
 
 </RelativeLayout>
